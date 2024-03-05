@@ -1,0 +1,33 @@
+﻿@model IEnumerable<TuckshopOrdering.Models.Order>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Orders</h1>
+
+<div class="card cardStyle">
+    <div class="card-body">
+        <h4 class="card-title">
+            Prinesh Patel
+        </h4>
+        <h6 class="card-subtitle">
+            Rm 23
+        </h6>
+
+        <div class="orderItem">
+            <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
+            <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
+        </div>
+    </div>
+</div>
+
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.OrderID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.OrderID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.OrderID">Delete</a>
+            </td>
+        </tr>
+}
