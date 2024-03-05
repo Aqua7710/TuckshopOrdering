@@ -1,0 +1,173 @@
+﻿@model IEnumerable<TuckshopOrdering.Models.Menu>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="objects">
+    <div class="column1">
+        <div class="container">
+            <div class="categoriesRow">
+                <button class="menuBtns">Burgers</button>
+                <button class="menuBtns">Burgers</button>
+                <button class="menuBtns">Burgers</button>
+                <button class="menuBtns">Burgers</button>
+            </div>
+        </div>
+
+        <h1 style="padding: 10px;">Burgers</h1>
+
+        <div class="menu">
+            <div class="card cardStyle">
+                <div class="card-body">
+                    <div class="card-img">
+                        <img style="width:100%;" src="~/images/burger.jpg" alt="burger" />
+                    </div>
+                    <h4 class="card-title">
+                        Burger
+                    </h4>
+                    <h6 class="card-subtitle">
+                        $3.99
+                    </h6>
+                    <button class="addBtn">Add</button>
+                </div>
+            </div>
+
+            <div class="card cardStyle">
+                <div class="card-body">
+                    <div class="card-img">
+                        <img style="width:100%;" src="~/images/burger.jpg" alt="burger" />
+                    </div>
+                    <h4 class="card-title">
+                        Burger
+                    </h4>
+                    <h6 class="card-subtitle">
+                        $3.99
+                    </h6>
+                    <button class="addBtn">Add</button>
+                </div>
+            </div>
+
+            <div class="card cardStyle">
+                <div class="card-body">
+                    <div class="card-img">
+                        <img style="width:100%;" src="~/images/burger.jpg" alt="burger" />
+                    </div>
+                    <h4 class="card-title">
+                        Burger
+                    </h4>
+                    <h6 class="card-subtitle">
+                        $3.99
+                    </h6>
+                    <button class="addBtn">Add</button>
+                </div>
+            </div>
+
+            <div class="card cardStyle">
+                <div class="card-body">
+                    <div class="card-img">
+                        <img style="width:100%;" src="~/images/burger.jpg" alt="burger" />
+                    </div>
+                    <h4 class="card-title">
+                        Burger
+                    </h4>
+                    <h6 class="card-subtitle">
+                        $3.99
+                    </h6>
+                    <button class="addBtn">Add</button>
+                </div>
+            </div>
+
+            <div class="card cardStyle">
+                <div class="card-body">
+                    <div class="card-img">
+                        <img style="width:100%;" src="~/images/burger.jpg" alt="burger" />
+                    </div>
+                    <h4 class="card-title">
+                        Burger
+                    </h4>
+                    <h6 class="card-subtitle">
+                        $3.99
+                    </h6>
+                    <button class="addBtn">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="column2">
+        <div class="ordersBox">
+            <h1 style="text-align: center; padding: 10px;">Order:</h1>
+                <form>
+                    <div class="formLine">
+                        <label>Student Name:</label> <!--Customer name from customers db-->
+                        <input type="text" />
+                    </div>
+                    <div class="formLine">
+                        <label>Room Number:</label> <!--Customers room from customers db-->
+                        <input type="text" />
+                    </div>
+                </form>
+            <div class="line">
+                <hr class="solid">
+            </div>
+
+            <!--Repeatable orders code-->
+
+            <div class="orderItem">
+                <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
+                <button class="orderItemBtn flexItem">-</button>
+                <button class="orderItemBtn flexItem">+</button>
+                <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                <button class="orderItemBtn cancelBtn">X</button>
+            </div>
+
+             <div class="orderItem">
+                <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
+                <button class="orderItemBtn flexItem">-</button>
+                <button class="orderItemBtn flexItem">+</button>
+                <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                <button class="orderItemBtn cancelBtn">X</button>
+            </div>
+
+            <div class="orderItem">
+                <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
+                <button class="orderItemBtn flexItem">-</button>
+                <button class="orderItemBtn flexItem">+</button>
+                <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                <button class="orderItemBtn cancelBtn">X</button>
+            </div>
+
+            <div class="orderItem">
+                <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
+                <button class="orderItemBtn flexItem">-</button>
+                <button class="orderItemBtn flexItem">+</button>
+                <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                <button class="orderItemBtn cancelBtn">X</button>
+            </div>
+
+            <p style="margin-left: 20px;">Total Price: $15.96</p>
+
+            <div class="gridBtns">
+                <button class="gridBtnsItem">Checkout</button>
+                <button class="gridBtnsItem">Notes</button>
+                <button class="gridBtnsItem">Draft</button>
+                <button class="gridBtnsItem">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--These card divs repeating will not be apart of the final project, this is just a represenation of what it will look like-->
+<!--Card code will go in the foreach loop method below...-->
+
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MenuID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.MenuID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MenuID">Delete</a>
+            </td>
+        </tr>
+}
