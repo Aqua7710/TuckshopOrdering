@@ -33,7 +33,7 @@ body {
 
 .menuBtns {
     border-radius: 10px;
-    background-color: #f7744f;
+    background-color: #eb9534;
     padding: 8px;
     padding-left: 50px;
     padding-right: 50px;
@@ -42,7 +42,7 @@ body {
 }
 
     .menuBtns:hover {
-        background-color: #e6a08c;
+        background-color: #eda655;
         color: white;
     }
 
@@ -51,11 +51,11 @@ body {
     margin-right: 4%;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .ordersBox {
     width: 100%;
-    height: 500px;
     border: none;
     border-radius: 10px;
     background-color: white;
@@ -90,7 +90,6 @@ body {
 
 .cardStyle {
     width: 150px;
-    height: 200px;
     text-align: center;
     margin-bottom: 20px;
 }
@@ -170,4 +169,13 @@ hr.solid {
     box-sizing: border-box;
     margin: 1%;
     border-radius: 5px;
+}
+
+.flavoursForm{
+    display: flex;
+}
+
+.orderStyle{
+    text-align: center;
+    width: 250px
 }
