@@ -179,3 +179,18 @@ hr.solid {
     text-align: center;
     width: 250px
 }
+
+.customiseBtn {
+    background-color: #349cbf;
+    border: none;
+    border-radius: 5px;
+    width: 90%;
+    justify-content: center;
+    color: white;
+}
+
+.cardBtns{
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+}
