@@ -39,6 +39,7 @@ body {
     padding-right: 50px;
     color: white;
     border: none;
+    width: calc(100% / 5);
 }
 
     .menuBtns:hover {
@@ -187,10 +188,9 @@ hr.solid {
     width: 90%;
     justify-content: center;
     color: white;
+    margin-bottom: 5px;
 }
 
 .cardBtns{
     margin-top: 5px;
-    display: flex;
-    flex-direction: column;
 }
