@@ -91,7 +91,7 @@ body {
     background-color: green;
     border: none;
     border-radius: 5px;
-    width: 90%;
+    width: 100%;
     justify-content: center;
     color: white;
 }
@@ -182,12 +182,23 @@ hr.solid {
     padding: 10px;
 }
 
-.gridBtnsItem{
+.gridBtnsItem {
     flex-basis: 48%;
     box-sizing: border-box;
     margin: 1%;
     border-radius: 5px;
+    background-color: #eb9534;
+    color: white;
+    border: none;
+    height: 35px;
 }
+
+    .gridBtnsItem:hover {
+        background-color: #eda655;
+        color: white;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        transition: box-shadow 0.1s ease-in-out;
+    }
 
 .flavoursForm{
     display: flex;
@@ -195,14 +206,15 @@ hr.solid {
 
 .orderStyle{
     text-align: center;
-    width: 250px
+    width: 250px;
+    height: 430px;
 }
 
 .customiseBtn {
     background-color: #349cbf;
     border: none;
     border-radius: 5px;
-    width: 90%;
+    width: 100%;
     justify-content: center;
     color: white;
     margin-bottom: 5px;
@@ -230,4 +242,31 @@ hr.solid {
 
 .visibleCustomiseContainer{
     visibility: visible;
+}
+
+.note{
+    text-align: left;
+    margin-top: 10px;
+}
+
+.orderContainer{
+    display: flex;
+    gap: 10px;
+}
+
+.nextPageBtn{
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    background-color: white;
+    border: none;
+}
+
+.nextPageBtnFlex{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    margin-left: 90%;
+    height: 430px;
 }
