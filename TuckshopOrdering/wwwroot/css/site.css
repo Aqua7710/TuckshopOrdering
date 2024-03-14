@@ -104,7 +104,7 @@ body {
     width: 150px;
     text-align: center;
     margin-bottom: 20px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;  
 }
 
     .cardStyle:hover {
@@ -137,6 +137,7 @@ hr.solid {
 
 .orderItem {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .orderItemBtn {
@@ -228,16 +229,17 @@ hr.solid {
     margin-top: 5px;
 }
 
-.customiseContainer{
+.customiseContainer {
     width: 400px;
-    background-color: lightgreen;
+    background-color: white;
     border-radius: 6px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    text-align: center; 
-    visibility: hidden; 
+    text-align: center;
+    visibility: hidden;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .visibleCustomiseContainer{
@@ -269,4 +271,46 @@ hr.solid {
     position: absolute;
     margin-left: 90%;
     height: 430px;
+}
+
+.exitBtn {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    float: right;
+    top: -10px;
+    right: -10px;
+    border: none;
+    background-color: #f0f0f0;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.formCustomise {
+    text-align: left;
+    margin-left: 20px;
+    flex-direction: column;
+    font-size: 20px;
+}
+
+.formCustomise input[type="checkbox"],
+.formCustomise label{
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.transform-in, .transform-out {
+    display: block;
+    -webkit-transition: all ease 0.5s;
+    transition: all ease 0.5s;
+}
+
+.transform-in {
+    -webkit-transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.transform-out {
+    -webkit-transform: translate(-50%, -50%) scale(0.5);
+    transform: translate(-50%, -50%) scale(0.5);
 }
