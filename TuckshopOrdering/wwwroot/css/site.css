@@ -138,7 +138,7 @@ hr.solid {
 .orderItem {
     display: flex;
     flex-wrap: wrap;
-}
+ }
 
 .orderItemBtn {
     border-radius: 50%;
@@ -208,7 +208,6 @@ hr.solid {
 .orderStyle{
     text-align: center;
     width: 250px;
-    height: 430px;
 }
 
 .customiseBtn {
@@ -313,4 +312,9 @@ hr.solid {
 .transform-out {
     -webkit-transform: translate(-50%, -50%) scale(0.5);
     transform: translate(-50%, -50%) scale(0.5);
+}
+
+.orderItems{
+    display: flex;
+    flex-direction: column;
 }

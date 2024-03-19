@@ -20,6 +20,48 @@
         document.getElementById("objects").style.pointerEvents = "auto";
         document.getElementById("objects").style.userSelect = "auto";
     }
+
+    function DisplayCheckout(){
+        document.getElementById("popupCheckout").style.visibility = "visible";
+        document.getElementById("objects").style.filter = "blur(1.5rem)";
+        document.getElementById("objects").style.pointerEvents = "none";
+        document.getElementById("objects").style.userSelect = "none";
+    }
+
+    function ExitCheckout() {
+        document.getElementById("popupCheckout").style.visibility = "hidden";
+        document.getElementById("objects").style.filter = "blur(0)";
+        document.getElementById("objects").style.pointerEvents = "auto";
+        document.getElementById("objects").style.userSelect = "auto";
+    }
+
+    function DisplayNotes(){
+        document.getElementById("popupNotes").style.visibility = "visible";
+        document.getElementById("objects").style.filter = "blur(1.5rem)";
+        document.getElementById("objects").style.pointerEvents = "none";
+        document.getElementById("objects").style.userSelect = "none";
+    }
+
+    function ExitNotes(){
+        document.getElementById("popupNotes").style.visibility = "hidden";
+        document.getElementById("objects").style.filter = "blur(0)";
+        document.getElementById("objects").style.pointerEvents = "auto";
+        document.getElementById("objects").style.userSelect = "auto";
+    }
+
+    function DisplayDelete() {
+        document.getElementById("popupDelete").style.visibility = "visible";
+        document.getElementById("objects").style.filter = "blur(1.5rem)";
+        document.getElementById("objects").style.pointerEvents = "none";
+        document.getElementById("objects").style.userSelect = "none";
+    }
+
+    function ExitDelete() {
+        document.getElementById("popupDelete").style.visibility = "hidden";
+        document.getElementById("objects").style.filter = "blur(0)";
+        document.getElementById("objects").style.pointerEvents = "auto";
+        document.getElementById("objects").style.userSelect = "auto";
+    }
 </script>
 
 <div class="objects" id="objects">
@@ -276,14 +318,16 @@
                 <p style="margin-left: 20px; font-weight: bold;">Total Price: $15.96</p>
 
                 <div class="gridBtns">
-                    <button class="gridBtnsItem">Checkout</button>
-                    <button class="gridBtnsItem">Notes</button>
+                    <button class="gridBtnsItem" onclick="DisplayCheckout()">Checkout</button>
+                    <button class="gridBtnsItem" onclick="DisplayNotes()">Notes</button>
                     <button class="gridBtnsItem">Draft</button>
-                    <button class="gridBtnsItem">Delete</button>
+                    <button class="gridBtnsItem" onclick="DisplayDelete()">Delete</button>
                 </div>
         </div>
     </div>
 </div>
+
+<!--Customise-->
 
 <div class="customiseContainer" id="popup">
     <button class="exitBtn" onclick="ExitCustomise()">X</button>
@@ -304,6 +348,84 @@
         <label for="TomatoSauce">Tomato Sauce</label><br />
     </form>
     <button class="addBtn" style="width: 80%; margin-bottom: 20px; margin-top: 20px; height: 50px; font-size: 20px;">Add</button>
+</div>
+
+<!--Checkout-->
+
+<div class="customiseContainer" id="popupCheckout">
+    <button class="exitBtn" onclick="ExitCheckout()">X</button>
+    <h1 style="margin-top: 15px; margin-bottom: 0;">Confirm Checkout?</h1>
+    <div class="line">
+        <hr class="solid">
+    </div>
+    
+    <div style="text-align: left; margin-left: 20px; font-weight: bold;">
+        <p style="margin-bottom: 0;">Student: Prinesh Patel</p>
+        <p>Room: 23</p>
+    </div>
+
+    <div class="orderItems">
+        <div class="orderItem">
+            <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
+            <button class="orderItemBtn flexItem">-</button>
+            <button class="orderItemBtn flexItem">+</button>
+            <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
+            <button class="orderItemBtn cancelBtn">X</button>
+        </div>
+
+        <div class="orderItem">
+            <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
+            <button class="orderItemBtn flexItem">-</button>
+            <button class="orderItemBtn flexItem">+</button>
+            <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
+            <button class="orderItemBtn cancelBtn">X</button>
+        </div>
+
+        <div class="orderItem">
+            <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
+            <button class="orderItemBtn flexItem">-</button>
+            <button class="orderItemBtn flexItem">+</button>
+            <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
+            <button class="orderItemBtn cancelBtn">X</button>
+        </div>
+
+        <div class="orderItem">
+            <p class="flexItem" style="margin-left: 20px;">1x Hotdog (N/C)</p> <!--Item quantity and item name-->
+            <button class="orderItemBtn flexItem">-</button>
+            <button class="orderItemBtn flexItem">+</button>
+            <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
+            <button class="orderItemBtn cancelBtn">X</button>
+        </div>
+
+    </div>
+
+    <button class="addBtn" style="width: 80%; margin-bottom: 20px; margin-top: 20px; height: 50px; font-size: 20px;">Confirm and Print</button>
+</div>
+
+<!--Notes-->
+
+<div class="customiseContainer" id="popupNotes">
+    <button class="exitBtn" onclick="ExitNotes()">X</button>
+    <h1 style="margin-top: 15px; margin-bottom: 0;">Add Note:</h1>
+    <div class="line">
+        <hr class="solid">
+    </div>
+    <form>
+        <input type="text" style="width: 90%;"/>
+    </form>
+    <button class="addBtn" style="width: 80%; margin-bottom: 20px; margin-top: 20px; height: 50px; font-size: 20px;">Add</button>
+</div>
+
+<!--Delete-->
+
+<div class="customiseContainer" id="popupDelete">
+    <button class="exitBtn" onclick="ExitDelete()">X</button>
+    <h1 style="margin-top: 15px; margin-bottom: 0;">Delete Order?</h1>
+    <div class="line">
+        <hr class="solid">
+    </div>
+    <p style="font-weight: bold;">WARNING! You won't be able to access this order for a very long time</p>
+    <button class="addBtn" style="width: 80%; margin-bottom: 20px; margin-top: 0px; height: 50px; font-size: 20px; background-color: red;">Delete</button>
 </div>
 
 
