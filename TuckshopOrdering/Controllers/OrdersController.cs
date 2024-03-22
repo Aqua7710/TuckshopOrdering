@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TuckshopOrdering.Areas.Identity.Data;
 using TuckshopOrdering.Models;
+using PagedList;
 
 namespace TuckshopOrdering.Controllers
 {
@@ -20,7 +21,7 @@ namespace TuckshopOrdering.Controllers
         }
 
         // GET: Orders
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
               return _context.Order != null ? 
                           View(await _context.Order.ToListAsync()) :

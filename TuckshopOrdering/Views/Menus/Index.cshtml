@@ -12,6 +12,7 @@
         document.getElementById("objects").style.filter = "blur(1.5rem)";
         document.getElementById("objects").style.pointerEvents = "none";
         document.getElementById("objects").style.userSelect = "none";
+        document.body.style.overflow = "hidden";
     }
 
     function ExitCustomise(){
@@ -19,6 +20,7 @@
         document.getElementById("objects").style.filter = "blur(0)";
         document.getElementById("objects").style.pointerEvents = "auto";
         document.getElementById("objects").style.userSelect = "auto";
+        document.body.style.overflow = "auto";
     }
 
     function DisplayCheckout(){
@@ -26,6 +28,7 @@
         document.getElementById("objects").style.filter = "blur(1.5rem)";
         document.getElementById("objects").style.pointerEvents = "none";
         document.getElementById("objects").style.userSelect = "none";
+        document.body.style.overflow = "hidden";
     }
 
     function ExitCheckout() {
@@ -33,6 +36,7 @@
         document.getElementById("objects").style.filter = "blur(0)";
         document.getElementById("objects").style.pointerEvents = "auto";
         document.getElementById("objects").style.userSelect = "auto";
+        document.body.style.overflow = "auto";
     }
 
     function DisplayNotes(){
@@ -40,6 +44,7 @@
         document.getElementById("objects").style.filter = "blur(1.5rem)";
         document.getElementById("objects").style.pointerEvents = "none";
         document.getElementById("objects").style.userSelect = "none";
+        document.body.style.overflow = "hidden";
     }
 
     function ExitNotes(){
@@ -47,6 +52,7 @@
         document.getElementById("objects").style.filter = "blur(0)";
         document.getElementById("objects").style.pointerEvents = "auto";
         document.getElementById("objects").style.userSelect = "auto";
+        document.body.style.overflow = "auto";
     }
 
     function DisplayDelete() {
@@ -54,6 +60,7 @@
         document.getElementById("objects").style.filter = "blur(1.5rem)";
         document.getElementById("objects").style.pointerEvents = "none";
         document.getElementById("objects").style.userSelect = "none";
+        document.body.style.overflow = "hidden";
     }
 
     function ExitDelete() {
@@ -61,6 +68,23 @@
         document.getElementById("objects").style.filter = "blur(0)";
         document.getElementById("objects").style.pointerEvents = "auto";
         document.getElementById("objects").style.userSelect = "auto";
+        document.body.style.overflow = "auto";
+    }
+
+    function DisplayDraft() {
+        document.getElementById("popupDraft").style.visibility = "visible";
+        document.getElementById("objects").style.filter = "blur(1.5rem)";
+        document.getElementById("objects").style.pointerEvents = "none";
+        document.getElementById("objects").style.userSelect = "none";
+        document.body.style.overflow = "hidden";
+    }
+
+    function ExitDraft() {
+        document.getElementById("popupDraft").style.visibility = "hidden";
+        document.getElementById("objects").style.filter = "blur(0)";
+        document.getElementById("objects").style.pointerEvents = "auto";
+        document.getElementById("objects").style.userSelect = "auto";
+        document.body.style.overflow = "auto";
     }
 </script>
 
@@ -79,185 +103,27 @@
         <h1 style="padding: 10px;">Burgers</h1>
 
         <div class="menu">
-            <div class="card cardStyle">
-                <div class="card-body">
-                    <div class="card-img">
-                        <img style="width:100%;" src="~/images/burger.jpg" alt="burger" />
-                    </div>
-                    <h4 class="card-title">
-                        Burger
-                    </h4>
-                    <h6 class="card-subtitle">
-                        $3.99
-                    </h6>
-                    <div class="cardBtns">
-                        <button class="customiseBtn" onclick="displayCustomise()">Customise</button>
-                        <button class="addBtn">Add</button>
-                    </div>                    
-                </div>
-            </div>
 
-            <div class="card cardStyle">
-                <div class="card-body">
-                    <div class="card-img">
-                        <img style="width:100%;" src="~/images/burger.jpg" alt="burger" />
-                    </div>
-                    <h4 class="card-title">
-                        Burger
-                    </h4>
-                    <h6 class="card-subtitle">
-                        $3.99
-                    </h6>
-                    <div class="cardBtns">
-                        <button class="customiseBtn" onclick="displayCustomise()">Customise</button>
-                        <button class="addBtn">Add</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card cardStyle">
-                <div class="card-body">
-                    <div class="card-img">
-                        <img style="width:100%;" src="~/images/burger.jpg" alt="burger" />
-                    </div>
-                    <h4 class="card-title">
-                        Burger
-                    </h4>
-                    <h6 class="card-subtitle">
-                        $3.99
-                    </h6>
-                    <div class="cardBtns">
-                        <button class="customiseBtn" onclick="displayCustomise()">Customise</button>
-                        <button class="addBtn">Add</button>
+            @for (int i = 0; i < 25; i++)
+            {
+                <div class="card cardStyle">
+                    <div class="card-body">
+                        <div class="card-img">
+                            <img style="width:100%;" src="~/images/burger.jpg" alt="burger" />
+                        </div>
+                        <h4 class="card-title">
+                            Burger
+                        </h4>
+                        <h6 class="card-subtitle">
+                            $3.99
+                        </h6>
+                        <div class="cardBtns">
+                            <button class="customiseBtn" onclick="displayCustomise()">Customise</button>
+                            <button class="addBtn">Add</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="card cardStyle">
-                <div class="card-body">
-                    <div class="card-img">
-                        <img style="width:100%;" src="~/images/burger.jpg" alt="burger" />
-                    </div>
-                    <h4 class="card-title">
-                        Burger
-                    </h4>
-                    <h6 class="card-subtitle">
-                        $3.99
-                    </h6>
-                    <div class="cardBtns">
-                        <button class="customiseBtn" onclick="displayCustomise()">Customise</button>
-                        <button class="addBtn">Add</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card cardStyle">
-                <div class="card-body">
-                    <div class="card-img">
-                        <img style="width:100%;" src="~/images/burger.jpg" alt="burger" />
-                    </div>
-                    <h4 class="card-title">
-                        Burger
-                    </h4>
-                    <h6 class="card-subtitle">
-                        $3.99
-                    </h6>
-                    <div class="cardBtns">
-                        <button class="customiseBtn" onclick="displayCustomise()">Customise</button>
-                        <button class="addBtn">Add</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card cardStyle">
-                <div class="card-body">
-                    <div class="card-img">
-                        <img style="width:100%;" src="~/images/burger.jpg" alt="burger" />
-                    </div>
-                    <h4 class="card-title">
-                        Burger
-                    </h4>
-                    <h6 class="card-subtitle">
-                        $3.99
-                    </h6>
-                    <div class="cardBtns">
-                        <button class="customiseBtn" onclick="displayCustomise()">Customise</button>
-                        <button class="addBtn">Add</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card cardStyle">
-                <div class="card-body">
-                    <div class="card-img">
-                        <img style="width:100%;" src="~/images/burger.jpg" alt="burger" />
-                    </div>
-                    <h4 class="card-title">
-                        Burger
-                    </h4>
-                    <h6 class="card-subtitle">
-                        $3.99
-                    </h6>
-                    <div class="cardBtns">
-                        <button class="customiseBtn" onclick="displayCustomise()">Customise</button>
-                        <button class="addBtn">Add</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card cardStyle">
-                <div class="card-body">
-                    <div class="card-img">
-                        <img style="width:100%;" src="~/images/burger.jpg" alt="burger" />
-                    </div>
-                    <h4 class="card-title">
-                        Burger
-                    </h4>
-                    <h6 class="card-subtitle">
-                        $3.99
-                    </h6>
-                    <div class="cardBtns">
-                        <button class="customiseBtn" onclick="displayCustomise()">Customise</button>
-                        <button class="addBtn">Add</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card cardStyle">
-                <div class="card-body">
-                    <div class="card-img">
-                        <img style="width:100%;" src="~/images/burger.jpg" alt="burger" />
-                    </div>
-                    <h4 class="card-title">
-                        Burger
-                    </h4>
-                    <h6 class="card-subtitle">
-                        $3.99
-                    </h6>
-                    <div class="cardBtns">
-                        <button class="customiseBtn" onclick="displayCustomise()">Customise</button>
-                        <button class="addBtn">Add</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card cardStyle">
-                <div class="card-body">
-                    <div class="card-img">
-                        <img style="width:100%;" src="~/images/burger.jpg" alt="burger" />
-                    </div>
-                    <h4 class="card-title">
-                        Burger
-                    </h4>
-                    <h6 class="card-subtitle">
-                        $3.99
-                    </h6>
-                    <div class="cardBtns">
-                        <button class="customiseBtn" onclick="displayCustomise()">Customise</button>
-                        <button class="addBtn">Add</button>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     </div>
 
@@ -320,7 +186,7 @@
                 <div class="gridBtns">
                     <button class="gridBtnsItem" onclick="DisplayCheckout()">Checkout</button>
                     <button class="gridBtnsItem" onclick="DisplayNotes()">Notes</button>
-                    <button class="gridBtnsItem">Draft</button>
+                    <button class="gridBtnsItem" onclick="DisplayDraft()">Draft</button>
                     <button class="gridBtnsItem" onclick="DisplayDelete()">Delete</button>
                 </div>
         </div>
@@ -347,7 +213,7 @@
         <input type="checkbox" id="TomatoSauce" />
         <label for="TomatoSauce">Tomato Sauce</label><br />
     </form>
-    <button class="addBtn" style="width: 80%; margin-bottom: 20px; margin-top: 20px; height: 50px; font-size: 20px;">Add</button>
+    <button class="addBtn popUps">Add</button>
 </div>
 
 <!--Checkout-->
@@ -399,7 +265,7 @@
 
     </div>
 
-    <button class="addBtn" style="width: 80%; margin-bottom: 20px; margin-top: 20px; height: 50px; font-size: 20px;">Confirm and Print</button>
+    <button class="addBtn popUps">Confirm and Print</button>
 </div>
 
 <!--Notes-->
@@ -413,7 +279,7 @@
     <form>
         <input type="text" style="width: 90%;"/>
     </form>
-    <button class="addBtn" style="width: 80%; margin-bottom: 20px; margin-top: 20px; height: 50px; font-size: 20px;">Add</button>
+    <button class="addBtn popUps">Add</button>
 </div>
 
 <!--Delete-->
@@ -424,8 +290,60 @@
     <div class="line">
         <hr class="solid">
     </div>
-    <p style="font-weight: bold;">WARNING! You won't be able to access this order for a very long time</p>
-    <button class="addBtn" style="width: 80%; margin-bottom: 20px; margin-top: 0px; height: 50px; font-size: 20px; background-color: red;">Delete</button>
+    <p style="font-weight: bold;">WARNING! This will permanently delete the order</p>
+    <button class="addBtn popUps deleteBtn">Delete</button>
+</div>
+
+<!--Draft-->
+
+<div class="customiseContainer" id="popupDraft">
+    <button class="exitBtn" onclick="ExitDraft()">X</button>
+    <h1 style="margin-top: 15px; margin-bottom: 0;">Save as Draft?</h1>
+    <div class="line">
+        <hr class="solid">
+    </div>
+
+    <div style="text-align: left; margin-left: 20px; font-weight: bold;">
+        <p style="margin-bottom: 0;">Student: Prinesh Patel</p>
+        <p>Room: 23</p>
+    </div>
+
+    <div class="orderItems">
+        <div class="orderItem">
+            <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
+            <button class="orderItemBtn flexItem">-</button>
+            <button class="orderItemBtn flexItem">+</button>
+            <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
+            <button class="orderItemBtn cancelBtn">X</button>
+        </div>
+
+        <div class="orderItem">
+            <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
+            <button class="orderItemBtn flexItem">-</button>
+            <button class="orderItemBtn flexItem">+</button>
+            <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
+            <button class="orderItemBtn cancelBtn">X</button>
+        </div>
+
+        <div class="orderItem">
+            <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
+            <button class="orderItemBtn flexItem">-</button>
+            <button class="orderItemBtn flexItem">+</button>
+            <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
+            <button class="orderItemBtn cancelBtn">X</button>
+        </div>
+
+        <div class="orderItem">
+            <p class="flexItem" style="margin-left: 20px;">1x Hotdog (N/C)</p> <!--Item quantity and item name-->
+            <button class="orderItemBtn flexItem">-</button>
+            <button class="orderItemBtn flexItem">+</button>
+            <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
+            <button class="orderItemBtn cancelBtn">X</button>
+        </div>
+
+    </div>
+
+    <button class="addBtn popUps">Save Draft</button>
 </div>
 
 
