@@ -28,21 +28,20 @@ h1, h4, p, h6{
 
 body {
     margin-bottom: 60px;
-    background-color: #f0f0f0;
+    background-color: white;
     font-family: Nunito-ExtraLight;
 }
 
 .menuBtns {
-    border-radius: 10px;
-    background-color: #eb9534;
-    color: white;
+    border-radius: 40px;
+    background-color: #ffefe0;
+    color: black;
     border: none;
     width: 18%;
     text-align: center;
     height: 50px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     transition: box-shadow 0.3s ease-in-out;
-    transition: background-color 0.2s ease-in-out;
+    transition: background-color 0.3s ease-in-out;
 }
 
     .menuBtns:hover {
@@ -59,6 +58,9 @@ body {
     justify-content: space-evenly;
     flex-wrap: wrap;
     flex-grow: 1;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 40px;
+    padding: 10px;
 }
 
 .ordersBox {
@@ -84,8 +86,8 @@ body {
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
     flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
 .addBtn {
@@ -103,10 +105,10 @@ body {
 }
 
 .cardStyle {
-    width: 150px;
+    width: 200px;
     text-align: center;
     margin-bottom: 20px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;  
+    border: none;
 }
 
     .cardStyle:hover {
