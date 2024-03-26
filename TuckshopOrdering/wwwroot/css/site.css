@@ -11,7 +11,6 @@ html {
 @font-face {
     font-family: "Nunito-ExtraLight";
     src: url("../Font/Nunito-ExtraLight.ttf") format('truetype');
-
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -43,6 +42,7 @@ body {
     height: 50px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     transition: box-shadow 0.3s ease-in-out;
+    transition: background-color 0.2s ease-in-out;
 }
 
     .menuBtns:hover {
@@ -70,6 +70,8 @@ body {
     flex-direction: column;
     flex-wrap: wrap;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    position: sticky;
+    top: 30px;
 }
 
 .cont:after {
@@ -93,6 +95,7 @@ body {
     width: 100%;
     justify-content: center;
     color: white;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .addBtn:hover{
@@ -117,12 +120,12 @@ body {
 
 .column2 {
     width: 30%;
-    position: sticky;
 }
 
 .objects {
     display: flex;
     justify-content: space-between;
+    width: 100%;
 }
 
 .input {
@@ -156,13 +159,8 @@ hr.solid {
     padding: 5px;
 }
 
-.line{
+.line {
     padding: 10px;
-}
-
-.price{
-    margin-right: 0;
-    margin-left: auto;
 }
 
 .flexItem{
@@ -170,14 +168,21 @@ hr.solid {
 }
 
 .cancelBtn {
-    margin-right: 15px;
-    margin-left: 10px;
     border: none;
     background-color: gray;
     color: white;
 }
 
-.gridBtns{
+.modifyBtns{
+    justify-content: right;
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: 15px;
+    gap: 10px;
+}
+
+.gridBtns {
     display: flex;
     flex-wrap: wrap;
     padding: 10px;
@@ -193,13 +198,14 @@ hr.solid {
     border: none;
     height: 35px;
     transition: box-shadow 0.5s ease-in-out;
+    transition: background-color 0.2s ease-in-out;
 }
 
     .gridBtnsItem:hover {
         background-color: #eda655;
         color: white;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
- 
+        
     }
 
 .flavoursForm{
@@ -225,6 +231,7 @@ hr.solid {
     justify-content: center;
     color: white;
     margin-bottom: 5px;
+    transition: background-color 0.2s ease-in-out;
 }
 
     .customiseBtn:hover {
@@ -236,23 +243,126 @@ hr.solid {
 }
 
 .customiseContainer {
+    position: fixed;
+    left: 50%;
     width: 400px;
+    z-index: 100;
     background-color: white;
     border-radius: 6px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: -200%;
+    transform: translate(-50%, -50%) scale(0.5);
     text-align: center;
-    visibility: hidden;
+    opacity: 0;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: opacity 300ms ease-in-out, top 1000ms ease-in-out, transform 1000ms ease-in-out;
 }
 
-.visibleCustomiseContainer{
-    visibility: visible;
+.customiseContainer.active {
+        position: fixed;
+        opacity: 1;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1);
+        transition: transform 300ms cubic-bezier(0.18, 0.89, 0.43, 1.19);
+    }
+
+.checkoutContainer {
+    position: fixed;
+    left: 50%;
+    width: 400px;
+    z-index: 100;
+    background-color: white;
+    border-radius: 6px;
+    top: -200%;
+    transform: translate(-50%, -50%) scale(0.5);
+    text-align: center;
+    opacity: 0;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: opacity 300ms ease-in-out, top 1000ms ease-in-out, transform 1000ms ease-in-out;
 }
 
-.note{
+    .checkoutContainer.active {
+        position: fixed;
+        opacity: 1;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1);
+        transition: transform 300ms cubic-bezier(0.18, 0.89, 0.43, 1.19);
+    }
+
+.noteContainer {
+    position: fixed;
+    left: 50%;
+    width: 400px;
+    z-index: 100;
+    background-color: white;
+    border-radius: 6px;
+    top: -200%;
+    transform: translate(-50%, -50%) scale(0.5);
+    text-align: center;
+    opacity: 0;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: opacity 300ms ease-in-out, top 1000ms ease-in-out, transform 1000ms ease-in-out;
+}
+
+    .noteContainer.active {
+        position: fixed;
+        opacity: 1;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1);
+        transition: transform 300ms cubic-bezier(0.18, 0.89, 0.43, 1.19);
+    }
+
+.deleteContainer {
+    position: fixed;
+    left: 50%;
+    width: 400px;
+    z-index: 100;
+    background-color: white;
+    border-radius: 6px;
+    top: -200%;
+    transform: translate(-50%, -50%) scale(0.5);
+    text-align: center;
+    opacity: 0;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: opacity 300ms ease-in-out, top 1000ms ease-in-out, transform 1000ms ease-in-out;
+}
+
+    .deleteContainer.active {
+        position: fixed;
+        opacity: 1;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1);
+        transition: transform 300ms cubic-bezier(0.18, 0.89, 0.43, 1.19);
+    }
+
+.draftContainer {
+    position: fixed;
+    left: 50%;
+    width: 400px;
+    z-index: 100;
+    background-color: white;
+    border-radius: 6px;
+    top: -200%;
+    transform: translate(-50%, -50%) scale(0.5);
+    text-align: center;
+    opacity: 0;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: opacity 300ms ease-in-out, top 1000ms ease-in-out, transform 1000ms ease-in-out;
+}
+
+    .draftContainer.active {
+        position: fixed;
+        opacity: 1;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1);
+        transition: transform 300ms cubic-bezier(0.18, 0.89, 0.43, 1.19);
+    }
+
+.note {
     text-align: left;
     margin-top: 10px;
 }
@@ -341,8 +451,9 @@ hr.solid {
     font-size: 20px;
 }
 
-.deleteBtn{
+.deleteBtn {
     background-color: red;
+    transition: background-color 0.2s ease-in-out;
 }
 
     .deleteBtn:hover {

@@ -5,10 +5,8 @@
 }
 
 <script>
-    let popup = document.getElementById("popup");
-
     function displayCustomise(){
-        document.getElementById("popup").style.visibility = "visible";
+        document.getElementsByClassName("customiseContainer")[0].classList.add("active");
         document.getElementById("objects").style.filter = "blur(1.5rem)";
         document.getElementById("objects").style.pointerEvents = "none";
         document.getElementById("objects").style.userSelect = "none";
@@ -16,7 +14,7 @@
     }
 
     function ExitCustomise(){
-        document.getElementById("popup").style.visibility = "hidden";
+        document.getElementsByClassName("customiseContainer")[0].classList.remove("active");
         document.getElementById("objects").style.filter = "blur(0)";
         document.getElementById("objects").style.pointerEvents = "auto";
         document.getElementById("objects").style.userSelect = "auto";
@@ -24,7 +22,7 @@
     }
 
     function DisplayCheckout(){
-        document.getElementById("popupCheckout").style.visibility = "visible";
+        document.getElementsByClassName("checkoutContainer")[0].classList.add("active");
         document.getElementById("objects").style.filter = "blur(1.5rem)";
         document.getElementById("objects").style.pointerEvents = "none";
         document.getElementById("objects").style.userSelect = "none";
@@ -32,7 +30,7 @@
     }
 
     function ExitCheckout() {
-        document.getElementById("popupCheckout").style.visibility = "hidden";
+        document.getElementsByClassName("checkoutContainer")[0].classList.remove("active");
         document.getElementById("objects").style.filter = "blur(0)";
         document.getElementById("objects").style.pointerEvents = "auto";
         document.getElementById("objects").style.userSelect = "auto";
@@ -40,7 +38,7 @@
     }
 
     function DisplayNotes(){
-        document.getElementById("popupNotes").style.visibility = "visible";
+        document.getElementsByClassName("noteContainer")[0].classList.add("active");
         document.getElementById("objects").style.filter = "blur(1.5rem)";
         document.getElementById("objects").style.pointerEvents = "none";
         document.getElementById("objects").style.userSelect = "none";
@@ -48,7 +46,7 @@
     }
 
     function ExitNotes(){
-        document.getElementById("popupNotes").style.visibility = "hidden";
+        document.getElementsByClassName("noteContainer")[0].classList.remove("active");
         document.getElementById("objects").style.filter = "blur(0)";
         document.getElementById("objects").style.pointerEvents = "auto";
         document.getElementById("objects").style.userSelect = "auto";
@@ -56,7 +54,7 @@
     }
 
     function DisplayDelete() {
-        document.getElementById("popupDelete").style.visibility = "visible";
+        document.getElementsByClassName("deleteContainer")[0].classList.add("active");
         document.getElementById("objects").style.filter = "blur(1.5rem)";
         document.getElementById("objects").style.pointerEvents = "none";
         document.getElementById("objects").style.userSelect = "none";
@@ -64,7 +62,7 @@
     }
 
     function ExitDelete() {
-        document.getElementById("popupDelete").style.visibility = "hidden";
+        document.getElementsByClassName("deleteContainer")[0].classList.remove("active");
         document.getElementById("objects").style.filter = "blur(0)";
         document.getElementById("objects").style.pointerEvents = "auto";
         document.getElementById("objects").style.userSelect = "auto";
@@ -72,7 +70,7 @@
     }
 
     function DisplayDraft() {
-        document.getElementById("popupDraft").style.visibility = "visible";
+        document.getElementsByClassName("draftContainer")[0].classList.add("active");
         document.getElementById("objects").style.filter = "blur(1.5rem)";
         document.getElementById("objects").style.pointerEvents = "none";
         document.getElementById("objects").style.userSelect = "none";
@@ -80,12 +78,13 @@
     }
 
     function ExitDraft() {
-        document.getElementById("popupDraft").style.visibility = "hidden";
+        document.getElementsByClassName("draftContainer")[0].classList.remove("active");
         document.getElementById("objects").style.filter = "blur(0)";
         document.getElementById("objects").style.pointerEvents = "auto";
         document.getElementById("objects").style.userSelect = "auto";
         document.body.style.overflow = "auto";
     }
+
 </script>
 
 <div class="objects" id="objects">
@@ -149,34 +148,42 @@
             <div class="orderItems">
                 <div class="orderItem">
                     <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-                    <button class="orderItemBtn flexItem">-</button>
-                    <button class="orderItemBtn flexItem">+</button>
-                    <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                    <button class="orderItemBtn cancelBtn">X</button>
+                    <div class="modifyBtns">
+                        <button class="orderItemBtn">-</button>
+                        <button class="orderItemBtn">+</button>
+                        <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                        <button class="orderItemBtn cancelBtn">X</button>
+                    </div>
                 </div>
 
                 <div class="orderItem">
                     <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-                    <button class="orderItemBtn flexItem">-</button>
-                    <button class="orderItemBtn flexItem">+</button>
-                    <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                    <button class="orderItemBtn cancelBtn">X</button>
+                    <div class="modifyBtns">
+                        <button class="orderItemBtn">-</button>
+                        <button class="orderItemBtn">+</button>
+                        <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                        <button class="orderItemBtn cancelBtn">X</button>
+                    </div>
                 </div>
 
                 <div class="orderItem">
                     <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-                    <button class="orderItemBtn flexItem">-</button>
-                    <button class="orderItemBtn flexItem">+</button>
-                    <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                    <button class="orderItemBtn cancelBtn">X</button>
+                    <div class="modifyBtns">
+                        <button class="orderItemBtn">-</button>
+                        <button class="orderItemBtn">+</button>
+                        <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                        <button class="orderItemBtn cancelBtn">X</button>
+                    </div>
                 </div>
 
                 <div class="orderItem">
                     <p class="flexItem" style="margin-left: 20px;">1x Hotdog (N/C)</p> <!--Item quantity and item name-->
-                    <button class="orderItemBtn flexItem">-</button>
-                    <button class="orderItemBtn flexItem">+</button>
-                    <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                    <button class="orderItemBtn cancelBtn">X</button>
+                    <div class="modifyBtns">
+                        <button class="orderItemBtn">-</button>
+                        <button class="orderItemBtn">+</button>
+                        <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                        <button class="orderItemBtn cancelBtn">X</button>
+                    </div>
                 </div>
 
             </div>
@@ -195,7 +202,7 @@
 
 <!--Customise-->
 
-<div class="customiseContainer" id="popup">
+<div class="customiseContainer">
     <button class="exitBtn" onclick="ExitCustomise()">X</button>
     <h1 style="margin-top: 15px; margin-bottom: 0;">Customise Burger:</h1>
     <div class="line">
@@ -218,7 +225,7 @@
 
 <!--Checkout-->
 
-<div class="customiseContainer" id="popupCheckout">
+<div class="checkoutContainer">
     <button class="exitBtn" onclick="ExitCheckout()">X</button>
     <h1 style="margin-top: 15px; margin-bottom: 0;">Confirm Checkout?</h1>
     <div class="line">
@@ -233,34 +240,42 @@
     <div class="orderItems">
         <div class="orderItem">
             <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-            <button class="orderItemBtn flexItem">-</button>
-            <button class="orderItemBtn flexItem">+</button>
-            <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
-            <button class="orderItemBtn cancelBtn">X</button>
+            <div class="modifyBtns">
+                <button class="orderItemBtn">-</button>
+                <button class="orderItemBtn">+</button>
+                <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                <button class="orderItemBtn cancelBtn">X</button>
+            </div>
         </div>
 
         <div class="orderItem">
             <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-            <button class="orderItemBtn flexItem">-</button>
-            <button class="orderItemBtn flexItem">+</button>
-            <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
-            <button class="orderItemBtn cancelBtn">X</button>
+            <div class="modifyBtns">
+                <button class="orderItemBtn">-</button>
+                <button class="orderItemBtn">+</button>
+                <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                <button class="orderItemBtn cancelBtn">X</button>
+            </div>
         </div>
 
         <div class="orderItem">
             <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-            <button class="orderItemBtn flexItem">-</button>
-            <button class="orderItemBtn flexItem">+</button>
-            <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
-            <button class="orderItemBtn cancelBtn">X</button>
+            <div class="modifyBtns">
+                <button class="orderItemBtn">-</button>
+                <button class="orderItemBtn">+</button>
+                <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                <button class="orderItemBtn cancelBtn">X</button>
+            </div>
         </div>
 
         <div class="orderItem">
             <p class="flexItem" style="margin-left: 20px;">1x Hotdog (N/C)</p> <!--Item quantity and item name-->
-            <button class="orderItemBtn flexItem">-</button>
-            <button class="orderItemBtn flexItem">+</button>
-            <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
-            <button class="orderItemBtn cancelBtn">X</button>
+            <div class="modifyBtns">
+                <button class="orderItemBtn">-</button>
+                <button class="orderItemBtn">+</button>
+                <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                <button class="orderItemBtn cancelBtn">X</button>
+            </div>
         </div>
 
     </div>
@@ -270,7 +285,7 @@
 
 <!--Notes-->
 
-<div class="customiseContainer" id="popupNotes">
+<div class="noteContainer">
     <button class="exitBtn" onclick="ExitNotes()">X</button>
     <h1 style="margin-top: 15px; margin-bottom: 0;">Add Note:</h1>
     <div class="line">
@@ -284,7 +299,7 @@
 
 <!--Delete-->
 
-<div class="customiseContainer" id="popupDelete">
+<div class="deleteContainer">
     <button class="exitBtn" onclick="ExitDelete()">X</button>
     <h1 style="margin-top: 15px; margin-bottom: 0;">Delete Order?</h1>
     <div class="line">
@@ -296,7 +311,7 @@
 
 <!--Draft-->
 
-<div class="customiseContainer" id="popupDraft">
+<div class="draftContainer">
     <button class="exitBtn" onclick="ExitDraft()">X</button>
     <h1 style="margin-top: 15px; margin-bottom: 0;">Save as Draft?</h1>
     <div class="line">
@@ -311,34 +326,42 @@
     <div class="orderItems">
         <div class="orderItem">
             <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-            <button class="orderItemBtn flexItem">-</button>
-            <button class="orderItemBtn flexItem">+</button>
-            <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
-            <button class="orderItemBtn cancelBtn">X</button>
+            <div class="modifyBtns">
+                <button class="orderItemBtn">-</button>
+                <button class="orderItemBtn">+</button>
+                <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                <button class="orderItemBtn cancelBtn">X</button>
+            </div>
         </div>
 
         <div class="orderItem">
             <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-            <button class="orderItemBtn flexItem">-</button>
-            <button class="orderItemBtn flexItem">+</button>
-            <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
-            <button class="orderItemBtn cancelBtn">X</button>
+            <div class="modifyBtns">
+                <button class="orderItemBtn">-</button>
+                <button class="orderItemBtn">+</button>
+                <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                <button class="orderItemBtn cancelBtn">X</button>
+            </div>
         </div>
 
         <div class="orderItem">
             <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-            <button class="orderItemBtn flexItem">-</button>
-            <button class="orderItemBtn flexItem">+</button>
-            <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
-            <button class="orderItemBtn cancelBtn">X</button>
+            <div class="modifyBtns">
+                <button class="orderItemBtn">-</button>
+                <button class="orderItemBtn">+</button>
+                <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                <button class="orderItemBtn cancelBtn">X</button>
+            </div>
         </div>
 
         <div class="orderItem">
             <p class="flexItem" style="margin-left: 20px;">1x Hotdog (N/C)</p> <!--Item quantity and item name-->
-            <button class="orderItemBtn flexItem">-</button>
-            <button class="orderItemBtn flexItem">+</button>
-            <p class="price">$3.99</p>                                  <!--Item price (dependant on quantity)-->
-            <button class="orderItemBtn cancelBtn">X</button>
+            <div class="modifyBtns">
+                <button class="orderItemBtn">-</button>
+                <button class="orderItemBtn">+</button>
+                <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                <button class="orderItemBtn cancelBtn">X</button>
+            </div>
         </div>
 
     </div>
