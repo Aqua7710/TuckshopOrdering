@@ -2,7 +2,67 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Carousel -->
+<div id="demo" class="carousel slide" data-bs-ride="carousel">
+
+    <!-- Indicators/dots -->
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+    </div>
+
+    <!-- The slideshow/carousel -->
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="/Images/placeholder.png" alt="Los Angeles" class="d-block w-100 imgStyle">
+            <div class="carousel-caption">
+                <h3>Place Holder Name</h3>
+                <p>Place holder description</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="/Images/placeholder.png" alt="Chicago" class="d-block w-100 imgStyle">
+            <div class="carousel-caption">
+                <h3>Place Holder Name</h3>
+                <p>Place holder description</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="/Images/placeholder.png" alt="New York" class="d-block w-100 imgStyle">
+            <div class="carousel-caption">
+                <h3>Place Holder Name</h3>
+                <p>Place holder description</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Left and right controls/icons -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+</div>
+
+<h1 style="padding: 20px; text-align: center;">Featured Items</h1>
+<div class="homePageMenu">
+
+    @for (int i = 0; i < 5; i++) // click on card to navigate to item on menu
+    {
+        <div class="card cardStyle">
+            <div class="card-body">
+                <div class="card-img">
+                    <img style="width:100%; border-radius: 10px;" src="~/images/Hambúrguer saboroso isolado no fundo branco fastfood de hambúrguer fresco com carne e queijo _ Foto Grátis.jpg" alt="burger" />
+                </div>
+                <h4 class="card-title">
+                    Burger
+                </h4>
+                <h6 class="card-subtitle">
+                    $3.99
+                </h6>
+            </div>
+        </div>
+    }
 </div>

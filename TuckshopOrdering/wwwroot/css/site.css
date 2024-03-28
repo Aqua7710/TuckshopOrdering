@@ -82,6 +82,12 @@ body {
     clear: both;
 }
 
+.sticky{
+    position: sticky;
+    top: 30px;
+    z-index: 5000;
+}
+
 .menu {
     width: 100%;
     display: flex;
@@ -461,3 +467,59 @@ hr.solid {
     .deleteBtn:hover {
         background-color: #f24f44;
     }
+
+.imgStyle{
+    height: 500px;
+}
+
+.orderCards{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 20px;  
+}
+
+.carouselBtns{
+    position: absolute;
+    left: 0;
+    width: 160px;
+    height: 460px;
+    border: none;
+}
+
+.homePageMenu{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.profilePic{
+    width: 40px;
+    height: 40px;
+    border-radius: 25px;
+}
+
+.loginHover:hover {
+    background-color: #f0f4fa;
+}
+
+.dropdownAnimation {
+    animation: growDown 300ms ease-in-out forwards;
+    transform-origin: top center;
+}
+
+
+@keyframes growDown {
+    0%
+
+{
+    transform: scaleY(0)
+}
+
+80% {
+    transform: scaleY(1.1)
+}
+
+100% {
+    transform: scaleY(1)
+}
+}
