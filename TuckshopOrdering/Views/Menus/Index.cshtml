@@ -4,131 +4,52 @@
     ViewData["Title"] = "Index";
 }
 
-<script>
-    function displayCustomise(){
-        document.getElementsByClassName("customiseContainer")[0].classList.add("active");
-        document.getElementById("objects").style.filter = "blur(1.5rem)";
-        document.getElementById("objects").style.pointerEvents = "none";
-        document.getElementById("objects").style.userSelect = "none";
-        document.body.style.overflow = "hidden";
-    }
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            <div class="orderRectangle">
+                <p>Your order ^</p>
+            </div>
+            <div class="container sticky">
+                <div class="categoriesRow">
+                    <button class="menuBtns">Hot Food</button>
+                    <button class="menuBtns">Sandwiches</button>
+                    <button class="menuBtns">Snacks</button>
+                    <button class="menuBtns">Hot Snacks</button>
+                    <button class="menuBtns">Drinks</button>
+                </div>
+            </div>
 
-    function ExitCustomise(){
-        document.getElementsByClassName("customiseContainer")[0].classList.remove("active");
-        document.getElementById("objects").style.filter = "blur(0)";
-        document.getElementById("objects").style.pointerEvents = "auto";
-        document.getElementById("objects").style.userSelect = "auto";
-        document.body.style.overflow = "auto";
-    }
+            <h1 class="heading">Hot Food</h1>
 
-    function DisplayCheckout(){
-        document.getElementsByClassName("checkoutContainer")[0].classList.add("active");
-        document.getElementById("objects").style.filter = "blur(1.5rem)";
-        document.getElementById("objects").style.pointerEvents = "none";
-        document.getElementById("objects").style.userSelect = "none";
-        document.body.style.overflow = "hidden";
-    }
+            <div class="menu">
 
-    function ExitCheckout() {
-        document.getElementsByClassName("checkoutContainer")[0].classList.remove("active");
-        document.getElementById("objects").style.filter = "blur(0)";
-        document.getElementById("objects").style.pointerEvents = "auto";
-        document.getElementById("objects").style.userSelect = "auto";
-        document.body.style.overflow = "auto";
-    }
-
-    function DisplayNotes(){
-        document.getElementsByClassName("noteContainer")[0].classList.add("active");
-        document.getElementById("objects").style.filter = "blur(1.5rem)";
-        document.getElementById("objects").style.pointerEvents = "none";
-        document.getElementById("objects").style.userSelect = "none";
-        document.body.style.overflow = "hidden";
-    }
-
-    function ExitNotes(){
-        document.getElementsByClassName("noteContainer")[0].classList.remove("active");
-        document.getElementById("objects").style.filter = "blur(0)";
-        document.getElementById("objects").style.pointerEvents = "auto";
-        document.getElementById("objects").style.userSelect = "auto";
-        document.body.style.overflow = "auto";
-    }
-
-    function DisplayDelete() {
-        document.getElementsByClassName("deleteContainer")[0].classList.add("active");
-        document.getElementById("objects").style.filter = "blur(1.5rem)";
-        document.getElementById("objects").style.pointerEvents = "none";
-        document.getElementById("objects").style.userSelect = "none";
-        document.body.style.overflow = "hidden";
-    }
-
-    function ExitDelete() {
-        document.getElementsByClassName("deleteContainer")[0].classList.remove("active");
-        document.getElementById("objects").style.filter = "blur(0)";
-        document.getElementById("objects").style.pointerEvents = "auto";
-        document.getElementById("objects").style.userSelect = "auto";
-        document.body.style.overflow = "auto";
-    }
-
-    function DisplayDraft() {
-        document.getElementsByClassName("draftContainer")[0].classList.add("active");
-        document.getElementById("objects").style.filter = "blur(1.5rem)";
-        document.getElementById("objects").style.pointerEvents = "none";
-        document.getElementById("objects").style.userSelect = "none";
-        document.body.style.overflow = "hidden";
-    }
-
-    function ExitDraft() {
-        document.getElementsByClassName("draftContainer")[0].classList.remove("active");
-        document.getElementById("objects").style.filter = "blur(0)";
-        document.getElementById("objects").style.pointerEvents = "auto";
-        document.getElementById("objects").style.userSelect = "auto";
-        document.body.style.overflow = "auto";
-    }
-
-</script>
-
-<div class="objects" id="objects">
-    <div class="column1">
-        <div class="container sticky">
-            <div class="categoriesRow">
-                <button class="menuBtns">Hot Food</button>
-                <button class="menuBtns">Sandwiches</button>
-                <button class="menuBtns">Snacks</button>
-                <button class="menuBtns">Hot Snacks</button>
-                <button class="menuBtns">Drinks</button>
+                @for (int i = 0; i < 24; i++)
+                {
+                    <div class="card cardStyle">
+                        <div class="card-body">
+                            <div class="card-img">
+                                <img style="width:100%; border-radius: 10px;" src="~/images/Hambúrguer saboroso isolado no fundo branco fastfood de hambúrguer fresco com carne e queijo _ Foto Grátis.jpg" alt="burger" />
+                            </div>
+                            <h4 class="card-title title">
+                                Burger
+                            </h4>
+                            <h6 class="card-subtitle subtitle">
+                                $3.99
+                            </h6>
+                            <div class="cardBtns">
+                                <button type="button" class="customiseBtn" data-bs-toggle="modal" data-bs-target="#customiseModal">Customise</button>
+                                <button class="addBtn">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
 
-        <h1 style="padding: 20px;">Hot Food</h1>
-
-        <div class="menu">
-
-            @for (int i = 0; i < 25; i++)
-            {
-                <div class="card cardStyle">
-                    <div class="card-body">
-                        <div class="card-img">
-                            <img style="width:100%; border-radius: 10px;" src="~/images/Hambúrguer saboroso isolado no fundo branco fastfood de hambúrguer fresco com carne e queijo _ Foto Grátis.jpg" alt="burger" />
-                        </div>
-                        <h4 class="card-title">
-                            Burger
-                        </h4>
-                        <h6 class="card-subtitle">
-                            $3.99
-                        </h6>
-                        <div class="cardBtns">
-                            <button class="customiseBtn" onclick="displayCustomise()">Customise</button>
-                            <button class="addBtn">Add</button>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
-
-    <div class="column2">
-        <div class="ordersBox">
-            <h1 style="text-align: center; padding: 10px;">Order:</h1>
+        <div class="col-4">
+            <div class="ordersBox">
+                <h1 style="text-align: center; padding: 10px;">Order:</h1>
                 <form>
                     <div class="formLine">
                         <label>Student Name:</label> <!--Customer name from customers db-->
@@ -139,162 +60,188 @@
                         <input type="text" />
                     </div>
                 </form>
-            <div class="line">
-                <hr class="solid">
-            </div>
-
-            <!--Repeatable orders code-->
-
-            <div class="orderItems">
-                <div class="orderItem">
-                    <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-                    <div class="modifyBtns">
-                        <button class="orderItemBtn">-</button>
-                        <button class="orderItemBtn">+</button>
-                        <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                        <button class="orderItemBtn cancelBtn">X</button>
-                    </div>
+                <div class="line">
+                    <hr class="solid">
                 </div>
 
-                <div class="orderItem">
-                    <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-                    <div class="modifyBtns">
-                        <button class="orderItemBtn">-</button>
-                        <button class="orderItemBtn">+</button>
-                        <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                        <button class="orderItemBtn cancelBtn">X</button>
-                    </div>
-                </div>
+                <!--Repeatable orders code-->
 
-                <div class="orderItem">
-                    <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-                    <div class="modifyBtns">
-                        <button class="orderItemBtn">-</button>
-                        <button class="orderItemBtn">+</button>
-                        <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                        <button class="orderItemBtn cancelBtn">X</button>
+                <div class="orderItems">
+                    <div class="orderItem">
+                        <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
+                        <div class="modifyBtns">
+                            <button class="orderItemBtn">-</button>
+                            <button class="orderItemBtn">+</button>
+                            <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                            <button class="orderItemBtn cancelBtn">X</button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="orderItem">
-                    <p class="flexItem" style="margin-left: 20px;">1x Hotdog (N/C)</p> <!--Item quantity and item name-->
-                    <div class="modifyBtns">
-                        <button class="orderItemBtn">-</button>
-                        <button class="orderItemBtn">+</button>
-                        <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                        <button class="orderItemBtn cancelBtn">X</button>
+                    <div class="orderItem">
+                        <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
+                        <div class="modifyBtns">
+                            <button class="orderItemBtn">-</button>
+                            <button class="orderItemBtn">+</button>
+                            <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                            <button class="orderItemBtn cancelBtn">X</button>
+                        </div>
                     </div>
-                </div>
 
-            </div>
+                    <div class="orderItem">
+                        <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
+                        <div class="modifyBtns">
+                            <button class="orderItemBtn">-</button>
+                            <button class="orderItemBtn">+</button>
+                            <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                            <button class="orderItemBtn cancelBtn">X</button>
+                        </div>
+                    </div>
+
+                    <div class="orderItem">
+                        <p class="flexItem" style="margin-left: 20px;">1x Hotdog (N/C)</p> <!--Item quantity and item name-->
+                        <div class="modifyBtns">
+                            <button class="orderItemBtn">-</button>
+                            <button class="orderItemBtn">+</button>
+                            <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                            <button class="orderItemBtn cancelBtn">X</button>
+                        </div>
+                    </div>
+
+                </div>
 
                 <p style="margin-left: 20px; font-weight: bold;">Total Price: $15.96</p>
 
                 <div class="gridBtns">
-                    <button class="gridBtnsItem" onclick="DisplayCheckout()">Checkout</button>
-                    <button class="gridBtnsItem" onclick="DisplayNotes()">Notes</button>
-                    <button class="gridBtnsItem" onclick="DisplayDraft()">Draft</button>
-                    <button class="gridBtnsItem" onclick="DisplayDelete()">Delete</button>
+                    <button type="button" class="gridBtnsItem" data-bs-toggle="modal" data-bs-target="#checkoutModal">Checkout</button>
+                    <button type="button" class="gridBtnsItem" data-bs-toggle="modal" data-bs-target="#noteModal">Notes</button>
+                    <button type="button" class="gridBtnsItem" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
                 </div>
+            </div>
         </div>
+    </div>
+    <div style="display: flex; flex-direction: row-reverse;">
+        <!--Back to top button-->
+        <a href="#" class="top">Back to top ^</a>
     </div>
 </div>
 
 <!--Customise-->
 
-<div class="customiseContainer">
-    <button class="exitBtn" onclick="ExitCustomise()">X</button>
-    <h1 style="margin-top: 15px; margin-bottom: 0;">Customise Burger:</h1>
-    <div class="line">
-        <hr class="solid">
+<div class="modal fade" id="customiseModal" tabindex="-1" aria-labelledby="customiseModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Customise</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="formCustomise">
+                    <input type="checkbox" class="form-check-input" id="TomatoSauce" />
+                    <label for="TomatoSauce" class="form-check-label">Tomato Sauce</label><br />
+                    <input type="checkbox" class="form-check-input" id="TomatoSauce" />
+                    <label for="TomatoSauce" class="form-check-label">Tomato Sauce</label><br />
+                    <input type="checkbox" class="form-check-input" id="TomatoSauce" />
+                    <label for="TomatoSauce" class="form-check-label">Tomato Sauce</label><br />
+                    <input type="checkbox" class="form-check-input" id="TomatoSauce" />
+                    <label for="TomatoSauce" class="form-check-label">Tomato Sauce</label><br />
+                    <input type="checkbox" class="form-check-input" id="TomatoSauce" />
+                    <label for="TomatoSauce" class="form-check-label">Tomato Sauce</label><br />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
     </div>
-    <form class="formCustomise">
-        <input type="checkbox" id="TomatoSauce" />
-        <label for="TomatoSauce" >Tomato Sauce</label><br />
-        <input type="checkbox" id="TomatoSauce" />
-        <label for="TomatoSauce">Tomato Sauce</label><br />
-        <input type="checkbox" id="TomatoSauce" />
-        <label for="TomatoSauce">Tomato Sauce</label><br />
-        <input type="checkbox" id="TomatoSauce" />
-        <label for="TomatoSauce" >Tomato Sauce</label><br />
-        <input type="checkbox" id="TomatoSauce" />
-        <label for="TomatoSauce">Tomato Sauce</label><br />
-    </form>
-    <button class="addBtn popUps">Add</button>
 </div>
 
 <!--Checkout-->
 
-<div class="checkoutContainer">
-    <button class="exitBtn" onclick="ExitCheckout()">X</button>
-    <h1 style="margin-top: 15px; margin-bottom: 0;">Confirm Checkout?</h1>
-    <div class="line">
-        <hr class="solid">
+<div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Checkout</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: left; margin-left: 20px; font-weight: bold;">
+                    <p style="margin-bottom: 0;">Student: Prinesh Patel</p>
+                    <p>Room: 23</p>
+                </div>
+
+                <div class="orderItems">
+                    <div class="orderItem">
+                        <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
+                        <div class="modifyBtns">
+                            <button class="orderItemBtn">-</button>
+                            <button class="orderItemBtn">+</button>
+                            <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                            <button class="orderItemBtn cancelBtn">X</button>
+                        </div>
+                    </div>
+
+                    <div class="orderItem">
+                        <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
+                        <div class="modifyBtns">
+                            <button class="orderItemBtn">-</button>
+                            <button class="orderItemBtn">+</button>
+                            <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                            <button class="orderItemBtn cancelBtn">X</button>
+                        </div>
+                    </div>
+
+                    <div class="orderItem">
+                        <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
+                        <div class="modifyBtns">
+                            <button class="orderItemBtn">-</button>
+                            <button class="orderItemBtn">+</button>
+                            <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                            <button class="orderItemBtn cancelBtn">X</button>
+                        </div>
+                    </div>
+
+                    <div class="orderItem">
+                        <p class="flexItem" style="margin-left: 20px;">1x Hotdog (N/C)</p> <!--Item quantity and item name-->
+                        <div class="modifyBtns">
+                            <button class="orderItemBtn">-</button>
+                            <button class="orderItemBtn">+</button>
+                            <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                            <button class="orderItemBtn cancelBtn">X</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Checkout and Print</button>
+            </div>
+        </div>
     </div>
-    
-    <div style="text-align: left; margin-left: 20px; font-weight: bold;">
-        <p style="margin-bottom: 0;">Student: Prinesh Patel</p>
-        <p>Room: 23</p>
-    </div>
-
-    <div class="orderItems">
-        <div class="orderItem">
-            <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-            <div class="modifyBtns">
-                <button class="orderItemBtn">-</button>
-                <button class="orderItemBtn">+</button>
-                <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                <button class="orderItemBtn cancelBtn">X</button>
-            </div>
-        </div>
-
-        <div class="orderItem">
-            <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-            <div class="modifyBtns">
-                <button class="orderItemBtn">-</button>
-                <button class="orderItemBtn">+</button>
-                <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                <button class="orderItemBtn cancelBtn">X</button>
-            </div>
-        </div>
-
-        <div class="orderItem">
-            <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-            <div class="modifyBtns">
-                <button class="orderItemBtn">-</button>
-                <button class="orderItemBtn">+</button>
-                <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                <button class="orderItemBtn cancelBtn">X</button>
-            </div>
-        </div>
-
-        <div class="orderItem">
-            <p class="flexItem" style="margin-left: 20px;">1x Hotdog (N/C)</p> <!--Item quantity and item name-->
-            <div class="modifyBtns">
-                <button class="orderItemBtn">-</button>
-                <button class="orderItemBtn">+</button>
-                <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                <button class="orderItemBtn cancelBtn">X</button>
-            </div>
-        </div>
-
-    </div>
-
-    <button class="addBtn popUps">Confirm and Print</button>
 </div>
 
 <!--Notes-->
 
-<div class="noteContainer">
-    <button class="exitBtn" onclick="ExitNotes()">X</button>
-    <h1 style="margin-top: 15px; margin-bottom: 0;">Add Note:</h1>
-    <div class="line">
-        <hr class="solid">
+<div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="noteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Notes</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form style="display: flex; justify-content: center;">
+                    <textarea class="form-control" rows="3" style="width: 95%;"></textarea>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save note</button>
+            </div>
+        </div>
     </div>
-    <form>
-        <input type="text" style="width: 90%;"/>
-    </form>
-    <button class="addBtn popUps">Add</button>
 </div>
 
 <!--Delete-->
@@ -305,70 +252,29 @@
     <div class="line">
         <hr class="solid">
     </div>
-    <p style="font-weight: bold;">WARNING! This will permanently delete the order</p>
+    <p style="font-weight: bold; margin-bottom: 0;">WARNING! This will permanently delete the order</p>
     <button class="addBtn popUps deleteBtn">Delete</button>
 </div>
 
-<!--Draft-->
 
-<div class="draftContainer">
-    <button class="exitBtn" onclick="ExitDraft()">X</button>
-    <h1 style="margin-top: 15px; margin-bottom: 0;">Save as Draft?</h1>
-    <div class="line">
-        <hr class="solid">
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p style="font-weight: bold; margin-bottom: 0;">WARNING! This will permanently delete the order</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary deleteBtn">Delete</button>
+            </div>
+        </div>
     </div>
-
-    <div style="text-align: left; margin-left: 20px; font-weight: bold;">
-        <p style="margin-bottom: 0;">Student: Prinesh Patel</p>
-        <p>Room: 23</p>
-    </div>
-
-    <div class="orderItems">
-        <div class="orderItem">
-            <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-            <div class="modifyBtns">
-                <button class="orderItemBtn">-</button>
-                <button class="orderItemBtn">+</button>
-                <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                <button class="orderItemBtn cancelBtn">X</button>
-            </div>
-        </div>
-
-        <div class="orderItem">
-            <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-            <div class="modifyBtns">
-                <button class="orderItemBtn">-</button>
-                <button class="orderItemBtn">+</button>
-                <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                <button class="orderItemBtn cancelBtn">X</button>
-            </div>
-        </div>
-
-        <div class="orderItem">
-            <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-            <div class="modifyBtns">
-                <button class="orderItemBtn">-</button>
-                <button class="orderItemBtn">+</button>
-                <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                <button class="orderItemBtn cancelBtn">X</button>
-            </div>
-        </div>
-
-        <div class="orderItem">
-            <p class="flexItem" style="margin-left: 20px;">1x Hotdog (N/C)</p> <!--Item quantity and item name-->
-            <div class="modifyBtns">
-                <button class="orderItemBtn">-</button>
-                <button class="orderItemBtn">+</button>
-                <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                <button class="orderItemBtn cancelBtn">X</button>
-            </div>
-        </div>
-
-    </div>
-
-    <button class="addBtn popUps">Save Draft</button>
 </div>
-
 
 <!--These card divs repeating will not be apart of the final project, this is just a represenation of what it will look like-->
 <!--Card code will go in the foreach loop method below...-->

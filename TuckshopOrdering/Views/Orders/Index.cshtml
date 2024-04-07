@@ -16,318 +16,183 @@
     </form>
 </div>
 
-<div class="orderDisplay">
-
-    <!-- Carousel -->
-    <div id="demo" class="carousel slide" data-interval="false">
-
-        <!-- Indicators/dots -->
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+<div id="carouselExampleControls" class="carousel slide carousel-dark" data-bs-interval="false">
+	<div class="carousel-indicators indicate">
+		<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+		<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+		<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+		<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+	</div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="card-wrapper">
+				@for (int i = 0; i < 5; i++) // if 50 orders total, divide by 5 and thats how many carousel-items will be needed
+				{
+					<div class="card" style="width: 18rem;">
+						<div class="card-body">
+							<h3 class="card-title">Jake Harris</h3>
+							<h5 class="card-subtitle">Rm 23</h5>
+							<div class="orderItem">
+								<p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
+								<p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
+							</div>
+							<div class="orderItem">
+								<p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
+								<p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
+							</div>
+							<div class="orderItem">
+								<p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
+								<p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
+							</div>
+							<div class="orderItem">
+								<p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
+								<p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
+							</div>
+							<p class="orderItem">Total: $14.35</p>
+							<div class="line" style="padding: 0;">
+								<hr class="solid">
+							</div>
+							<p class="note">Note: this payment will be made at a later date via internet banking.</p>
+							<p style="font-weight: bold; text-align: left;">Order Date: 15/03/24</p>
+							<div class="gridBtns" style="padding: 0;">
+								<button class="gridBtnsItem">Edit</button>
+								<button class="gridBtnsItem">Print</button>
+							</div>
+						</div>
+					</div>
+				}
+            </div>        
         </div>
-
-        <!-- The slideshow/carousel -->
-        <div class="carousel-inner">
-            <div class="carousel-item active carouselStyle">
-
-                <div class="orderCards">
-
-                    @for(int i = 0; i < 5; i++){
-                        <div class="card orderStyle">
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    Prinesh Patel
-                                </h4>
-                                <h6 class="card-subtitle">
-                                    Rm 23
-                                </h6>
-
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <p class="orderItem">Total: $14.35</p>
-                                <div class="line" style="padding: 0;">
-                                    <hr class="solid">
-                                </div>
-                                <p class="note">Note: this payment will be made at a later date via internet banking.</p>
-                                <p style="font-weight: bold; text-align: left;">Order Date: 15/03/24</p>
-                                <div class="gridBtns" style="padding: 0;">
-                                    <button class="gridBtnsItem">Edit</button>
-                                    <button class="gridBtnsItem">Print</button>
-                                </div>
-                            </div>
+        <div class="carousel-item">
+            <div class="card-wrapper">
+				@for (int i = 0; i < 5; i++)
+				{
+					<div class="card" style="width: 18rem;">
+						<div class="card-body">
+							<h3 class="card-title">Prinesh Patel</h3>
+							<h5 class="card-subtitle">Rm 23</h5>
+							<div class="orderItem">
+								<p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
+								<p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
+							</div>
+							<div class="orderItem">
+								<p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
+								<p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
+							</div>
+							<div class="orderItem">
+								<p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
+								<p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
+							</div>
+							<div class="orderItem">
+								<p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
+								<p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
+							</div>
+							<p class="orderItem">Total: $14.35</p>
+							<div class="line" style="padding: 0;">
+								<hr class="solid">
+							</div>
+							<p class="note">Note: this payment will be made at a later date via internet banking.</p>
+							<p style="font-weight: bold; text-align: left;">Order Date: 15/03/24</p>
+							<div class="gridBtns" style="padding: 0;">
+								<button class="gridBtnsItem">Edit</button>
+								<button class="gridBtnsItem">Print</button>
+							</div>
+						</div>
+					</div>
+				}
+            </div>
+            
+        </div>
+        <div class="carousel-item">
+            <div class="card-wrapper">
+@for (int i = 0; i < 5; i++)
+            {
+                    <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h3 class="card-title">Jashandeep Singh</h3>
+                        <h5 class="card-subtitle">Rm 23</h5>
+                        <div class="orderItem">
+                            <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
+                            <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
                         </div>
-                    }
-                    </div>
-                </div>
-
-                <div class="carousel-item">
-                    <div class="orderCards">
-                        <div class="card orderStyle">
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    Prinesh Patel
-                                </h4>
-                                <h6 class="card-subtitle">
-                                    Rm 23
-                                </h6>
-
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <p class="orderItem">Total: $14.35</p>
-                                <div class="line" style="padding: 0;">
-                                    <hr class="solid">
-                                </div>
-                                <p class="note">Note: this payment will be made at a later date via internet banking.</p>
-                                <p style="font-weight: bold; text-align: left;">Order Date: 15/03/24</p>
-                                <div class="gridBtns" style="padding: 0;">
-                                    <button class="gridBtnsItem">Edit</button>
-                                    <button class="gridBtnsItem">Print</button>
-                                </div>
-                            </div>
+                        <div class="orderItem">
+                            <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
+                            <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
                         </div>
-
-                        <div class="card orderStyle">
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    Prinesh Patel
-                                </h4>
-                                <h6 class="card-subtitle">
-                                    Rm 23
-                                </h6>
-
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <p class="orderItem">Total: $14.35</p>
-                                <div class="line" style="padding: 0;">
-                                    <hr class="solid">
-                                </div>
-                                <p class="note">Note: this payment will be made at a later date via internet banking.</p>
-                                <p style="font-weight: bold; text-align: left;">Order Date: 15/03/24</p>
-                                <div class="gridBtns" style="padding: 0;">
-                                    <button class="gridBtnsItem">Edit</button>
-                                    <button class="gridBtnsItem">Print</button>
-                                </div>
-                            </div>
+                        <div class="orderItem">
+                            <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
+                            <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
                         </div>
-
-
-                        <div class="card orderStyle">
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    Prinesh Patel
-                                </h4>
-                                <h6 class="card-subtitle">
-                                    Rm 23
-                                </h6>
-
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <p class="orderItem">Total: $14.35</p>
-                                <div class="line" style="padding: 0;">
-                                    <hr class="solid">
-                                </div>
-                                <p class="note">Note: this payment will be made at a later date via internet banking.</p>
-                                <p style="font-weight: bold; text-align: left;">Order Date: 15/03/24</p>
-                                <div class="gridBtns" style="padding: 0;">
-                                    <button class="gridBtnsItem">Edit</button>
-                                    <button class="gridBtnsItem">Print</button>
-                                </div>
-                            </div>
+                        <div class="orderItem">
+                            <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
+                            <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
                         </div>
-
-                        <div class="card orderStyle">
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    Prinesh Patel
-                                </h4>
-                                <h6 class="card-subtitle">
-                                    Rm 23
-                                </h6>
-
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <p class="orderItem">Total: $14.35</p>
-                                <div class="line" style="padding: 0;">
-                                    <hr class="solid">
-                                </div>
-                                <p class="note">Note: this payment will be made at a later date via internet banking.</p>
-                                <p style="font-weight: bold; text-align: left;">Order Date: 15/03/24</p>
-                                <div class="gridBtns" style="padding: 0;">
-                                    <button class="gridBtnsItem">Edit</button>
-                                    <button class="gridBtnsItem">Print</button>
-                                </div>
-                            </div>
+                        <p class="orderItem">Total: $14.35</p>
+                        <div class="line" style="padding: 0;">
+                            <hr class="solid">
                         </div>
-
-                        <div class="card orderStyle">
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    Prinesh Patel
-                                </h4>
-                                <h6 class="card-subtitle">
-                                    Rm 23
-                                </h6>
-
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <p class="orderItem">Total: $14.35</p>
-                                <div class="line" style="padding: 0;">
-                                    <hr class="solid">
-                                </div>
-                                <p class="note">Note: this payment will be made at a later date via internet banking.</p>
-                                <p style="font-weight: bold; text-align: left;">Order Date: 15/03/24</p>
-                                <div class="gridBtns" style="padding: 0;">
-                                    <button class="gridBtnsItem">Edit</button>
-                                    <button class="gridBtnsItem">Print</button>
-                                </div>
-                            </div>
+                        <p class="note">Note: this payment will be made at a later date via internet banking.</p>
+                        <p style="font-weight: bold; text-align: left;">Order Date: 15/03/24</p>
+                        <div class="gridBtns" style="padding: 0;">
+                            <button class="gridBtnsItem">Edit</button>
+                            <button class="gridBtnsItem">Print</button>
                         </div>
                     </div>
                 </div>
-
-            <div class="carousel-item">
-                <div class="orderCards">
-
-                    @for (int i = 0; i < 5; i++)
-                    {
-                        <div class="card orderStyle">
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    Prinesh Patel
-                                </h4>
-                                <h6 class="card-subtitle">
-                                    Rm 23
-                                </h6>
-
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <div class="orderItem">
-                                    <p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
-                                    <p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
-                                </div>
-                                <p class="orderItem">Total: $14.35</p>
-                                <div class="line" style="padding: 0;">
-                                    <hr class="solid">
-                                </div>
-                                <p class="note">Note: this payment will be made at a later date via internet banking.</p>
-                                <p style="font-weight: bold; text-align: left;">Order Date: 15/03/24</p>
-                                <div class="gridBtns" style="padding: 0;">
-                                    <button class="gridBtnsItem">Edit</button>
-                                    <button class="gridBtnsItem">Print</button>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
+            }
             </div>
-            </div>
+            
         </div>
+		<div class="carousel-item">
+			<div class="card-wrapper">
+				@for (int i = 0; i < 5; i++)
+				{
+					<div class="card" style="width: 18rem;">
+						<div class="card-body">
+							<h3 class="card-title">Ivory Jackson</h3>
+							<h5 class="card-subtitle">Rm 23</h5>
+							<div class="orderItem">
+								<p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
+								<p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
+							</div>
+							<div class="orderItem">
+								<p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
+								<p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
+							</div>
+							<div class="orderItem">
+								<p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
+								<p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
+							</div>
+							<div class="orderItem">
+								<p class="flexItem" style="">1x Burger</p> <!--Item quantity and item name-->
+								<p class="price">$3.99</p> <!--Item price (dependant on quantity)-->
+							</div>
+							<p class="orderItem">Total: $14.35</p>
+							<div class="line" style="padding: 0;">
+								<hr class="solid">
+							</div>
+							<p class="note">Note: this payment will be made at a later date via internet banking.</p>
+							<p style="font-weight: bold; text-align: left;">Order Date: 15/03/24</p>
+							<div class="gridBtns" style="padding: 0;">
+								<button class="gridBtnsItem">Edit</button>
+								<button class="gridBtnsItem">Print</button>
+							</div>
+						</div>
+					</div>
+				}
+			</div>
 
-        <!-- Left and right controls/icons -->
-        <button class="carouselBtns" type="button" data-bs-target="#demo" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon icon"></span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </button>
+		</div>
     </div>
-
+    <button class="carousel-control-prev carouselBtnPrev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next carouselBtnNext" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
 
 @foreach (var item in Model) {
         <tr>
