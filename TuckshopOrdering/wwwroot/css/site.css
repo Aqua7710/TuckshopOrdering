@@ -456,7 +456,7 @@ hr.solid {
     }
 
 .imgStyle{
-    height: 500px;
+    height: 600px;
 }
 
 .orderCards{
@@ -521,7 +521,7 @@ hr.solid {
 
 .card-wrapper{
     display: flex;
-    gap: 10px;
+    justify-content: space-evenly;
 }
 
 .heading {
@@ -624,3 +624,9 @@ hr.solid {
     margin-right: 80px;
     padding-bottom: 40px;
 }
+
+.hover:hover {
+    text-decoration: underline;
+}
+
+
