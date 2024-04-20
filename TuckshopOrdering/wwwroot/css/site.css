@@ -457,6 +457,7 @@ hr.solid {
 
 .imgStyle{
     height: 600px;
+    width: 100%;
 }
 
 .orderCards{
@@ -627,6 +628,10 @@ hr.solid {
 
 .hover:hover {
     text-decoration: underline;
+}
+
+.carousel-shadow {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 
