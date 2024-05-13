@@ -24,4 +24,8 @@ public class TuckshopOrderingSystem : IdentityDbContext<TuckshopOrderingUser>
     public DbSet<TuckshopOrdering.Models.Menu> Menu { get; set; } = default!;
 
     public DbSet<TuckshopOrdering.Models.Order> Order { get; set; } = default!;
+
+    public DbSet<TuckshopOrdering.Models.Category> Category { get; set; } = default!;
+
+    public DbSet<TuckshopOrdering.Models.Customise> Customise { get; set; } = default!;
 }

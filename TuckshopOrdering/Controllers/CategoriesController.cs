@@ -10,87 +10,87 @@ using TuckshopOrdering.Models;
 
 namespace TuckshopOrdering.Controllers
 {
-    public class OrdersController : Controller
+    public class CategoriesController : Controller
     {
         private readonly TuckshopOrderingSystem _context;
 
-        public OrdersController(TuckshopOrderingSystem context)
+        public CategoriesController(TuckshopOrderingSystem context)
         {
             _context = context;
         }
 
-        // GET: Orders
+        // GET: Categories
         public async Task<IActionResult> Index()
         {
-              return _context.Order != null ? 
-                          View(await _context.Order.ToListAsync()) :
-                          Problem("Entity set 'TuckshopOrderingSystem.Order'  is null.");
+              return _context.Category != null ? 
+                          View(await _context.Category.ToListAsync()) :
+                          Problem("Entity set 'TuckshopOrderingSystem.Category'  is null.");
         }
 
-        // GET: Orders/Details/5
+        // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Order == null)
+            if (id == null || _context.Category == null)
             {
                 return NotFound();
             }
 
-            var order = await _context.Order
-                .FirstOrDefaultAsync(m => m.OrderID == id);
-            if (order == null)
+            var category = await _context.Category
+                .FirstOrDefaultAsync(m => m.CategoryID == id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            return View(category);
         }
 
-        // GET: Orders/Create
+        // GET: Categories/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Orders/Create
+        // POST: Categories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderID")] Order order)
+        public async Task<IActionResult> Create([Bind("CategoryID,CategoryName")] Category category)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(order);
+                _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(order);
+            return View(category);
         }
 
-        // GET: Orders/Edit/5
+        // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Order == null)
+            if (id == null || _context.Category == null)
             {
                 return NotFound();
             }
 
-            var order = await _context.Order.FindAsync(id);
-            if (order == null)
+            var category = await _context.Category.FindAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
-            return View(order);
+            return View(category);
         }
 
-        // POST: Orders/Edit/5
+        // POST: Categories/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderID")] Order order)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryID,CategoryName")] Category category)
         {
-            if (id != order.OrderID)
+            if (id != category.CategoryID)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace TuckshopOrdering.Controllers
             {
                 try
                 {
-                    _context.Update(order);
+                    _context.Update(category);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderExists(order.OrderID))
+                    if (!CategoryExists(category.CategoryID))
                     {
                         return NotFound();
                     }
@@ -115,49 +115,49 @@ namespace TuckshopOrdering.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(order);
+            return View(category);
         }
 
-        // GET: Orders/Delete/5
+        // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Order == null)
+            if (id == null || _context.Category == null)
             {
                 return NotFound();
             }
 
-            var order = await _context.Order
-                .FirstOrDefaultAsync(m => m.OrderID == id);
-            if (order == null)
+            var category = await _context.Category
+                .FirstOrDefaultAsync(m => m.CategoryID == id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            return View(category);
         }
 
-        // POST: Orders/Delete/5
+        // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Order == null)
+            if (_context.Category == null)
             {
-                return Problem("Entity set 'TuckshopOrderingSystem.Order'  is null.");
+                return Problem("Entity set 'TuckshopOrderingSystem.Category'  is null.");
             }
-            var order = await _context.Order.FindAsync(id);
-            if (order != null)
+            var category = await _context.Category.FindAsync(id);
+            if (category != null)
             {
-                _context.Order.Remove(order);
+                _context.Category.Remove(category);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OrderExists(int id)
+        private bool CategoryExists(int id)
         {
-          return (_context.Order?.Any(e => e.OrderID == id)).GetValueOrDefault();
+          return (_context.Category?.Any(e => e.CategoryID == id)).GetValueOrDefault();
         }
     }
 }

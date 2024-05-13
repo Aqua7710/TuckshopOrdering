@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TuckshopOrdering.Areas.Identity.Data;
 
@@ -11,9 +12,11 @@ using TuckshopOrdering.Areas.Identity.Data;
 namespace TuckshopOrdering.Migrations
 {
     [DbContext(typeof(TuckshopOrderingSystem))]
-    partial class TuckshopOrderingSystemModelSnapshot : ModelSnapshot
+    [Migration("20240507214524_FKCreate")]
+    partial class FKCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -241,23 +244,6 @@ namespace TuckshopOrdering.Migrations
                     b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("TuckshopOrdering.Models.Customise", b =>
-                {
-                    b.Property<int>("CustomiseID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomiseID"));
-
-                    b.Property<string>("CustomiseName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CustomiseID");
-
-                    b.ToTable("Customise");
-                });
-
             modelBuilder.Entity("TuckshopOrdering.Models.Menu", b =>
                 {
                     b.Property<int>("MenuID")
@@ -269,14 +255,7 @@ namespace TuckshopOrdering.Migrations
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
 
-                    b.Property<int>("CustomiseID")
-                        .HasColumnType("int");
-
                     b.Property<string>("foodName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("imageName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -286,8 +265,6 @@ namespace TuckshopOrdering.Migrations
                     b.HasKey("MenuID");
 
                     b.HasIndex("CategoryID");
-
-                    b.HasIndex("CustomiseID");
 
                     b.ToTable("Menu");
                 });
@@ -364,23 +341,10 @@ namespace TuckshopOrdering.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TuckshopOrdering.Models.Customise", "Customise")
-                        .WithMany("Menus")
-                        .HasForeignKey("CustomiseID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Category");
-
-                    b.Navigation("Customise");
                 });
 
             modelBuilder.Entity("TuckshopOrdering.Models.Category", b =>
-                {
-                    b.Navigation("Menus");
-                });
-
-            modelBuilder.Entity("TuckshopOrdering.Models.Customise", b =>
                 {
                     b.Navigation("Menus");
                 });

@@ -13,18 +13,19 @@ namespace TuckshopOrdering.Controllers
     public class MenusController : Controller
     {
         private readonly TuckshopOrderingSystem _context;
+        private readonly IWebHostEnvironment _hostEnviroment;
 
-        public MenusController(TuckshopOrderingSystem context)
+        public MenusController(TuckshopOrderingSystem context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            this._hostEnviroment = hostEnvironment;
         }
 
         // GET: Menus
         public async Task<IActionResult> Index()
         {
-              return _context.Menu != null ? 
-                          View(await _context.Menu.ToListAsync()) :
-                          Problem("Entity set 'TuckshopOrderingSystem.Menu'  is null.");
+            var tuckshopOrderingSystem = _context.Menu.Include(m => m.Category).Include(m => m.Customise);
+            return View(await tuckshopOrderingSystem.ToListAsync());
         }
 
         // GET: Menus/Details/5
@@ -36,6 +37,8 @@ namespace TuckshopOrdering.Controllers
             }
 
             var menu = await _context.Menu
+                .Include(m => m.Category)
+                .Include(m => m.Customise)
                 .FirstOrDefaultAsync(m => m.MenuID == id);
             if (menu == null)
             {
@@ -48,6 +51,8 @@ namespace TuckshopOrdering.Controllers
         // GET: Menus/Create
         public IActionResult Create()
         {
+            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryID");
+            ViewData["CustomiseID"] = new SelectList(_context.Customise, "CustomiseID", "CustomiseID");
             return View();
         }
 
@@ -56,14 +61,27 @@ namespace TuckshopOrdering.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MenuID")] Menu menu)
+        public async Task<IActionResult> Create([Bind("MenuID,foodName,price,imageFile,CategoryID,CustomiseID")] Menu menu)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                // saves image to wwwroot/images
+                string wwwRootPath = _hostEnviroment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(menu.imageFile.FileName);
+                string extension = Path.GetExtension(menu.imageFile.FileName);
+                menu.imageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine(wwwRootPath + "/Images", fileName);
+                using(var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await menu.imageFile.CopyToAsync(fileStream);
+                }
+                // Insert record
                 _context.Add(menu);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryID", menu.CategoryID);
+            ViewData["CustomiseID"] = new SelectList(_context.Customise, "CustomiseID", "CustomiseID", menu.CustomiseID);
             return View(menu);
         }
 
@@ -80,6 +98,8 @@ namespace TuckshopOrdering.Controllers
             {
                 return NotFound();
             }
+            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryID", menu.CategoryID);
+            ViewData["CustomiseID"] = new SelectList(_context.Customise, "CustomiseID", "CustomiseID", menu.CustomiseID);
             return View(menu);
         }
 
@@ -88,7 +108,7 @@ namespace TuckshopOrdering.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MenuID")] Menu menu)
+        public async Task<IActionResult> Edit(int id, [Bind("MenuID,foodName,price,imageName,CategoryID,CustomiseID")] Menu menu)
         {
             if (id != menu.MenuID)
             {
@@ -115,6 +135,8 @@ namespace TuckshopOrdering.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryID", menu.CategoryID);
+            ViewData["CustomiseID"] = new SelectList(_context.Customise, "CustomiseID", "CustomiseID", menu.CustomiseID);
             return View(menu);
         }
 
@@ -127,6 +149,8 @@ namespace TuckshopOrdering.Controllers
             }
 
             var menu = await _context.Menu
+                .Include(m => m.Category)
+                .Include(m => m.Customise)
                 .FirstOrDefaultAsync(m => m.MenuID == id);
             if (menu == null)
             {
@@ -146,11 +170,15 @@ namespace TuckshopOrdering.Controllers
                 return Problem("Entity set 'TuckshopOrderingSystem.Menu'  is null.");
             }
             var menu = await _context.Menu.FindAsync(id);
-            if (menu != null)
-            {
-                _context.Menu.Remove(menu);
-            }
-            
+
+            // Delete image file from wwwroot folder
+
+            var imagePath = Path.Combine(_hostEnviroment.WebRootPath, "Images", menu.imageName);
+            if (System.IO.File.Exists(imagePath))
+                System.IO.File.Exists(imagePath);
+
+            //delete file
+            _context.Menu.Remove(menu);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

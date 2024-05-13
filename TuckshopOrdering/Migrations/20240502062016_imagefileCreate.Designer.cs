@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TuckshopOrdering.Areas.Identity.Data;
 
@@ -11,13 +12,15 @@ using TuckshopOrdering.Areas.Identity.Data;
 namespace TuckshopOrdering.Migrations
 {
     [DbContext(typeof(TuckshopOrderingSystem))]
-    partial class TuckshopOrderingSystemModelSnapshot : ModelSnapshot
+    [Migration("20240502062016_imagefileCreate")]
+    partial class imagefileCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.18")
+                .HasAnnotation("ProductVersion", "7.0.16")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -224,40 +227,6 @@ namespace TuckshopOrdering.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("TuckshopOrdering.Models.Category", b =>
-                {
-                    b.Property<int>("CategoryID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryID"));
-
-                    b.Property<string>("CategoryName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CategoryID");
-
-                    b.ToTable("Category");
-                });
-
-            modelBuilder.Entity("TuckshopOrdering.Models.Customise", b =>
-                {
-                    b.Property<int>("CustomiseID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomiseID"));
-
-                    b.Property<string>("CustomiseName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CustomiseID");
-
-                    b.ToTable("Customise");
-                });
-
             modelBuilder.Entity("TuckshopOrdering.Models.Menu", b =>
                 {
                     b.Property<int>("MenuID")
@@ -266,17 +235,7 @@ namespace TuckshopOrdering.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MenuID"));
 
-                    b.Property<int>("CategoryID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CustomiseID")
-                        .HasColumnType("int");
-
                     b.Property<string>("foodName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("imageName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -284,10 +243,6 @@ namespace TuckshopOrdering.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("MenuID");
-
-                    b.HasIndex("CategoryID");
-
-                    b.HasIndex("CustomiseID");
 
                     b.ToTable("Menu");
                 });
@@ -354,35 +309,6 @@ namespace TuckshopOrdering.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("TuckshopOrdering.Models.Menu", b =>
-                {
-                    b.HasOne("TuckshopOrdering.Models.Category", "Category")
-                        .WithMany("Menus")
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TuckshopOrdering.Models.Customise", "Customise")
-                        .WithMany("Menus")
-                        .HasForeignKey("CustomiseID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Customise");
-                });
-
-            modelBuilder.Entity("TuckshopOrdering.Models.Category", b =>
-                {
-                    b.Navigation("Menus");
-                });
-
-            modelBuilder.Entity("TuckshopOrdering.Models.Customise", b =>
-                {
-                    b.Navigation("Menus");
                 });
 #pragma warning restore 612, 618
         }

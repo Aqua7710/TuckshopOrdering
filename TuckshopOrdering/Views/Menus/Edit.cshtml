@@ -14,6 +14,31 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="MenuID" />
             <div class="form-group">
+                <label asp-for="foodName" class="control-label"></label>
+                <input asp-for="foodName" class="form-control" />
+                <span asp-validation-for="foodName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="price" class="control-label"></label>
+                <input asp-for="price" class="form-control" />
+                <span asp-validation-for="price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="imageName" class="control-label"></label>
+                <input asp-for="imageName" class="form-control" />
+                <span asp-validation-for="imageName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryID" class="control-label"></label>
+                <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryID"></select>
+                <span asp-validation-for="CategoryID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomiseID" class="control-label"></label>
+                <select asp-for="CustomiseID" class="form-control" asp-items="ViewBag.CustomiseID"></select>
+                <span asp-validation-for="CustomiseID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

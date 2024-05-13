@@ -10,8 +10,31 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="foodName" class="control-label"></label>
+                <input asp-for="foodName" class="form-control" />
+                <span asp-validation-for="foodName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="price" class="control-label"></label>
+                <input asp-for="price" class="form-control" />
+                <span asp-validation-for="price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="imageFile" class="control-label"></label> <!--Changed imageName to imageFile-->
+                <input asp-for="imageFile" class="form-control" accept="image/*" />            <!--Accepts all images-->
+                <span asp-validation-for="imageFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryID" class="control-label"></label>
+                <select asp-for="CategoryID" class ="form-control" asp-items="ViewBag.CategoryID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomiseID" class="control-label"></label>
+                <select asp-for="CustomiseID" class ="form-control" asp-items="ViewBag.CustomiseID"></select>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

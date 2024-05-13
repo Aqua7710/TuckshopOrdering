@@ -4,6 +4,37 @@
     ViewData["Title"] = "Index";
 }
 
+<script>
+    let hotFood = true;
+    let sandwich = false;
+    let snack = false;
+    let hotSnack = false;
+    let drink = false;
+
+    function HotFoodCat(){
+        document.getElementById("categoryHeading").innerHTML = "Hot Food";
+        hothotFood = true;
+    }
+
+    function SandwichCat(){
+        document.getElementById("categoryHeading").innerHTML = "Sandwiches";
+        sandwich = true;
+    }
+
+    function SnackCat(){
+        document.getElementById("categoryHeading").innerHTML = "Snacks";
+
+    }
+
+    function HotSnackCat(){
+        document.getElementById("categoryHeading").innerHTML = "Hot Snacks";
+    }
+
+    function DrinkCat(){
+        document.getElementById("categoryHeading").innerHTML = "Drinks";
+    }
+</script>
+
 <div class="container">
     <div class="row">
         <div class="col-8">
@@ -12,30 +43,28 @@
             </div>
             <div class="container sticky">
                 <div class="categoriesRow">
-                    <button class="menuBtns">Hot Food</button>
-                    <button class="menuBtns">Sandwiches</button>
-                    <button class="menuBtns">Snacks</button>
-                    <button class="menuBtns">Hot Snacks</button>
-                    <button class="menuBtns">Drinks</button>
+                    <button class="menuBtns" onclick="HotFoodCat()">Hot Food</button>
+                    <button class="menuBtns" onclick="SandwichCat()">Sandwiches</button>
+                    <button class="menuBtns" onclick="SnackCat()">Snacks</button>
+                    <button class="menuBtns" onclick="HotSnackCat()">Hot Snacks</button>
+                    <button class="menuBtns" onclick="DrinkCat()">Drinks</button>
                 </div>
             </div>
 
-            <h1 class="heading">Hot Food</h1>
+            <h1 class="heading" id="categoryHeading">Hot Food</h1>
 
             <div class="menu">
 
-                @for (int i = 0; i < 24; i++)
+                @foreach (var item in Model)
                 {
                     <div class="card cardStyle">
                         <div class="card-body">
-                            <div class="card-img">
-                                <img style="width:100%; border-radius: 10px;" src="/Images/Hambúrguer saboroso isolado no fundo branco fastfood de hambúrguer fresco com carne e queijo _ Foto Grátis.jpg" alt="burger" />
-                            </div>
+                            <img class="card-img" src="@("~/Images/"+item.imageName)" asp-append-version="true" style="width:100%; border-radius: 10px; height: 160px;">
                             <h4 class="card-title title">
-                                Burger
+                                @Html.DisplayFor(model => item.foodName)
                             </h4>
                             <h6 class="card-subtitle subtitle">
-                                $3.99
+                                $@Html.DisplayFor(model => item.price)
                             </h6>
                             <div class="cardBtns">
                                 <button type="button" class="customiseBtn" data-bs-toggle="modal" data-bs-target="#customiseModal">Customise</button>
