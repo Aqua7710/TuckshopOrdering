@@ -58,7 +58,7 @@ namespace TuckshopOrdering.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CustomiseID,CustomiseName")] Customise customise)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.Add(customise);
                 await _context.SaveChangesAsync();

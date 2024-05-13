@@ -24,10 +24,9 @@ namespace TuckshopOrdering.Controllers
         // GET: Menus
         public async Task<IActionResult> Index()
         {
-            var tuckshopOrderingSystem = _context.Menu.Include(m => m.Category).Include(m => m.Customise);
+            var tuckshopOrderingSystem = _context.Menu.Include(m => m.Category).Include(m => m.Customise).Include(m => m.FoodOrders);
             return View(await tuckshopOrderingSystem.ToListAsync());
         }
-
         // GET: Menus/Details/5
         public async Task<IActionResult> Details(int? id)
         {

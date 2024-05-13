@@ -13,7 +13,7 @@
 
     function HotFoodCat(){
         document.getElementById("categoryHeading").innerHTML = "Hot Food";
-        hothotFood = true;
+        hotFood = true;
     }
 
     function SandwichCat(){
@@ -23,15 +23,17 @@
 
     function SnackCat(){
         document.getElementById("categoryHeading").innerHTML = "Snacks";
-
+        snack = true;
     }
 
     function HotSnackCat(){
         document.getElementById("categoryHeading").innerHTML = "Hot Snacks";
+        hotSnack = true;
     }
 
     function DrinkCat(){
         document.getElementById("categoryHeading").innerHTML = "Drinks";
+        drink = true;
     }
 </script>
 
@@ -55,16 +57,26 @@
 
             <div class="menu">
 
-                @foreach (var item in Model)
+                @foreach (var menuItem in Model)
                 {
                     <div class="card cardStyle">
+                          <div class="dropdown">
+                             <a class="btn btn-secondary dropdown-toggle editBtn" href="#" role="button" id="editDropDown" data-bs-toggle="dropdown" aria-expanded="false" style="z-index: 5;">
+                                 Edit
+                             </a>
+                                <ul class="dropdown-menu" aria-labelledby="editDropDown">
+                                    <li><a asp-action="Edit" asp-route-id="@menuItem.MenuID" class="dropdown-item">Edit</a></li>
+                                <li><a asp-action="Details" asp-route-id="@menuItem.MenuID" class="dropdown-item">Details</a></li>
+                                <li><a asp-action="Delete" asp-route-id="@menuItem.MenuID" class="dropdown-item">Delete</a></li>
+                            </ul>    
+                          </div>
                         <div class="card-body">
-                            <img class="card-img" src="@("~/Images/"+item.imageName)" asp-append-version="true" style="width:100%; border-radius: 10px; height: 160px;">
+                            <img class="card-img" src="@("~/Images/"+menuItem.imageName)" asp-append-version="true" style="width:100%; border-radius: 10px; height: 160px;">
                             <h4 class="card-title title">
-                                @Html.DisplayFor(model => item.foodName)
+                                @Html.DisplayFor(model => menuItem.foodName)
                             </h4>
                             <h6 class="card-subtitle subtitle">
-                                $@Html.DisplayFor(model => item.price)
+                                $@Html.DisplayFor(model => menuItem.price)
                             </h6>
                             <div class="cardBtns">
                                 <button type="button" class="customiseBtn" data-bs-toggle="modal" data-bs-target="#customiseModal">Customise</button>
@@ -96,46 +108,18 @@
                 <!--Repeatable orders code-->
 
                 <div class="orderItems">
-                    <div class="orderItem">
-                        <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-                        <div class="modifyBtns">
-                            <button class="orderItemBtn">-</button>
-                            <button class="orderItemBtn">+</button>
-                            <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                            <button class="orderItemBtn cancelBtn">X</button>
+                @foreach(var foodOrder in Model)
+                {
+                        <div class="orderItem">
+                            <p class="flexItem" style="margin-left: 20px;">@Html.DisplayFor(model => foodOrder.MenuID)</p> <!--Item quantity and item name-->
+                            <div class="modifyBtns">
+                                <button class="orderItemBtn">-</button>
+                                <button class="orderItemBtn">+</button>
+                                <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
+                                <button class="orderItemBtn cancelBtn">X</button>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="orderItem">
-                        <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-                        <div class="modifyBtns">
-                            <button class="orderItemBtn">-</button>
-                            <button class="orderItemBtn">+</button>
-                            <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                            <button class="orderItemBtn cancelBtn">X</button>
-                        </div>
-                    </div>
-
-                    <div class="orderItem">
-                        <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-                        <div class="modifyBtns">
-                            <button class="orderItemBtn">-</button>
-                            <button class="orderItemBtn">+</button>
-                            <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                            <button class="orderItemBtn cancelBtn">X</button>
-                        </div>
-                    </div>
-
-                    <div class="orderItem">
-                        <p class="flexItem" style="margin-left: 20px;">1x Hotdog (N/C)</p> <!--Item quantity and item name-->
-                        <div class="modifyBtns">
-                            <button class="orderItemBtn">-</button>
-                            <button class="orderItemBtn">+</button>
-                            <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                            <button class="orderItemBtn cancelBtn">X</button>
-                        </div>
-                    </div>
-
+                }
                 </div>
 
                 <p style="margin-left: 20px; font-weight: bold;">Total Price: $15.96</p>
@@ -308,12 +292,3 @@
 <!--These card divs repeating will not be apart of the final project, this is just a represenation of what it will look like-->
 <!--Card code will go in the foreach loop method below...-->
 
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MenuID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MenuID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MenuID">Delete</a>
-            </td>
-        </tr>
-}
