@@ -24,8 +24,32 @@ namespace TuckshopOrdering.Controllers
         // GET: Menus
         public async Task<IActionResult> Index()
         {
-            var tuckshopOrderingSystem = _context.Menu.Include(m => m.Category).Include(m => m.Customise).Include(m => m.FoodOrders);
-            return View(await tuckshopOrderingSystem.ToListAsync());
+            //var tuckshopOrderingSystem = _context.Menu.Include(m => m.Category).Include(m => m.Customise).Include(m => m.FoodOrders);
+            //return View(await tuckshopOrderingSystem.ToListAsync());
+
+            /*List<Category> _categories = new List<Category>();
+            List<Customise> _customises = new List<Customise>();
+            List<FoodOrder> _foodOrders = new List<FoodOrder>();
+            List<Menu> _menu = new List<Menu>();*/
+
+            var categories = await _context.Category.ToListAsync();
+            var customises = await _context.Customise.ToListAsync();
+            var foodOrders = await _context.FoodOrder.ToListAsync();
+            var menu = await _context.Menu.Include(m => m.Category)
+                                          .Include(m => m.Customise)
+                                          .Include(m => m.FoodOrders)
+                                          .ToListAsync();
+
+
+            MenuViewModel mvm = new MenuViewModel()
+            {
+                _Menu = menu,
+                _Category = categories,
+                _FoodOrder = foodOrders,
+                _Customise = customises
+            };
+
+            return View(mvm);
         }
         // GET: Menus/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -114,7 +138,7 @@ namespace TuckshopOrdering.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 try
                 {

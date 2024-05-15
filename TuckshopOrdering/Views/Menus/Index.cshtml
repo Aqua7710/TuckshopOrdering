@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TuckshopOrdering.Models.Menu>
+﻿@model MenuViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -57,7 +57,7 @@
 
             <div class="menu">
 
-                @foreach (var menuItem in Model)
+                @foreach (var menuItem in Model._Menu)
                 {
                     <div class="card cardStyle">
                           <div class="dropdown">
@@ -108,21 +108,29 @@
                 <!--Repeatable orders code-->
 
                 <div class="orderItems">
-                @foreach(var foodOrder in Model)
+                @foreach(var foodOrder in Model._FoodOrder)
                 {
                         <div class="orderItem">
-                            <p class="flexItem" style="margin-left: 20px;">@Html.DisplayFor(model => foodOrder.MenuID)</p> <!--Item quantity and item name-->
+                            <p class="flexItem" style="margin-left: 20px;">@Html.DisplayFor(model => foodOrder.quantity)x @Html.DisplayFor(model => foodOrder.Menu.foodName)</p> <!--Item quantity and item name-->
                             <div class="modifyBtns">
                                 <button class="orderItemBtn">-</button>
                                 <button class="orderItemBtn">+</button>
-                                <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                                <button class="orderItemBtn cancelBtn">X</button>
+                                @{
+                                    decimal total = @foodOrder.Menu.price * foodOrder.quantity;
+                                }
+                                <p>$@total</p>                                  <!--Item price (dependant on quantity)-->
+                                <a asp-action="Delete" asp-route-id="@foodOrder.FoodOrderID"><button class="orderItemBtn cancelBtn">X</button></a>
+                                
                             </div>
                         </div>
                 }
                 </div>
 
-                <p style="margin-left: 20px; font-weight: bold;">Total Price: $15.96</p>
+                @{
+                    decimal grandTotal = Model._FoodOrder.Sum(foodOrder => foodOrder.Menu.price * foodOrder.quantity);
+                }
+
+                <p style="margin-left: 20px; font-weight: bold;">Total Price: $@grandTotal</p>
 
                 <div class="gridBtns">
                     <button type="button" class="gridBtnsItem" data-bs-toggle="modal" data-bs-target="#checkoutModal">Checkout</button>
