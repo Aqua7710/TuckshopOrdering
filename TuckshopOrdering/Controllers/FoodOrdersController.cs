@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using TuckshopOrdering.Areas.Identity.Data;
 using TuckshopOrdering.Models;
 
+
 namespace TuckshopOrdering.Controllers
 {
     public class FoodOrdersController : Controller
@@ -67,6 +68,7 @@ namespace TuckshopOrdering.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["CustomerID"] = new SelectList(_context.Customer, "CustomerID", "CustomerID", foodOrder.CustomerID);
             ViewData["MenuID"] = new SelectList(_context.Menu, "MenuID", "MenuID", foodOrder.MenuID);
             return View(foodOrder);
@@ -171,4 +173,5 @@ namespace TuckshopOrdering.Controllers
           return (_context.FoodOrder?.Any(e => e.FoodOrderID == id)).GetValueOrDefault();
         }
     }
-}
+} 
+

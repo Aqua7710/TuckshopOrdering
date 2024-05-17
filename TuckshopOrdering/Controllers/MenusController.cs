@@ -140,6 +140,21 @@ namespace TuckshopOrdering.Controllers
 
             if (!ModelState.IsValid)
             {
+                // saves image to wwwroot/images
+                string wwwRootPath = _hostEnviroment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(menu.imageFile.FileName);
+                string extension = Path.GetExtension(menu.imageFile.FileName);
+                menu.imageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine(wwwRootPath + "/Images", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await menu.imageFile.CopyToAsync(fileStream);
+                }
+                // Insert record
+                _context.Add(menu);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+
                 try
                 {
                     _context.Update(menu);
@@ -175,6 +190,7 @@ namespace TuckshopOrdering.Controllers
                 .Include(m => m.Category)
                 .Include(m => m.Customise)
                 .FirstOrDefaultAsync(m => m.MenuID == id);
+
             if (menu == null)
             {
                 return NotFound();

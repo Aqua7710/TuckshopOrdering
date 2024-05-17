@@ -14,26 +14,55 @@
     function HotFoodCat(){
         document.getElementById("categoryHeading").innerHTML = "Hot Food";
         hotFood = true;
+        sandwich = false;
+
+        
+        
     }
 
     function SandwichCat(){
         document.getElementById("categoryHeading").innerHTML = "Sandwiches";
         sandwich = true;
+        hotFood = false;
+
+        
+       
     }
 
     function SnackCat(){
         document.getElementById("categoryHeading").innerHTML = "Snacks";
         snack = true;
+        document.getElementById("snackBtn").style.backgroundColor = "#E92F3A";
+        document.getElementById("snackBtn").style.color = "White";
+        document.getElementById("snackBtn").style.boxShadow = "rgba(0, 0, 0, 0.35) 0px 5px 15px";
     }
 
     function HotSnackCat(){
         document.getElementById("categoryHeading").innerHTML = "Hot Snacks";
         hotSnack = true;
+        document.getElementById("hotSnackBtn").style.backgroundColor = "#E92F3A";
+        document.getElementById("hotSnackBtn").style.color = "White";
+        document.getElementById("hotSnackBtn").style.boxShadow = "rgba(0, 0, 0, 0.35) 0px 5px 15px";
     }
 
     function DrinkCat(){
         document.getElementById("categoryHeading").innerHTML = "Drinks";
         drink = true;
+        document.getElementById("drinkBtn").style.backgroundColor = "#E92F3A";
+        document.getElementById("drinkBtn").style.color = "White";
+        document.getElementById("drinkBtn").style.boxShadow = "rgba(0, 0, 0, 0.35) 0px 5px 15px";
+    }
+
+    if (hotFood) {
+        document.getElementById("hotFoodBtn").style.backgroundColor = "#E92F3A";
+        document.getElementById("hotFoodBtn").style.color = "White";
+        document.getElementById("hotFoodBtn").style.boxShadow = "rgba(0, 0, 0, 0.35) 0px 5px 15px";
+    }
+
+    if (sandwich) {
+        document.getElementById("sandwichBtn").style.backgroundColor = "#E92F3A";
+        document.getElementById("sandwichBtn").style.color = "White";
+        document.getElementById("sandwichBtn").style.boxShadow = "rgba(0, 0, 0, 0.35) 0px 5px 15px";
     }
 </script>
 
@@ -45,11 +74,11 @@
             </div>
             <div class="container sticky">
                 <div class="categoriesRow">
-                    <button class="menuBtns" onclick="HotFoodCat()">Hot Food</button>
-                    <button class="menuBtns" onclick="SandwichCat()">Sandwiches</button>
-                    <button class="menuBtns" onclick="SnackCat()">Snacks</button>
-                    <button class="menuBtns" onclick="HotSnackCat()">Hot Snacks</button>
-                    <button class="menuBtns" onclick="DrinkCat()">Drinks</button>
+                    <button class="menuBtns" id="hotFoodBtn" onclick="HotFoodCat()">Hot Food</button>
+                    <button class="menuBtns" id="sandwichBtn" onclick="SandwichCat()">Sandwiches</button>
+                    <button class="menuBtns" id="snackBtn" onclick="SnackCat()">Snacks</button>
+                    <button class="menuBtns" id="hotSnackBtn" onclick="HotSnackCat()">Hot Snacks</button>
+                    <button class="menuBtns" id="drinkBtn" onclick="DrinkCat()">Drinks</button>
                 </div>
             </div>
 
@@ -70,6 +99,7 @@
                                 <li><a asp-action="Delete" asp-route-id="@menuItem.MenuID" class="dropdown-item">Delete</a></li>
                             </ul>    
                           </div>
+                        <form asp-action="AddToCart" method="post">
                         <div class="card-body">
                             <img class="card-img" src="@("~/Images/"+menuItem.imageName)" asp-append-version="true" style="width:100%; border-radius: 10px; height: 160px;">
                             <h4 class="card-title title">
@@ -80,9 +110,10 @@
                             </h6>
                             <div class="cardBtns">
                                 <button type="button" class="customiseBtn" data-bs-toggle="modal" data-bs-target="#customiseModal">Customise</button>
-                                <button class="addBtn">Add</button>
+                                <a asp-action="AddToOrder" asp-route-id="@menuItem.MenuID"><button class="addBtn">Add</button></a>
                             </div>
                         </div>
+                        </form>
                     </div>
                 }
             </div>
@@ -119,15 +150,15 @@
                                     decimal total = @foodOrder.Menu.price * foodOrder.quantity;
                                 }
                                 <p>$@total</p>                                  <!--Item price (dependant on quantity)-->
-                                <a asp-action="Delete" asp-route-id="@foodOrder.FoodOrderID"><button class="orderItemBtn cancelBtn">X</button></a>
+                                <a asp-action="Delete" asp-route-id="@Model._FoodOrder"><button class="orderItemBtn cancelBtn">X</button></a>
                                 
                             </div>
                         </div>
-                }
+                    }
                 </div>
 
                 @{
-                    decimal grandTotal = Model._FoodOrder.Sum(foodOrder => foodOrder.Menu.price * foodOrder.quantity);
+                    decimal grandTotal = Model._FoodOrder.Sum(foodOrder => foodOrder.Menu.price * foodOrder.quantity);  
                 }
 
                 <p style="margin-left: 20px; font-weight: bold;">Total Price: $@grandTotal</p>
@@ -193,47 +224,26 @@
                 </div>
 
                 <div class="orderItems">
-                    <div class="orderItem">
-                        <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-                        <div class="modifyBtns">
-                            <button class="orderItemBtn">-</button>
-                            <button class="orderItemBtn">+</button>
-                            <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                            <button class="orderItemBtn cancelBtn">X</button>
-                        </div>
-                    </div>
+                    @foreach (var foodOrder in Model._FoodOrder)
+                    {
+                        <div class="orderItem">
+                            <p class="flexItem" style="margin-left: 20px;">@Html.DisplayFor(model => foodOrder.quantity)x @Html.DisplayFor(model => foodOrder.Menu.foodName)</p> <!--Item quantity and item name-->
+                            <div class="modifyBtns">
+                                <button class="orderItemBtn">-</button>
+                                <button class="orderItemBtn">+</button>
+                                @{
+                                    decimal total = @foodOrder.Menu.price * foodOrder.quantity;
+                                }
+                                <p>$@total</p>                                  <!--Item price (dependant on quantity)-->
+                                <a asp-action="Delete" asp-route-id="@foodOrder.FoodOrderID"><button class="orderItemBtn cancelBtn">X</button></a>
 
-                    <div class="orderItem">
-                        <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-                        <div class="modifyBtns">
-                            <button class="orderItemBtn">-</button>
-                            <button class="orderItemBtn">+</button>
-                            <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                            <button class="orderItemBtn cancelBtn">X</button>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="orderItem">
-                        <p class="flexItem" style="margin-left: 20px;">1x Burger</p> <!--Item quantity and item name-->
-                        <div class="modifyBtns">
-                            <button class="orderItemBtn">-</button>
-                            <button class="orderItemBtn">+</button>
-                            <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                            <button class="orderItemBtn cancelBtn">X</button>
-                        </div>
-                    </div>
-
-                    <div class="orderItem">
-                        <p class="flexItem" style="margin-left: 20px;">1x Hotdog (N/C)</p> <!--Item quantity and item name-->
-                        <div class="modifyBtns">
-                            <button class="orderItemBtn">-</button>
-                            <button class="orderItemBtn">+</button>
-                            <p>$3.99</p>                                  <!--Item price (dependant on quantity)-->
-                            <button class="orderItemBtn cancelBtn">X</button>
-                        </div>
-                    </div>
-
+                    }
                 </div>
+
+                <p style="margin-left: 20px; font-weight: bold;">Total Price: $@grandTotal</p>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
