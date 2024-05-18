@@ -226,5 +226,89 @@ namespace TuckshopOrdering.Controllers
         {
           return (_context.Menu?.Any(e => e.MenuID == id)).GetValueOrDefault();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddToOrder(int menuItemID)
+        {
+            var menuItem = await _context.Menu.FindAsync(menuItemID);
+
+            if(menuItem == null)
+            {
+                return NotFound();
+            }
+
+            var existingOrder = await _context.FoodOrder.FirstOrDefaultAsync(o => o.MenuID == menuItemID);
+
+            if(existingOrder != null)
+            {
+                existingOrder.quantity += 1; // item already exists, so increase quantity
+            }
+            else
+            {
+                var foodOrder = new FoodOrder
+                {
+                    MenuID = menuItemID,
+                    quantity = 1,
+                    CustomerID = 1
+                };
+
+                _context.FoodOrder.Add(foodOrder);
+            }
+     
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DecreaseQuantity(int foodOrderID)
+        {
+            var foodOrder = await _context.FoodOrder.FindAsync(foodOrderID);
+            if(foodOrder != null && foodOrder.quantity > 1)
+            {
+                foodOrder.quantity -= 1;
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> IncreaseQuantity(int foodOrderID)
+        {
+            var foodOrder = await _context.FoodOrder.FindAsync(foodOrderID);
+            if (foodOrder != null)
+            {
+                foodOrder.quantity += 1;
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteItem(int foodOrderID)
+        {
+            var foodOrder = await _context.FoodOrder.FindAsync(foodOrderID);
+            if (foodOrder != null)
+            {
+                _context.FoodOrder.Remove(foodOrder);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAllItems()
+        {
+            var foodOrder = _context.FoodOrder;
+                
+            _context.FoodOrder.RemoveRange(foodOrder);
+                await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
     }
+
 }

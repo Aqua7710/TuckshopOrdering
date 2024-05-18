@@ -99,7 +99,7 @@
                                 <li><a asp-action="Delete" asp-route-id="@menuItem.MenuID" class="dropdown-item">Delete</a></li>
                             </ul>    
                           </div>
-                        <form asp-action="AddToCart" method="post">
+                        <form asp-action="AddToOrder" method="post">
                         <div class="card-body">
                             <img class="card-img" src="@("~/Images/"+menuItem.imageName)" asp-append-version="true" style="width:100%; border-radius: 10px; height: 160px;">
                             <h4 class="card-title title">
@@ -110,7 +110,8 @@
                             </h6>
                             <div class="cardBtns">
                                 <button type="button" class="customiseBtn" data-bs-toggle="modal" data-bs-target="#customiseModal">Customise</button>
-                                <a asp-action="AddToOrder" asp-route-id="@menuItem.MenuID"><button class="addBtn">Add</button></a>
+                                    <input type="hidden" name="menuItemID" value="@menuItem.MenuID" /> 
+                                    <button type="submit" class="addBtn">Add</button>
                             </div>
                         </div>
                         </form>
@@ -144,13 +145,24 @@
                         <div class="orderItem">
                             <p class="flexItem" style="margin-left: 20px;">@Html.DisplayFor(model => foodOrder.quantity)x @Html.DisplayFor(model => foodOrder.Menu.foodName)</p> <!--Item quantity and item name-->
                             <div class="modifyBtns">
-                                <button class="orderItemBtn">-</button>
-                                <button class="orderItemBtn">+</button>
+                                <form asp-action="DecreaseQuantity" method="post">
+                                    <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
+                                    <button type="submit" class="orderItemBtn">-</button>
+                                </form>
+                                <form asp-action="IncreaseQuantity" method="post">
+                                    <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
+                                    <button type="submit" class="orderItemBtn">+</button>
+                                </form>
+                                
                                 @{
                                     decimal total = @foodOrder.Menu.price * foodOrder.quantity;
                                 }
                                 <p>$@total</p>                                  <!--Item price (dependant on quantity)-->
-                                <a asp-action="Delete" asp-route-id="@Model._FoodOrder"><button class="orderItemBtn cancelBtn">X</button></a>
+                                <form asp-action="DeleteItem" method="post">
+                                    <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
+                                    <button type="submit" class="orderItemBtn cancelBtn">X</button>
+                                </form>
+                                
                                 
                             </div>
                         </div>
@@ -229,13 +241,24 @@
                         <div class="orderItem">
                             <p class="flexItem" style="margin-left: 20px;">@Html.DisplayFor(model => foodOrder.quantity)x @Html.DisplayFor(model => foodOrder.Menu.foodName)</p> <!--Item quantity and item name-->
                             <div class="modifyBtns">
-                                <button class="orderItemBtn">-</button>
-                                <button class="orderItemBtn">+</button>
+                                <form asp-action="DecreaseQuantity" method="post">
+                                    <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
+                                    <button type="submit" class="orderItemBtn">-</button>
+                                </form>
+                                <form asp-action="IncreaseQuantity" method="post">
+                                    <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
+                                    <button type="submit" class="orderItemBtn">+</button>
+                                </form>
+
                                 @{
                                     decimal total = @foodOrder.Menu.price * foodOrder.quantity;
                                 }
                                 <p>$@total</p>                                  <!--Item price (dependant on quantity)-->
-                                <a asp-action="Delete" asp-route-id="@foodOrder.FoodOrderID"><button class="orderItemBtn cancelBtn">X</button></a>
+                                <form asp-action="DeleteItem" method="post">
+                                    <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
+                                    <button type="submit" class="orderItemBtn cancelBtn">X</button>
+                                </form>
+
 
                             </div>
                         </div>
@@ -277,17 +300,6 @@
 
 <!--Delete-->
 
-<div class="deleteContainer">
-    <button class="exitBtn" onclick="ExitDelete()">X</button>
-    <h1 style="margin-top: 15px; margin-bottom: 0;">Delete Order?</h1>
-    <div class="line">
-        <hr class="solid">
-    </div>
-    <p style="font-weight: bold; margin-bottom: 0;">WARNING! This will permanently delete the order</p>
-    <button class="addBtn popUps deleteBtn">Delete</button>
-</div>
-
-
 
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -297,11 +309,32 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+
+                <div class="orderItems">
+                    @foreach (var foodOrder in Model._FoodOrder)
+                    {
+                        <div class="orderItem">
+                            <p class="flexItem" style="margin-left: 20px;">@Html.DisplayFor(model => foodOrder.quantity)x @Html.DisplayFor(model => foodOrder.Menu.foodName)</p> <!--Item quantity and item name-->
+                            <div class="modifyBtns">
+                                @{
+                                    decimal total = @foodOrder.Menu.price * foodOrder.quantity;
+                                }
+                                <p>$@total</p>                                  <!--Item price (dependant on quantity)-->
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <p style="margin-left: 20px; font-weight: bold;">Total Price: $@grandTotal</p>
+
                 <p style="font-weight: bold; margin-bottom: 0;">WARNING! This will permanently delete the order</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary deleteBtn">Delete</button>
+                <form asp-action="DeleteAllItems" method="post">
+                    <button type="submit" class="btn btn-primary deleteBtn">Delete</button>
+                </form>
+                
             </div>
         </div>
     </div>
