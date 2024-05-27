@@ -172,6 +172,29 @@ namespace TuckshopOrdering.Controllers
         {
           return (_context.FoodOrder?.Any(e => e.FoodOrderID == id)).GetValueOrDefault();
         }
+
+        /*[HttpPost]
+        public async Task<IActionResult> Checkout(int foodOrderID)
+        {
+            var foodOrder = await _context.Menu.FindAsync(foodOrderID);
+
+            if (foodOrder == null)
+            {
+                return NotFound();
+            }
+
+            var order = new Order
+            {
+                FoodOrderID = foodOrderID,
+                OrderDateTime = DateTime.Now
+            };
+
+            _context.Order.Add(order);
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }*/
     }
 } 
 

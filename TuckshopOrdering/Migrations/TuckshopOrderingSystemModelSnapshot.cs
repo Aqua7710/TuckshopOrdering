@@ -242,7 +242,7 @@ namespace TuckshopOrdering.Migrations
 
                     b.HasKey("CategoryID");
 
-                    b.ToTable("Category");
+                    b.ToTable("Category", (string)null);
                 });
 
             modelBuilder.Entity("TuckshopOrdering.Models.Customer", b =>
@@ -266,7 +266,7 @@ namespace TuckshopOrdering.Migrations
 
                     b.HasKey("CustomerID");
 
-                    b.ToTable("Customer");
+                    b.ToTable("Customer", (string)null);
                 });
 
             modelBuilder.Entity("TuckshopOrdering.Models.Customise", b =>
@@ -283,7 +283,7 @@ namespace TuckshopOrdering.Migrations
 
                     b.HasKey("CustomiseID");
 
-                    b.ToTable("Customise");
+                    b.ToTable("Customise", (string)null);
                 });
 
             modelBuilder.Entity("TuckshopOrdering.Models.FoodOrder", b =>
@@ -310,7 +310,7 @@ namespace TuckshopOrdering.Migrations
 
                     b.HasIndex("MenuID");
 
-                    b.ToTable("FoodOrder");
+                    b.ToTable("FoodOrder", (string)null);
                 });
 
             modelBuilder.Entity("TuckshopOrdering.Models.Menu", b =>
@@ -344,7 +344,7 @@ namespace TuckshopOrdering.Migrations
 
                     b.HasIndex("CustomiseID");
 
-                    b.ToTable("Menu");
+                    b.ToTable("Menu", (string)null);
                 });
 
             modelBuilder.Entity("TuckshopOrdering.Models.Order", b =>
@@ -357,7 +357,7 @@ namespace TuckshopOrdering.Migrations
 
                     b.HasKey("OrderID");
 
-                    b.ToTable("Order");
+                    b.ToTable("Order", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

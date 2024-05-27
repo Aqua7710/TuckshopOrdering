@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.SqlTypes;
 
@@ -8,6 +9,7 @@ namespace TuckshopOrdering.Models
     {
         public int MenuID {  get; set; }
         [DisplayName("Food Item")]
+        [StringLength(50)]
         public string foodName { get; set; }
         [DisplayName("Price")]
         public decimal price { get; set; }

@@ -4,66 +4,15 @@
     ViewData["Title"] = "Index";
 }
 
+<script src="~/Scripts/jquery-3.7.1.min.js"></script>
+
 <script>
-    let hotFood = true;
-    let sandwich = false;
-    let snack = false;
-    let hotSnack = false;
-    let drink = false;
-
-    function HotFoodCat(){
-        document.getElementById("categoryHeading").innerHTML = "Hot Food";
-        hotFood = true;
-        sandwich = false;
-
-        
-        
-    }
-
-    function SandwichCat(){
-        document.getElementById("categoryHeading").innerHTML = "Sandwiches";
-        sandwich = true;
-        hotFood = false;
-
-        
-       
-    }
-
-    function SnackCat(){
-        document.getElementById("categoryHeading").innerHTML = "Snacks";
-        snack = true;
-        document.getElementById("snackBtn").style.backgroundColor = "#E92F3A";
-        document.getElementById("snackBtn").style.color = "White";
-        document.getElementById("snackBtn").style.boxShadow = "rgba(0, 0, 0, 0.35) 0px 5px 15px";
-    }
-
-    function HotSnackCat(){
-        document.getElementById("categoryHeading").innerHTML = "Hot Snacks";
-        hotSnack = true;
-        document.getElementById("hotSnackBtn").style.backgroundColor = "#E92F3A";
-        document.getElementById("hotSnackBtn").style.color = "White";
-        document.getElementById("hotSnackBtn").style.boxShadow = "rgba(0, 0, 0, 0.35) 0px 5px 15px";
-    }
-
-    function DrinkCat(){
-        document.getElementById("categoryHeading").innerHTML = "Drinks";
-        drink = true;
-        document.getElementById("drinkBtn").style.backgroundColor = "#E92F3A";
-        document.getElementById("drinkBtn").style.color = "White";
-        document.getElementById("drinkBtn").style.boxShadow = "rgba(0, 0, 0, 0.35) 0px 5px 15px";
-    }
-
-    if (hotFood) {
-        document.getElementById("hotFoodBtn").style.backgroundColor = "#E92F3A";
-        document.getElementById("hotFoodBtn").style.color = "White";
-        document.getElementById("hotFoodBtn").style.boxShadow = "rgba(0, 0, 0, 0.35) 0px 5px 15px";
-    }
-
-    if (sandwich) {
-        document.getElementById("sandwichBtn").style.backgroundColor = "#E92F3A";
-        document.getElementById("sandwichBtn").style.color = "White";
-        document.getElementById("sandwichBtn").style.boxShadow = "rgba(0, 0, 0, 0.35) 0px 5px 15px";
-    }
+    $(document).ready(function () {
+        $(".menuBtns").click(function () {
+            var categoryName = $(this).data("category-name");
+            $("#categoryHeading").text(categoryName);
+        });
+    });
 </script>
 
 <div class="container">
@@ -73,16 +22,17 @@
                 <p>Your order ^</p>
             </div>
             <div class="container sticky">
-                <div class="categoriesRow">
-                    <button class="menuBtns" id="hotFoodBtn" onclick="HotFoodCat()">Hot Food</button>
-                    <button class="menuBtns" id="sandwichBtn" onclick="SandwichCat()">Sandwiches</button>
-                    <button class="menuBtns" id="snackBtn" onclick="SnackCat()">Snacks</button>
-                    <button class="menuBtns" id="hotSnackBtn" onclick="HotSnackCat()">Hot Snacks</button>
-                    <button class="menuBtns" id="drinkBtn" onclick="DrinkCat()">Drinks</button>
+                <form asp-action="FilterByCategory" method="get">
+                    <div class="categoriesRow">
+                        @foreach(var category in Model._Category)
+                        {
+                            <button type="submit" name="categoryId" value="@category.CategoryID" data-category-id="@category.CategoryID" data-category-name="@category.CategoryName" class="menuBtns">@Html.DisplayFor(model => category.CategoryName)</button>
+                        }
                 </div>
+                </form>
             </div>
 
-            <h1 class="heading" id="categoryHeading">Hot Food</h1>
+            <h1 class="heading" id="categoryHeading"></h1>
 
             <div class="menu">
 
@@ -91,7 +41,7 @@
                     <div class="card cardStyle">
                           <div class="dropdown">
                              <a class="btn btn-secondary dropdown-toggle editBtn" href="#" role="button" id="editDropDown" data-bs-toggle="dropdown" aria-expanded="false" style="z-index: 5;">
-                                 Edit
+                                 Modify
                              </a>
                                 <ul class="dropdown-menu" aria-labelledby="editDropDown">
                                     <li><a asp-action="Edit" asp-route-id="@menuItem.MenuID" class="dropdown-item">Edit</a></li>
@@ -99,7 +49,7 @@
                                 <li><a asp-action="Delete" asp-route-id="@menuItem.MenuID" class="dropdown-item">Delete</a></li>
                             </ul>    
                           </div>
-                        <form asp-action="AddToOrder" method="post">
+                        <form asp-action="AddToOrder" method="post"> <!--Calls the AddToOrder function in the menus controller-->
                         <div class="card-body">
                             <img class="card-img" src="@("~/Images/"+menuItem.imageName)" asp-append-version="true" style="width:100%; border-radius: 10px; height: 160px;">
                             <h4 class="card-title title">
@@ -123,16 +73,10 @@
         <div class="col-4">
             <div class="ordersBox">
                 <h1 style="text-align: center; padding: 10px;">Order:</h1>
-                <form>
                     <div class="formLine">
                         <label>Student Name:</label> <!--Customer name from customers db-->
-                        <input type="text" />
+                        <input id="searchInput" />
                     </div>
-                    <div class="formLine">
-                        <label>Room Number:</label> <!--Customers room from customers db-->
-                        <input type="text" />
-                    </div>
-                </form>
                 <div class="line">
                     <hr class="solid">
                 </div>
@@ -199,18 +143,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="formCustomise">
-                    <input type="checkbox" class="form-check-input" id="TomatoSauce" />
-                    <label for="TomatoSauce" class="form-check-label">Tomato Sauce</label><br />
-                    <input type="checkbox" class="form-check-input" id="TomatoSauce" />
-                    <label for="TomatoSauce" class="form-check-label">Tomato Sauce</label><br />
-                    <input type="checkbox" class="form-check-input" id="TomatoSauce" />
-                    <label for="TomatoSauce" class="form-check-label">Tomato Sauce</label><br />
-                    <input type="checkbox" class="form-check-input" id="TomatoSauce" />
-                    <label for="TomatoSauce" class="form-check-label">Tomato Sauce</label><br />
-                    <input type="checkbox" class="form-check-input" id="TomatoSauce" />
-                    <label for="TomatoSauce" class="form-check-label">Tomato Sauce</label><br />
-                </form>
+                @foreach(var customise in Model._Menu)
+                {
+                    <form class="formCustomise">
+                        <input type="checkbox" class="form-check-input" id="TomatoSauce" />
+                        <label for="TomatoSauce" class="form-check-label">@Html.DisplayFor(model => customise.Customise.CustomiseName)</label><br />
+                    </form>
+                }
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -253,7 +193,7 @@
                                 @{
                                     decimal total = @foodOrder.Menu.price * foodOrder.quantity;
                                 }
-                                <p>$@total</p>                                  <!--Item price (dependant on quantity)-->
+                                <p>$@total</p>                                  
                                 <form asp-action="DeleteItem" method="post">
                                     <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
                                     <button type="submit" class="orderItemBtn cancelBtn">X</button>
@@ -275,6 +215,7 @@
         </div>
     </div>
 </div>
+
 
 <!--Notes-->
 
@@ -298,8 +239,8 @@
     </div>
 </div>
 
-<!--Delete-->
 
+<!--Delete-->
 
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -340,6 +281,4 @@
     </div>
 </div>
 
-<!--These card divs repeating will not be apart of the final project, this is just a represenation of what it will look like-->
-<!--Card code will go in the foreach loop method below...-->
 
