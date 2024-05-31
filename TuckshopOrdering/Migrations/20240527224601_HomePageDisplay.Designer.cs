@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TuckshopOrdering.Areas.Identity.Data;
 
@@ -11,9 +12,11 @@ using TuckshopOrdering.Areas.Identity.Data;
 namespace TuckshopOrdering.Migrations
 {
     [DbContext(typeof(TuckshopOrderingSystem))]
-    partial class TuckshopOrderingSystemModelSnapshot : ModelSnapshot
+    [Migration("20240527224601_HomePageDisplay")]
+    partial class HomePageDisplay
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -251,6 +254,32 @@ namespace TuckshopOrdering.Migrations
                     b.ToTable("Category");
                 });
 
+            modelBuilder.Entity("TuckshopOrdering.Models.Customer", b =>
+                {
+                    b.Property<int>("CustomerID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerID"));
+
+                    b.Property<string>("firstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("lastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("roomNumber")
+                        .HasColumnType("int");
+
+                    b.HasKey("CustomerID");
+
+                    b.ToTable("Customer");
+                });
+
             modelBuilder.Entity("TuckshopOrdering.Models.Customise", b =>
                 {
                     b.Property<int>("CustomiseID")
@@ -276,20 +305,19 @@ namespace TuckshopOrdering.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FoodOrderID"));
 
+                    b.Property<int>("CustomerID")
+                        .HasColumnType("int");
+
                     b.Property<int>("MenuID")
                         .HasColumnType("int");
 
                     b.Property<int>("quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("roomNumber")
-                        .HasColumnType("int");
-
-                    b.Property<string>("studentName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("FoodOrderID");
+
+                    b.HasIndex("CustomerID")
+                        .IsUnique();
 
                     b.HasIndex("MenuID");
 
@@ -400,11 +428,19 @@ namespace TuckshopOrdering.Migrations
 
             modelBuilder.Entity("TuckshopOrdering.Models.FoodOrder", b =>
                 {
+                    b.HasOne("TuckshopOrdering.Models.Customer", "Customer")
+                        .WithOne("FoodOrder")
+                        .HasForeignKey("TuckshopOrdering.Models.FoodOrder", "CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TuckshopOrdering.Models.Menu", "Menu")
                         .WithMany("FoodOrders")
                         .HasForeignKey("MenuID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Customer");
 
                     b.Navigation("Menu");
                 });
@@ -431,6 +467,12 @@ namespace TuckshopOrdering.Migrations
             modelBuilder.Entity("TuckshopOrdering.Models.Category", b =>
                 {
                     b.Navigation("Menus");
+                });
+
+            modelBuilder.Entity("TuckshopOrdering.Models.Customer", b =>
+                {
+                    b.Navigation("FoodOrder")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TuckshopOrdering.Models.Customise", b =>

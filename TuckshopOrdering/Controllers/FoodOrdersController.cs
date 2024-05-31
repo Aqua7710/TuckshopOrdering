@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using TuckshopOrdering.Areas.Identity.Data;
 using TuckshopOrdering.Models;
 
-
 namespace TuckshopOrdering.Controllers
 {
     public class FoodOrdersController : Controller
@@ -23,7 +22,7 @@ namespace TuckshopOrdering.Controllers
         // GET: FoodOrders
         public async Task<IActionResult> Index()
         {
-            var tuckshopOrderingSystem = _context.FoodOrder.Include(f => f.Customer).Include(f => f.Menu);
+            var tuckshopOrderingSystem = _context.FoodOrder.Include(f => f.Menu);
             return View(await tuckshopOrderingSystem.ToListAsync());
         }
 
@@ -36,7 +35,6 @@ namespace TuckshopOrdering.Controllers
             }
 
             var foodOrder = await _context.FoodOrder
-                .Include(f => f.Customer)
                 .Include(f => f.Menu)
                 .FirstOrDefaultAsync(m => m.FoodOrderID == id);
             if (foodOrder == null)
@@ -50,7 +48,6 @@ namespace TuckshopOrdering.Controllers
         // GET: FoodOrders/Create
         public IActionResult Create()
         {
-            ViewData["CustomerID"] = new SelectList(_context.Customer, "CustomerID", "CustomerID");
             ViewData["MenuID"] = new SelectList(_context.Menu, "MenuID", "MenuID");
             return View();
         }
@@ -60,16 +57,14 @@ namespace TuckshopOrdering.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FoodOrderID,MenuID,quantity,CustomerID")] FoodOrder foodOrder)
+        public async Task<IActionResult> Create([Bind("FoodOrderID,MenuID,quantity,studentName,roomNumber")] FoodOrder foodOrder)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 _context.Add(foodOrder);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            ViewData["CustomerID"] = new SelectList(_context.Customer, "CustomerID", "CustomerID", foodOrder.CustomerID);
             ViewData["MenuID"] = new SelectList(_context.Menu, "MenuID", "MenuID", foodOrder.MenuID);
             return View(foodOrder);
         }
@@ -87,7 +82,6 @@ namespace TuckshopOrdering.Controllers
             {
                 return NotFound();
             }
-            ViewData["CustomerID"] = new SelectList(_context.Customer, "CustomerID", "CustomerID", foodOrder.CustomerID);
             ViewData["MenuID"] = new SelectList(_context.Menu, "MenuID", "MenuID", foodOrder.MenuID);
             return View(foodOrder);
         }
@@ -97,7 +91,7 @@ namespace TuckshopOrdering.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FoodOrderID,MenuID,quantity,CustomerID")] FoodOrder foodOrder)
+        public async Task<IActionResult> Edit(int id, [Bind("FoodOrderID,MenuID,quantity,studentName,roomNumber")] FoodOrder foodOrder)
         {
             if (id != foodOrder.FoodOrderID)
             {
@@ -124,7 +118,6 @@ namespace TuckshopOrdering.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CustomerID"] = new SelectList(_context.Customer, "CustomerID", "CustomerID", foodOrder.CustomerID);
             ViewData["MenuID"] = new SelectList(_context.Menu, "MenuID", "MenuID", foodOrder.MenuID);
             return View(foodOrder);
         }
@@ -138,7 +131,6 @@ namespace TuckshopOrdering.Controllers
             }
 
             var foodOrder = await _context.FoodOrder
-                .Include(f => f.Customer)
                 .Include(f => f.Menu)
                 .FirstOrDefaultAsync(m => m.FoodOrderID == id);
             if (foodOrder == null)
@@ -172,29 +164,5 @@ namespace TuckshopOrdering.Controllers
         {
           return (_context.FoodOrder?.Any(e => e.FoodOrderID == id)).GetValueOrDefault();
         }
-
-        /*[HttpPost]
-        public async Task<IActionResult> Checkout(int foodOrderID)
-        {
-            var foodOrder = await _context.Menu.FindAsync(foodOrderID);
-
-            if (foodOrder == null)
-            {
-                return NotFound();
-            }
-
-            var order = new Order
-            {
-                FoodOrderID = foodOrderID,
-                OrderDateTime = DateTime.Now
-            };
-
-            _context.Order.Add(order);
-
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("Index");
-        }*/
     }
-} 
-
+}

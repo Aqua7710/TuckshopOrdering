@@ -4,25 +4,11 @@
     ViewData["Title"] = "Index";
 }
 
-<script src="~/Scripts/jquery-3.7.1.min.js"></script>
-
-<script>
-    $(document).ready(function () {
-        $(".menuBtns").click(function () {
-            var categoryName = $(this).data("category-name");
-            $("#categoryHeading").text(categoryName);
-        });
-    });
-</script>
-
 <div class="container">
     <div class="row">
         <div class="col-8">
-            <div class="orderRectangle">
-                <p>Your order ^</p>
-            </div>
             <div class="container sticky">
-                <form asp-action="FilterByCategory" method="get">
+                <form asp-controller="Menus" asp-action="Index" method="post">
                     <div class="categoriesRow">
                         @foreach(var category in Model._Category)
                         {
@@ -56,7 +42,7 @@
                                 @Html.DisplayFor(model => menuItem.foodName)
                             </h4>
                             <h6 class="card-subtitle subtitle">
-                                $@Html.DisplayFor(model => menuItem.price)
+                                @Html.DisplayFor(model => menuItem.price)
                             </h6>
                             <div class="cardBtns">
                                 <button type="button" class="customiseBtn" data-bs-toggle="modal" data-bs-target="#customiseModal">Customise</button>
@@ -74,8 +60,10 @@
             <div class="ordersBox">
                 <h1 style="text-align: center; padding: 10px;">Order:</h1>
                     <div class="formLine">
-                        <label>Student Name:</label> <!--Customer name from customers db-->
-                        <input id="searchInput" />
+                    <form asp-controller="Menus" asp-action="AddToOrder" method="post">
+                        <label for="studentName">Student Name:</label>
+                        <input type="text" id="studentName" name="studentName" required />
+                    </form>
                     </div>
                 <div class="line">
                     <hr class="solid">
@@ -101,7 +89,7 @@
                                 @{
                                     decimal total = @foodOrder.Menu.price * foodOrder.quantity;
                                 }
-                                <p>$@total</p>                                  <!--Item price (dependant on quantity)-->
+                                <p>@total</p>                                  <!--Item price (dependant on quantity)-->
                                 <form asp-action="DeleteItem" method="post">
                                     <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
                                     <button type="submit" class="orderItemBtn cancelBtn">X</button>
@@ -280,5 +268,6 @@
         </div>
     </div>
 </div>
+
 
 

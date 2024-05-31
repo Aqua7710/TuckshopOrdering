@@ -16,10 +16,13 @@
                 @Html.DisplayNameFor(model => model.quantity)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Menu)
+                @Html.DisplayNameFor(model => model.studentName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Customer)
+                @Html.DisplayNameFor(model => model.roomNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Menu)
             </th>
             <th></th>
         </tr>
@@ -31,10 +34,13 @@
                 @Html.DisplayFor(modelItem => item.quantity)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Menu.MenuID)
+                @Html.DisplayFor(modelItem => item.studentName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Customer.CustomerID)
+                @Html.DisplayFor(modelItem => item.roomNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Menu.MenuID)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.FoodOrderID">Edit</a> |

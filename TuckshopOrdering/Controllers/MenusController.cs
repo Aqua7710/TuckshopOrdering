@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using TuckshopOrdering.Areas.Identity.Data;
 using TuckshopOrdering.Migrations;
 using TuckshopOrdering.Models;
@@ -24,7 +25,7 @@ namespace TuckshopOrdering.Controllers
         }
 
         // GET: Menus
-        public async Task<IActionResult> Index(int categoryID)
+        public async Task<IActionResult> Index(int categoryId)
         {
             //var tuckshopOrderingSystem = _context.Menu.Include(m => m.Category).Include(m => m.Customise).Include(m => m.FoodOrders);
             //return View(await tuckshopOrderingSystem.ToListAsync());
@@ -34,6 +35,8 @@ namespace TuckshopOrdering.Controllers
             List<FoodOrder> _foodOrders = new List<FoodOrder>();
             List<Menu> _menu = new List<Menu>();*/
 
+           
+
             var categories = await _context.Category.ToListAsync();
             var customises = await _context.Customise.ToListAsync();
             var foodOrders = await _context.FoodOrder.ToListAsync();
@@ -42,6 +45,18 @@ namespace TuckshopOrdering.Controllers
                                           .Include(m => m.FoodOrders)
                                           .ToListAsync();
 
+            if(categoryId != null)
+            {
+                menu = await _context.Menu.Include(m => m.Category).Where(o => o.CategoryID == categoryId)
+                                          .Include(m => m.Customise)
+                                          .Include(m => m.FoodOrders)
+                                          .ToListAsync();
+            }
+            
+            if(categoryId == null)
+            {
+                categoryId = 1;
+            }
 
             MenuViewModel mvm = new MenuViewModel()
             {
@@ -51,20 +66,7 @@ namespace TuckshopOrdering.Controllers
                 _Customise = customises
             };
 
-
             return View(mvm);
-        }
-
-        public async Task<IActionResult> FilterByCategory(int categoryID)
-        {
-            var model = new MenuViewModel
-            {
-                _Category = await _context.Category.ToListAsync(),
-                _Menu = await _context.Menu.Where(m => m.CategoryID == categoryID).ToListAsync(),
-                _FoodOrder = await _context.FoodOrder.ToListAsync()
-            };
-            return View("Index", model);
-            
         }
 
         // GET: Menus/Details/5
@@ -243,21 +245,19 @@ namespace TuckshopOrdering.Controllers
           return (_context.Menu?.Any(e => e.MenuID == id)).GetValueOrDefault();
         }
 
-
-
         [HttpPost]
-        public async Task<IActionResult> AddToOrder(int menuItemID) // passing MenuID through the parameter
+        public async Task<IActionResult> AddToOrder(int menuItemID, string studentName)
         {
             var menuItem = await _context.Menu.FindAsync(menuItemID);
 
-            if(menuItem == null)
+            if (menuItem == null)
             {
                 return NotFound();
             }
 
             var existingOrder = await _context.FoodOrder.FirstOrDefaultAsync(o => o.MenuID == menuItemID);
 
-            if(existingOrder != null)
+            if (existingOrder != null)
             {
                 existingOrder.quantity += 1; // item already exists, so increase quantity
             }
@@ -267,16 +267,15 @@ namespace TuckshopOrdering.Controllers
                 {
                     MenuID = menuItemID,
                     quantity = 1,
-                    CustomerID = 1
+                    studentName = "Will"
                 };
 
-                
                 _context.FoodOrder.Add(foodOrder);
             }
-     
+
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index"); // redirects user back to the menu index view
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
