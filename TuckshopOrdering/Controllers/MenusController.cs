@@ -233,7 +233,7 @@ namespace TuckshopOrdering.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddToOrder(int menuItemID, int currentCategoryID)
+        public async Task<IActionResult> AddToOrder(int menuItemID)
         {
             var menuItem = await _context.Menu.FindAsync(menuItemID);
 
@@ -305,6 +305,8 @@ namespace TuckshopOrdering.Controllers
                 foodOrder.quantity += 1;
                 await _context.SaveChangesAsync();
             }
+
+            // filter page
 
             int categoryID = TempData.ContainsKey("CurrentCategoryID") ? (int)TempData["CurrentCategoryID"] : 0;
 
