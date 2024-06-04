@@ -27,15 +27,7 @@ namespace TuckshopOrdering.Controllers
         // GET: Menus
         public async Task<IActionResult> Index(int categoryId)
         {
-            //var tuckshopOrderingSystem = _context.Menu.Include(m => m.Category).Include(m => m.Customise).Include(m => m.FoodOrders);
-            //return View(await tuckshopOrderingSystem.ToListAsync());
-
-            /*List<Category> _categories = new List<Category>();
-            List<Customise> _customises = new List<Customise>();
-            List<FoodOrder> _foodOrders = new List<FoodOrder>();
-            List<Menu> _menu = new List<Menu>();*/
-
-           
+            TempData["CurrentCategoryID"] = categoryId;
 
             var categories = await _context.Category.ToListAsync();
             var customises = await _context.Customise.ToListAsync();
@@ -45,17 +37,12 @@ namespace TuckshopOrdering.Controllers
                                           .Include(m => m.FoodOrders)
                                           .ToListAsync();
 
-            if(categoryId != null)
+            if (categoryId != 0) // category filter
             {
                 menu = await _context.Menu.Include(m => m.Category).Where(o => o.CategoryID == categoryId)
                                           .Include(m => m.Customise)
                                           .Include(m => m.FoodOrders)
                                           .ToListAsync();
-            }
-            
-            if(categoryId == null)
-            {
-                categoryId = 1;
             }
 
             MenuViewModel mvm = new MenuViewModel()
@@ -76,7 +63,7 @@ namespace TuckshopOrdering.Controllers
             {
                 return NotFound();
             }
-
+            
             var menu = await _context.Menu
                 .Include(m => m.Category)
                 .Include(m => m.Customise)
@@ -246,7 +233,7 @@ namespace TuckshopOrdering.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddToOrder(int menuItemID, string studentName)
+        public async Task<IActionResult> AddToOrder(int menuItemID, int currentCategoryID)
         {
             var menuItem = await _context.Menu.FindAsync(menuItemID);
 
@@ -275,46 +262,69 @@ namespace TuckshopOrdering.Controllers
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index");
+            /*if(currentCategoryID > 0)
+            {
+                currentCategoryID = menuItem.CategoryID;
+            }
+            else if(currentCategoryID == 0)
+            {
+                currentCategoryID = 0;
+            }
+
+            return RedirectToAction("Index", new { categoryId = currentCategoryID});*/
+
+            int categoryID = TempData.ContainsKey("CurrentCategoryID") ? (int)TempData["CurrentCategoryID"] : 0;
+
+            return RedirectToAction("Index", new { categoryId = categoryID });
         }
 
         [HttpPost]
         public async Task<IActionResult> DecreaseQuantity(int foodOrderID)
         {
             var foodOrder = await _context.FoodOrder.FindAsync(foodOrderID);
+            //var menuItem = await _context.Menu.FindAsync(categoryID);
+
             if(foodOrder != null && foodOrder.quantity > 1)
             {
                 foodOrder.quantity -= 1;
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToAction("Index");
+            int categoryID = TempData.ContainsKey("CurrentCategoryID") ? (int)TempData["CurrentCategoryID"] : 0;
+
+            return RedirectToAction("Index", new { categoryId = categoryID });
         }
 
         [HttpPost]
         public async Task<IActionResult> IncreaseQuantity(int foodOrderID)
         {
             var foodOrder = await _context.FoodOrder.FindAsync(foodOrderID);
+
             if (foodOrder != null)
             {
                 foodOrder.quantity += 1;
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToAction("Index");
+            int categoryID = TempData.ContainsKey("CurrentCategoryID") ? (int)TempData["CurrentCategoryID"] : 0;
+
+            return RedirectToAction("Index", new { categoryId = categoryID });
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteItem(int foodOrderID)
         {
             var foodOrder = await _context.FoodOrder.FindAsync(foodOrderID);
+
             if (foodOrder != null)
             {
                 _context.FoodOrder.Remove(foodOrder);
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToAction("Index");
+            int categoryID = TempData.ContainsKey("CurrentCategoryID") ? (int)TempData["CurrentCategoryID"] : 0;
+
+            return RedirectToAction("Index", new { categoryId = categoryID });
         }
 
             [HttpPost]
@@ -325,7 +335,9 @@ namespace TuckshopOrdering.Controllers
             _context.FoodOrder.RemoveRange(foodOrder);
                 await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index");
+            //int categoryID = TempData.ContainsKey("CurrentCategoryID") ? (int)TempData["CurrentCategoryID"] : 0;
+
+            return RedirectToAction("Index", new { categoryId = 0 });
         }
 
         /*HttpPost]

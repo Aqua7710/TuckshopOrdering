@@ -47,6 +47,7 @@
                             <div class="cardBtns">
                                 <button type="button" class="customiseBtn" data-bs-toggle="modal" data-bs-target="#customiseModal">Customise</button>
                                     <input type="hidden" name="menuItemID" value="@menuItem.MenuID" /> 
+                                    <input type="hidden" name="currentCategoryID" value="@menuItem.CategoryID" /> 
                                     <button type="submit" class="addBtn">Add</button>
                             </div>
                         </div>
@@ -79,19 +80,22 @@
                             <div class="modifyBtns">
                                 <form asp-action="DecreaseQuantity" method="post">
                                     <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
+                                    <input type="hidden" name="categoryID" value="@foodOrder.Menu.CategoryID" />
                                     <button type="submit" class="orderItemBtn">-</button>
                                 </form>
                                 <form asp-action="IncreaseQuantity" method="post">
                                     <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
+                                    <input type="hidden" name="categoryID" value="@foodOrder.Menu.CategoryID" />
                                     <button type="submit" class="orderItemBtn">+</button>
                                 </form>
                                 
                                 @{
                                     decimal total = @foodOrder.Menu.price * foodOrder.quantity;
                                 }
-                                <p>@total</p>                                  <!--Item price (dependant on quantity)-->
+                                <p>$@total</p>                                  <!--Item price (dependant on quantity)-->
                                 <form asp-action="DeleteItem" method="post">
                                     <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
+                                    <input type="hidden" name="categoryID" value="@foodOrder.Menu.CategoryID"/>
                                     <button type="submit" class="orderItemBtn cancelBtn">X</button>
                                 </form>
                                 
