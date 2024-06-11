@@ -25,8 +25,8 @@ namespace TuckshopOrdering.Models
         public int CustomiseID { get; set; }
         [DisplayName("Display on Home page")]
         public bool homePageDisplay { get; set; }
-        public Category Category { get; set; } = null!;
+        public Category Category { get; set; } = null!; // many menu items can belong only to 1 category
         public Customise Customise { get; set; } = null!;
-        public ICollection<FoodOrder> FoodOrders { get; set; }
+        public ICollection<FoodOrder> FoodOrders { get; set; } // 1 menu item can belong to many food orders 
     }
 }

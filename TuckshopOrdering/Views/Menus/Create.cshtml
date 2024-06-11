@@ -35,6 +35,11 @@
                 <label asp-for="CustomiseID" class="control-label"></label>
                 <select asp-for="CustomiseID" class ="form-control" asp-items="ViewBag.CustomiseID"></select>
             </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="homePageDisplay" /> @Html.DisplayNameFor(model => model.homePageDisplay)
+                </label>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

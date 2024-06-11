@@ -12,10 +12,5 @@ namespace TuckshopOrdering.Areas.Identity.Data;
 public class TuckshopOrderingUser : IdentityUser
 {
     public string FullName { get; set; }
-    public string Email { get; set; }
-    public string imageName { get; set; }
-    [NotMapped]
-    [DisplayName("Upload Image:")]
-    public IFormFile imageFile { get; set; }
 }
 

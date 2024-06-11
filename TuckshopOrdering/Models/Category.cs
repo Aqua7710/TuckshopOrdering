@@ -9,6 +9,6 @@ namespace TuckshopOrdering.Models
         [DisplayName("Category Name")]
         [StringLength(50)]
         public string CategoryName { get; set; }
-        public ICollection<Menu> Menus { get; set; } = new List<Menu>();
+        public ICollection<Menu> Menus { get; set; } = new List<Menu>(); // 1 category can belong to many menu items
     }
 }

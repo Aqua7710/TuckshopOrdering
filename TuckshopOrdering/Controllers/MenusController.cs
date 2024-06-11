@@ -63,7 +63,7 @@ namespace TuckshopOrdering.Controllers
             {
                 return NotFound();
             }
-            
+
             var menu = await _context.Menu
                 .Include(m => m.Category)
                 .Include(m => m.Customise)
@@ -81,6 +81,7 @@ namespace TuckshopOrdering.Controllers
         {
             ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryName");
             ViewData["CustomiseID"] = new SelectList(_context.Customise, "CustomiseID", "CustomiseID");
+            ViewData["OrderID"] = new SelectList(_context.Order, "OrderID", "OrderID");
             return View();
         }
 
@@ -89,7 +90,7 @@ namespace TuckshopOrdering.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MenuID,foodName,price,imageFile,CategoryID,CustomiseID")] Menu menu)
+        public async Task<IActionResult> Create([Bind("MenuID,foodName,price,imageFile,CategoryID,CustomiseID,homePageDisplay,OrderID")] Menu menu)
         {
             if (!ModelState.IsValid)
             {
@@ -99,7 +100,7 @@ namespace TuckshopOrdering.Controllers
                 string extension = Path.GetExtension(menu.imageFile.FileName);
                 menu.imageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
                 string path = Path.Combine(wwwRootPath + "/Images", fileName);
-                using(var fileStream = new FileStream(path, FileMode.Create))
+                using (var fileStream = new FileStream(path, FileMode.Create))
                 {
                     await menu.imageFile.CopyToAsync(fileStream);
                 }
@@ -110,6 +111,7 @@ namespace TuckshopOrdering.Controllers
             }
             ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryID", menu.CategoryID);
             ViewData["CustomiseID"] = new SelectList(_context.Customise, "CustomiseID", "CustomiseID", menu.CustomiseID);
+
             return View(menu);
         }
 
@@ -136,7 +138,7 @@ namespace TuckshopOrdering.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MenuID,foodName,price,imageName,CategoryID,CustomiseID")] Menu menu)
+        public async Task<IActionResult> Edit(int id, [Bind("MenuID,foodName,price,imageName,CategoryID,CustomiseID,homePageDisplay")] Menu menu)
         {
             if (id != menu.MenuID)
             {
@@ -229,7 +231,7 @@ namespace TuckshopOrdering.Controllers
 
         private bool MenuExists(int id)
         {
-          return (_context.Menu?.Any(e => e.MenuID == id)).GetValueOrDefault();
+            return (_context.Menu?.Any(e => e.MenuID == id)).GetValueOrDefault();
         }
 
         [HttpPost]
@@ -254,7 +256,8 @@ namespace TuckshopOrdering.Controllers
                 {
                     MenuID = menuItemID,
                     quantity = 1,
-                    studentName = "Will"
+                    studentName = "Will",
+                    
                 };
 
                 _context.FoodOrder.Add(foodOrder);
@@ -284,7 +287,7 @@ namespace TuckshopOrdering.Controllers
             var foodOrder = await _context.FoodOrder.FindAsync(foodOrderID);
             //var menuItem = await _context.Menu.FindAsync(categoryID);
 
-            if(foodOrder != null && foodOrder.quantity > 1)
+            if (foodOrder != null && foodOrder.quantity > 1)
             {
                 foodOrder.quantity -= 1;
                 await _context.SaveChangesAsync();
@@ -329,16 +332,26 @@ namespace TuckshopOrdering.Controllers
             return RedirectToAction("Index", new { categoryId = categoryID });
         }
 
-            [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> DeleteAllItems()
         {
             var foodOrder = _context.FoodOrder;
-                
+
             _context.FoodOrder.RemoveRange(foodOrder);
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             //int categoryID = TempData.ContainsKey("CurrentCategoryID") ? (int)TempData["CurrentCategoryID"] : 0;
 
+            return RedirectToAction("Index", new { categoryId = 0 });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CompleteOrder()
+        {
+            var order = new Order
+            {
+
+            };
             return RedirectToAction("Index", new { categoryId = 0 });
         }
 

@@ -172,7 +172,6 @@ namespace TuckshopOrdering.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -181,7 +180,8 @@ namespace TuckshopOrdering.Migrations
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -215,10 +215,6 @@ namespace TuckshopOrdering.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("imageName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -279,6 +275,9 @@ namespace TuckshopOrdering.Migrations
                     b.Property<int>("MenuID")
                         .HasColumnType("int");
 
+                    b.Property<int>("OrderID")
+                        .HasColumnType("int");
+
                     b.Property<int>("quantity")
                         .HasColumnType("int");
 
@@ -292,6 +291,8 @@ namespace TuckshopOrdering.Migrations
                     b.HasKey("FoodOrderID");
 
                     b.HasIndex("MenuID");
+
+                    b.HasIndex("OrderID");
 
                     b.ToTable("FoodOrder");
                 });
@@ -341,6 +342,12 @@ namespace TuckshopOrdering.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"));
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("PickupDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("OrderID");
 
@@ -406,7 +413,15 @@ namespace TuckshopOrdering.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TuckshopOrdering.Models.Order", "Order")
+                        .WithMany("FoodOrders")
+                        .HasForeignKey("OrderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Menu");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("TuckshopOrdering.Models.Menu", b =>
@@ -439,6 +454,11 @@ namespace TuckshopOrdering.Migrations
                 });
 
             modelBuilder.Entity("TuckshopOrdering.Models.Menu", b =>
+                {
+                    b.Navigation("FoodOrders");
+                });
+
+            modelBuilder.Entity("TuckshopOrdering.Models.Order", b =>
                 {
                     b.Navigation("FoodOrders");
                 });
