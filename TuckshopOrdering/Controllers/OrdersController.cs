@@ -10,87 +10,86 @@ using TuckshopOrdering.Models;
 
 namespace TuckshopOrdering.Controllers
 {
-    public class CustomisesController : Controller
+    public class OrdersController : Controller
     {
         private readonly TuckshopOrderingSystem _context;
 
-        public CustomisesController(TuckshopOrderingSystem context)
+        public OrdersController(TuckshopOrderingSystem context)
         {
             _context = context;
         }
 
-        // GET: Customises
+        // GET: Orders
         public async Task<IActionResult> Index()
         {
-              return _context.Customise != null ? 
-                          View(await _context.Customise.ToListAsync()) :
-                          Problem("Entity set 'TuckshopOrderingSystem.Customise'  is null.");
+            var orders = await _context.Order.Include(o => o.FoodOrders).ToListAsync();
+            return View(orders);
         }
 
-        // GET: Customises/Details/5
+        // GET: Orders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Customise == null)
+            if (id == null || _context.Order == null)
             {
                 return NotFound();
             }
 
-            var customise = await _context.Customise
-                .FirstOrDefaultAsync(m => m.CustomiseID == id);
-            if (customise == null)
+            var order = await _context.Order
+                .FirstOrDefaultAsync(m => m.OrderID == id);
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(customise);
+            return View(order);
         }
 
-        // GET: Customises/Create
+        // GET: Orders/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Customises/Create
+        // POST: Orders/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CustomiseID,CustomiseName")] Customise customise)
+        public async Task<IActionResult> Create([Bind("OrderID,OrderDate,PickupDate")] Order order)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customise);
+                _context.Add(order);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(customise);
+            return View(order);
         }
 
-        // GET: Customises/Edit/5
+        // GET: Orders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Customise == null)
+            if (id == null || _context.Order == null)
             {
                 return NotFound();
             }
 
-            var customise = await _context.Customise.FindAsync(id);
-            if (customise == null)
+            var order = await _context.Order.FindAsync(id);
+            if (order == null)
             {
                 return NotFound();
             }
-            return View(customise);
+            return View(order);
         }
 
-        // POST: Customises/Edit/5
+        // POST: Orders/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CustomiseID,CustomiseName")] Customise customise)
+        public async Task<IActionResult> Edit(int id, [Bind("OrderID,OrderDate,PickupDate")] Order order)
         {
-            if (id != customise.CustomiseID)
+            if (id != order.OrderID)
             {
                 return NotFound();
             }
@@ -99,12 +98,12 @@ namespace TuckshopOrdering.Controllers
             {
                 try
                 {
-                    _context.Update(customise);
+                    _context.Update(order);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomiseExists(customise.CustomiseID))
+                    if (!OrderExists(order.OrderID))
                     {
                         return NotFound();
                     }
@@ -115,49 +114,49 @@ namespace TuckshopOrdering.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(customise);
+            return View(order);
         }
 
-        // GET: Customises/Delete/5
+        // GET: Orders/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Customise == null)
+            if (id == null || _context.Order == null)
             {
                 return NotFound();
             }
 
-            var customise = await _context.Customise
-                .FirstOrDefaultAsync(m => m.CustomiseID == id);
-            if (customise == null)
+            var order = await _context.Order
+                .FirstOrDefaultAsync(m => m.OrderID == id);
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(customise);
+            return View(order);
         }
 
-        // POST: Customises/Delete/5
+        // POST: Orders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Customise == null)
+            if (_context.Order == null)
             {
-                return Problem("Entity set 'TuckshopOrderingSystem.Customise'  is null.");
+                return Problem("Entity set 'TuckshopOrderingSystem.Order'  is null.");
             }
-            var customise = await _context.Customise.FindAsync(id);
-            if (customise != null)
+            var order = await _context.Order.FindAsync(id);
+            if (order != null)
             {
-                _context.Customise.Remove(customise);
+                _context.Order.Remove(order);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CustomiseExists(int id)
+        private bool OrderExists(int id)
         {
-          return (_context.Customise?.Any(e => e.CustomiseID == id)).GetValueOrDefault();
+          return (_context.Order?.Any(e => e.OrderID == id)).GetValueOrDefault();
         }
     }
 }

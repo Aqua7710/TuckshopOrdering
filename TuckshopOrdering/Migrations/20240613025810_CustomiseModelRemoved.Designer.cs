@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TuckshopOrdering.Areas.Identity.Data;
 
@@ -11,9 +12,11 @@ using TuckshopOrdering.Areas.Identity.Data;
 namespace TuckshopOrdering.Migrations
 {
     [DbContext(typeof(TuckshopOrderingSystem))]
-    partial class TuckshopOrderingSystemModelSnapshot : ModelSnapshot
+    [Migration("20240613025810_CustomiseModelRemoved")]
+    partial class CustomiseModelRemoved
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -326,10 +329,6 @@ namespace TuckshopOrdering.Migrations
 
                     b.Property<DateTime>("PickupDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("OrderID");
 

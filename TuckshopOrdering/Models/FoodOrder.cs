@@ -4,6 +4,7 @@
     {
         public int FoodOrderID { get; set; }
         public int MenuID { get; set; }
+        public int OrderID { get; set; }
         public int quantity { get; set; }
         public string studentName { get; set; }
         public int roomNumber { get; set; }

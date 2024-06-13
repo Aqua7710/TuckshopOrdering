@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Index";
+
+    int? orderId = ViewBag.OrderID as int?;
 }
 
 <div class="container">
@@ -49,6 +51,7 @@
                                     <button type="button" class="customiseBtn" data-bs-toggle="modal" data-bs-target="#customiseModal">Customise</button>
                                     <input type="hidden" name="menuItemID" value="@menuItem.MenuID" />
                                     <input type="hidden" name="currentCategoryID" value="@menuItem.CategoryID" />
+                                    <input type="hidden" name="orderId" value="@orderId" />
                                     <button type="submit" class="addBtn">Add</button>
                                 </div>
                             </div>
@@ -74,35 +77,47 @@
                 <!--Repeatable orders code-->
 
                 <div class="orderItems">
-                    @foreach (var foodOrder in Model._FoodOrder)
+                    @if (Model._FoodOrder != null && Model._FoodOrder.Any())
                     {
-                        <div class="orderItem">
-                            <p class="flexItem" style="margin-left: 20px;">@Html.DisplayFor(model => foodOrder.quantity)x @Html.DisplayFor(model => foodOrder.Menu.foodName)</p> <!--Item quantity and item name-->
-                            <div class="modifyBtns">
-                                <form asp-action="DecreaseQuantity" method="post">
-                                    <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
-                                    <input type="hidden" name="categoryID" value="@foodOrder.Menu.CategoryID" />
-                                    <button type="submit" class="orderItemBtn">-</button>
-                                </form>
-                                <form asp-action="IncreaseQuantity" method="post">
-                                    <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
-                                    <input type="hidden" name="categoryID" value="@foodOrder.Menu.CategoryID" />
-                                    <button type="submit" class="orderItemBtn">+</button>
-                                </form>
-
-                                @{
-                                    decimal total = @foodOrder.Menu.price * foodOrder.quantity;
-                                }
-                                <p>$@total</p>                                  <!--Item price (dependant on quantity)-->
-                                <form asp-action="DeleteItem" method="post">
-                                    <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
-                                    <input type="hidden" name="categoryID" value="@foodOrder.Menu.CategoryID" />
-                                    <button type="submit" class="orderItemBtn cancelBtn">X</button>
-                                </form>
 
 
+                        @foreach (var foodOrder in Model._FoodOrder)
+                        {
+                            <div class="orderItem">
+                                <p class="flexItem" style="margin-left: 20px;">@Html.DisplayFor(model => foodOrder.quantity)x @Html.DisplayFor(model => foodOrder.Menu.foodName)</p> <!--Item quantity and item name-->
+                                <div class="modifyBtns">
+                                    <form asp-action="DecreaseQuantity" method="post">
+                                        <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
+                                        <input type="hidden" name="categoryID" value="@foodOrder.Menu.CategoryID" />
+                                        <input type="hidden" name="orderId" value="@orderId" />
+                                        <button type="submit" class="orderItemBtn">-</button>
+                                    </form>
+                                    <form asp-action="IncreaseQuantity" method="post">
+                                        <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
+                                        <input type="hidden" name="categoryID" value="@foodOrder.Menu.CategoryID" />
+                                        <input type="hidden" name="orderId" value="@orderId" />
+                                        <button type="submit" class="orderItemBtn">+</button>
+                                    </form>
+
+                                    @{
+                                        decimal total = @foodOrder.Menu.price * foodOrder.quantity;
+                                    }
+                                    <p>$@total</p>                                  <!--Item price (dependant on quantity)-->
+                                    <form asp-action="DeleteItem" method="post">
+                                        <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
+                                        <input type="hidden" name="categoryID" value="@foodOrder.Menu.CategoryID" />
+                                        <input type="hidden" name="orderId" value="@orderId" />
+                                        <button type="submit" class="orderItemBtn cancelBtn">X</button>
+                                    </form>
+
+
+                                </div>
                             </div>
-                        </div>
+                        }
+                    }
+                    else
+                    {
+                        <h5 style="text-align: center; padding-top: 30px; padding-bottom: 30px;">Your order is currently empty</h5>
                     }
                 </div>
 
@@ -140,7 +155,7 @@
                 {
                     <form class="formCustomise">
                         <input type="checkbox" class="form-check-input" id="TomatoSauce" />
-                        <label for="TomatoSauce" class="form-check-label">@Html.DisplayFor(model => customise.Customise.CustomiseName)</label><br />
+                        <label for="TomatoSauce" class="form-check-label">Tomato Sauce</label><br />
                     </form>
                 }
 
@@ -203,10 +218,10 @@
             </div>
             <div class="modal-footer">
                 <form asp-action="CompleteOrder" method="post">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> 
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Checkout and Print</button>
                 </form>
-                
+
             </div>
         </div>
     </div>
@@ -269,6 +284,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <form asp-action="DeleteAllItems" method="post">
+                    <input type="hidden" name="orderId" value="@orderId" />
                     <button type="submit" class="btn btn-primary deleteBtn">Delete</button>
                 </form>
 
@@ -276,5 +292,3 @@
         </div>
     </div>
 </div>
-
-

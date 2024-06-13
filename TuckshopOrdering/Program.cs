@@ -12,6 +12,8 @@ builder.Services.AddDefaultIdentity<TuckshopOrderingUser>(options => options.Sig
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession(); // added this
+builder.Services.AddHttpContextAccessor(); // added this
 
 var app = builder.Build();
 
@@ -28,7 +30,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.MapRazorPages();
-
+app.UseSession(); // added this
 app.UseAuthorization();
 
 app.MapControllerRoute(

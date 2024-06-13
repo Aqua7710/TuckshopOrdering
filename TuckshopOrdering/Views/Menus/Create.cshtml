@@ -31,10 +31,6 @@
                 <label asp-for="CategoryID" class="control-label"></label>
                 <select asp-for="CategoryID" class ="form-control" asp-items="ViewBag.CategoryID"></select>
             </div>
-            <div class="form-group">
-                <label asp-for="CustomiseID" class="control-label"></label>
-                <select asp-for="CustomiseID" class ="form-control" asp-items="ViewBag.CustomiseID"></select>
-            </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="homePageDisplay" /> @Html.DisplayNameFor(model => model.homePageDisplay)
