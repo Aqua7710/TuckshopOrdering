@@ -17,24 +17,13 @@
                 <select asp-for="MenuID" class ="form-control" asp-items="ViewBag.MenuID"></select>
             </div>
             <div class="form-group">
+                <label asp-for="OrderID" class="control-label"></label>
+                <select asp-for="OrderID" class ="form-control" asp-items="ViewBag.OrderID"></select>
+            </div>
+            <div class="form-group">
                 <label asp-for="quantity" class="control-label"></label>
                 <input asp-for="quantity" class="form-control" />
                 <span asp-validation-for="quantity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="studentName" class="control-label"></label>
-                <input asp-for="studentName" class="form-control" />
-                <span asp-validation-for="studentName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="roomNumber" class="control-label"></label>
-                <input asp-for="roomNumber" class="form-control" />
-                <span asp-validation-for="roomNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Order.OrderID" class="control-label"></label>
-                <input asp-for="Order.OrderID" class="form-control" />
-                <span asp-validation-for="Order.OrderID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

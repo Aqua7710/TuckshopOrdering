@@ -244,7 +244,7 @@ namespace TuckshopOrdering.Migrations
 
                     b.HasKey("CategoryID");
 
-                    b.ToTable("Category");
+                    b.ToTable("Category", (string)null);
                 });
 
             modelBuilder.Entity("TuckshopOrdering.Models.FoodOrder", b =>
@@ -261,15 +261,12 @@ namespace TuckshopOrdering.Migrations
                     b.Property<int>("OrderID")
                         .HasColumnType("int");
 
-                    b.Property<int>("quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("roomNumber")
-                        .HasColumnType("int");
-
-                    b.Property<string>("studentName")
+                    b.Property<string>("customise")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("quantity")
+                        .HasColumnType("int");
 
                     b.HasKey("FoodOrderID");
 
@@ -277,7 +274,7 @@ namespace TuckshopOrdering.Migrations
 
                     b.HasIndex("OrderID");
 
-                    b.ToTable("FoodOrder");
+                    b.ToTable("FoodOrder", (string)null);
                 });
 
             modelBuilder.Entity("TuckshopOrdering.Models.Menu", b =>
@@ -310,7 +307,7 @@ namespace TuckshopOrdering.Migrations
 
                     b.HasIndex("CategoryID");
 
-                    b.ToTable("Menu");
+                    b.ToTable("Menu", (string)null);
                 });
 
             modelBuilder.Entity("TuckshopOrdering.Models.Order", b =>
@@ -331,9 +328,16 @@ namespace TuckshopOrdering.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<float>("roomNumber")
+                        .HasColumnType("real");
+
+                    b.Property<string>("studentName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("OrderID");
 
-                    b.ToTable("Order");
+                    b.ToTable("Order", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -256,8 +256,9 @@ namespace TuckshopOrdering.Controllers
             {
                 order = new Order
                 {
-                    PickupDate = DateTime.Now,
                     OrderDate = DateTime.Now,
+                    studentName = "Jonathan Santos",
+                    roomNumber = 1,
                     FoodOrders = new List<FoodOrder>()
                 };
                 _context.Order.Add(order);
@@ -279,8 +280,8 @@ namespace TuckshopOrdering.Controllers
                 {
                     MenuID = menuItemID,
                     quantity = 1,
-                    studentName = "Will",
-                    OrderID = order.OrderID
+                    OrderID = order.OrderID,
+                    customise = "Tomato Sauce"
                 };
 
                 _context.FoodOrder.Add(foodOrder);
@@ -352,7 +353,7 @@ namespace TuckshopOrdering.Controllers
             var orderId = HttpContext.Session.GetInt32("OrderId");
             if (!orderId.HasValue)
             {
-                return BadRequest("No active order.");
+                return RedirectToAction("Index");
             }
 
             var order = await _context.Order.Include(o => o.FoodOrders).FirstOrDefaultAsync(o => o.OrderID == orderId.Value);
@@ -373,13 +374,13 @@ namespace TuckshopOrdering.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CompleteOrder()
+        public async Task<IActionResult> CompleteOrder(string studentName, int roomNumber)
         {
             // Complete the order
             var orderId = HttpContext.Session.GetInt32("OrderId");
             if (!orderId.HasValue)
             {
-                return BadRequest("No active order.");
+                return RedirectToAction("Index");
             }
 
             var order = await _context.Order.FindAsync(orderId.Value);
@@ -389,6 +390,8 @@ namespace TuckshopOrdering.Controllers
             }
 
             order.Status = "Completed";
+            order.studentName = studentName;
+            order.roomNumber = roomNumber;
 
             // continue processes here
 

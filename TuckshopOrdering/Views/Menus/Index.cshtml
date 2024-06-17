@@ -64,12 +64,6 @@
         <div class="col-4">
             <div class="ordersBox">
                 <h1 style="text-align: center; padding: 10px;">Order:</h1>
-                <div class="formLine">
-                    <form asp-controller="Menus" asp-action="AddToOrder" method="post">
-                        <label for="studentName">Student Name:</label>
-                        <input type="text" id="studentName" name="studentName" required />
-                    </form>
-                </div>
                 <div class="line">
                     <hr class="solid">
                 </div>
@@ -117,7 +111,7 @@
                     }
                     else
                     {
-                        <h5 style="text-align: center; padding-top: 30px; padding-bottom: 30px;">Your order is currently empty</h5>
+                        <h5 style="text-align: center; padding-top: 30px; padding-bottom: 30px;">Your order is currently empty :(</h5>
                     }
                 </div>
 
@@ -125,10 +119,10 @@
                     decimal grandTotal = Model._FoodOrder.Sum(foodOrder => foodOrder.Menu.price * foodOrder.quantity);
                 }
 
-                <p style="margin-left: 20px; font-weight: bold;">Total Price: $@grandTotal</p>
+                <p id="grandTotal" style="margin-left: 20px; font-weight: bold;">Total Price: $@grandTotal</p>
 
                 <div class="gridBtns">
-                    <button type="button" class="gridBtnsItem" data-bs-toggle="modal" data-bs-target="#checkoutModal">Checkout</button>
+                    <button type="button" id="checkout" class="gridBtnsItem" data-bs-toggle="modal" data-bs-target="#checkoutModal">Checkout</button>
                     <button type="button" class="gridBtnsItem" data-bs-toggle="modal" data-bs-target="#noteModal">Notes</button>
                     <button type="button" class="gridBtnsItem" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
                 </div>
@@ -151,17 +145,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                @foreach (var customise in Model._Menu)
-                {
-                    <form class="formCustomise">
-                        <input type="checkbox" class="form-check-input" id="TomatoSauce" />
-                        <label for="TomatoSauce" class="form-check-label">Tomato Sauce</label><br />
-                    </form>
-                }
-
+                <form style="display: flex; justify-content: center;">
+                    <textarea class="form-control" rows="3" style="width: 95%;"></textarea>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
                 <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
@@ -177,11 +167,7 @@
                 <h5 class="modal-title">Checkout</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <div style="text-align: left; margin-left: 20px; font-weight: bold;">
-                    <p style="margin-bottom: 0;">Student: Prinesh Patel</p>
-                    <p>Room: 23</p>
-                </div>
+            <div class="modal-body"x>
 
                 <div class="orderItems">
                     @foreach (var foodOrder in Model._FoodOrder)
@@ -216,8 +202,25 @@
                 <p style="margin-left: 20px; font-weight: bold;">Total Price: $@grandTotal</p>
 
             </div>
+
+            <div class="line">
+                    <hr class="solid">
+                </div>
+
+                <form asp-action="CompleteOrder" method="post" style="margin: 20px;">
+                <div class="mb-3">
+                    <label for="studentName" class="form-label">Student Name</label>
+                    <input type="text" name="studentName" class="form-control" id="studentName" placeholder="e.g. Jonathan Santos" required>
+                </div>
+                <div class="mb-3">
+                    <label for="roomNumber" class="form-label">Room Number</label>
+                    <input type="number" max="36" min="1" name="roomNumber" class="form-control" id="roomNumber" required>
+                    <div class="form-text">
+                        Please note; this is the room number that the order will be delivered to if it is a Friday lunch order
+                    </div>
+                </div>
+
             <div class="modal-footer">
-                <form asp-action="CompleteOrder" method="post">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Checkout and Print</button>
                 </form>

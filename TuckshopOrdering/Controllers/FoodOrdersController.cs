@@ -35,7 +35,8 @@ namespace TuckshopOrdering.Controllers
             }
 
             var foodOrder = await _context.FoodOrder
-                .Include(f => f.Menu).Include(f => f.Order)
+                .Include(f => f.Menu)
+                .Include(f => f.Order)
                 .FirstOrDefaultAsync(m => m.FoodOrderID == id);
             if (foodOrder == null)
             {
@@ -49,7 +50,7 @@ namespace TuckshopOrdering.Controllers
         public IActionResult Create()
         {
             ViewData["MenuID"] = new SelectList(_context.Menu, "MenuID", "MenuID");
-            ViewData["OrderID"] = new SelectList(_context.Menu, "OrderID", "OrderID");
+            ViewData["OrderID"] = new SelectList(_context.Order, "OrderID", "OrderID");
             return View();
         }
 
@@ -58,7 +59,7 @@ namespace TuckshopOrdering.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FoodOrderID,MenuID,quantity,studentName,roomNumber,OrderID")] FoodOrder foodOrder)
+        public async Task<IActionResult> Create([Bind("FoodOrderID,MenuID,OrderID,quantity")] FoodOrder foodOrder)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +68,7 @@ namespace TuckshopOrdering.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["MenuID"] = new SelectList(_context.Menu, "MenuID", "MenuID", foodOrder.MenuID);
-            ViewData["OrderID"] = new SelectList(_context.Menu, "OrderID", "OrderID", foodOrder.Order.OrderID);
+            ViewData["OrderID"] = new SelectList(_context.Order, "OrderID", "OrderID", foodOrder.OrderID);
             return View(foodOrder);
         }
 
@@ -85,7 +86,7 @@ namespace TuckshopOrdering.Controllers
                 return NotFound();
             }
             ViewData["MenuID"] = new SelectList(_context.Menu, "MenuID", "MenuID", foodOrder.MenuID);
-            ViewData["OrderID"] = new SelectList(_context.Menu, "OrderID", "OrderID", foodOrder.Order.OrderID);
+            ViewData["OrderID"] = new SelectList(_context.Order, "OrderID", "OrderID", foodOrder.OrderID);
             return View(foodOrder);
         }
 
@@ -94,7 +95,7 @@ namespace TuckshopOrdering.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FoodOrderID,MenuID,quantity,studentName,roomNumber,OrderID")] FoodOrder foodOrder)
+        public async Task<IActionResult> Edit(int id, [Bind("FoodOrderID,MenuID,OrderID,quantity")] FoodOrder foodOrder)
         {
             if (id != foodOrder.FoodOrderID)
             {
@@ -122,7 +123,7 @@ namespace TuckshopOrdering.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["MenuID"] = new SelectList(_context.Menu, "MenuID", "MenuID", foodOrder.MenuID);
-            ViewData["OrderID"] = new SelectList(_context.Menu, "OrderID", "OrderID", foodOrder.Order.OrderID);
+            ViewData["OrderID"] = new SelectList(_context.Order, "OrderID", "OrderID", foodOrder.OrderID);
             return View(foodOrder);
         }
 
@@ -135,7 +136,8 @@ namespace TuckshopOrdering.Controllers
             }
 
             var foodOrder = await _context.FoodOrder
-                .Include(f => f.Menu).Include(f => f.Order)
+                .Include(f => f.Menu)
+                .Include(f => f.Order)
                 .FirstOrDefaultAsync(m => m.FoodOrderID == id);
             if (foodOrder == null)
             {

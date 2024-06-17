@@ -22,8 +22,21 @@ namespace TuckshopOrdering.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var orders = await _context.Order.Include(o => o.FoodOrders).ToListAsync();
-            return View(orders);
+            var orders = await _context.Order.Include(o => o.FoodOrders).ThenInclude(fo => fo.Menu).ToListAsync();
+            var foodOrders = new Dictionary<int, List<FoodOrder>>();
+
+            foreach (var order in orders)
+            {
+                foodOrders[order.OrderID] = order.FoodOrders.ToList();
+            }
+
+            OrderViewModel ovm = new OrderViewModel()
+            {
+                Orders = orders,
+                FoodOrders = foodOrders
+            };
+
+            return View(ovm);
         }
 
         // GET: Orders/Details/5
