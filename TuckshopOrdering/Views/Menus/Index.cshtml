@@ -4,6 +4,8 @@
     ViewData["Title"] = "Index";
 
     int? orderId = ViewBag.OrderID as int?;
+
+    DateTime min = DateTime.Now;
 }
 
 <div class="container">
@@ -73,7 +75,7 @@
                 <div class="orderItems">
                     @if (Model._FoodOrder != null && Model._FoodOrder.Any())
                     {
-
+                    
 
                         @foreach (var foodOrder in Model._FoodOrder)
                         {
@@ -112,6 +114,10 @@
                     else
                     {
                         <h5 style="text-align: center; padding-top: 30px; padding-bottom: 30px;">Your order is currently empty :(</h5>
+
+                        <script>
+                            document.getElementById("checkout").setAttribute("disabled");
+                        </script>
                     }
                 </div>
 
@@ -144,15 +150,20 @@
                 <h5 class="modal-title">Customise</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form style="display: flex; justify-content: center;">
-                    <textarea class="form-control" rows="3" style="width: 95%;"></textarea>
-                </form>
+            <form asp-action="AddToOrder" method="post">
+            <div class="modal-body">               
+                <div class="mb-3">        
+                    <input type="text" name="customiseMessage" class="form-control" id="customise" rows="3" placeholder="e.g. No mayo, no lettuce, etc"></input>
+                    <div class="form-text">
+                        Include any dietary requriments we may need to take account for.
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+                </form>
             </div>
         </div>
     </div>
@@ -218,6 +229,17 @@
                     <div class="form-text">
                         Please note; this is the room number that the order will be delivered to if it is a Friday lunch order
                     </div>
+                </div>
+                <div class="mb-3">
+                    <label for="collectionDate" class="form-label">Collection Date</label>
+                    <input type="date" name="collectionDate" class="form-control" min="@min.ToString("yyyy-MM-dd")" id="collectionDate" required>
+                    <div class="form-text">
+                        The order can be collected at morning tea or lunchtime
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email (optional)</label>
+                    <input type="email" name="email" class="form-control" id="email" placeholder="sam123@gmail.com">
                 </div>
 
             <div class="modal-footer">

@@ -142,25 +142,37 @@ namespace TuckshopOrdering.Controllers
                 return NotFound();
             }
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                // saves image to wwwroot/images
-                string wwwRootPath = _hostEnviroment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(menu.imageFile.FileName);
-                string extension = Path.GetExtension(menu.imageFile.FileName);
-                menu.imageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                string path = Path.Combine(wwwRootPath + "/Images", fileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
-                {
-                    await menu.imageFile.CopyToAsync(fileStream);
-                }
-                // Insert record
-                _context.Add(menu);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-
                 try
                 {
+                    if (menu.imageFile != null)
+                    {
+                        // Save the new image
+                        string wwwRootPath = _hostEnviroment.WebRootPath;
+                        string fileName = Path.GetFileNameWithoutExtension(menu.imageFile.FileName);
+                        string extension = Path.GetExtension(menu.imageFile.FileName);
+                        fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                        string path = Path.Combine(wwwRootPath + "/Images", fileName);
+
+                        // Delete the old image
+                        if (!string.IsNullOrEmpty(menu.imageName))
+                        {
+                            var oldImagePath = Path.Combine(wwwRootPath, "Images", menu.imageName);
+                            if (System.IO.File.Exists(oldImagePath))
+                            {
+                                System.IO.File.Delete(oldImagePath);
+                            }
+                        }
+
+                        // Save the new image
+                        using (var fileStream = new FileStream(path, FileMode.Create))
+                        {
+                            await menu.imageFile.CopyToAsync(fileStream);
+                        }
+                        menu.imageName = fileName;
+                    }
+
                     _context.Update(menu);
                     await _context.SaveChangesAsync();
                 }
@@ -230,8 +242,7 @@ namespace TuckshopOrdering.Controllers
         }
 
         [HttpPost]
-        [HttpPost]
-        public async Task<IActionResult> AddToOrder(int menuItemID, string studentName)
+        public async Task<IActionResult> AddToOrder(int menuItemID, string studentName, string customiseMessage)
         {
 
             var menuItem = await _context.Menu.FindAsync(menuItemID);
@@ -280,8 +291,8 @@ namespace TuckshopOrdering.Controllers
                 {
                     MenuID = menuItemID,
                     quantity = 1,
-                    OrderID = order.OrderID,
-                    customise = "Tomato Sauce"
+                    customise = "Tomato Sauce",
+                    OrderID = order.OrderID
                 };
 
                 _context.FoodOrder.Add(foodOrder);
@@ -374,7 +385,7 @@ namespace TuckshopOrdering.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CompleteOrder(string studentName, int roomNumber)
+        public async Task<IActionResult> CompleteOrder(string studentName, int roomNumber, DateTime collectionDate, string email)
         {
             // Complete the order
             var orderId = HttpContext.Session.GetInt32("OrderId");
@@ -392,6 +403,8 @@ namespace TuckshopOrdering.Controllers
             order.Status = "Completed";
             order.studentName = studentName;
             order.roomNumber = roomNumber;
+            order.PickupDate = collectionDate;
+            order.email = email;
 
             // continue processes here
 
@@ -402,32 +415,7 @@ namespace TuckshopOrdering.Controllers
             // Clear the session
             HttpContext.Session.Remove("OrderId");
 
-            return RedirectToAction("Index", new { categoryId = 0 });
+            return View("OrderPlaced");
         }
-
-
-        /*HttpPost]
-        public async Task<IActionResult> Checkout(int foodOrderID)
-        {
-            var foodOrder = await _context.Menu.FindAsync(foodOrderID);
-
-            if (foodOrder == null)
-            {
-                return NotFound();
-            }
-
-                var order = new Order
-                {
-                    FoodOrderID = foodOrderID,
-                    OrderDateTime = DateTime.Now
-                };
-
-            _context.Order.Add(order);
-
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("Index");
-        }*/
     }
-
 }

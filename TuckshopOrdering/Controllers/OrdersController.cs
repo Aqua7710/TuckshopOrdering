@@ -20,9 +20,30 @@ namespace TuckshopOrdering.Controllers
         }
 
         // GET: Orders
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var orders = await _context.Order.Include(o => o.FoodOrders).ThenInclude(fo => fo.Menu).ToListAsync();
+            var orders = from o in _context.Order.Include(o => o.FoodOrders).ThenInclude(fo => fo.Menu)
+                         select o;
+
+            // filtering query
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                // Check if the search string can be parsed to an integer
+                if (int.TryParse(searchString, out int roomNumber))
+                {
+                    orders = orders.Where(o => o.roomNumber == roomNumber);
+                }
+                else
+                {
+                    orders = orders.Where(o => o.studentName.Contains(searchString));
+                }
+            }
+
+            // sorting query 
+
+            orders = orders.OrderBy(o => o.PickupDate).ThenBy(o => o.roomNumber);
+
             var foodOrders = new Dictionary<int, List<FoodOrder>>();
 
             foreach (var order in orders)
@@ -32,7 +53,7 @@ namespace TuckshopOrdering.Controllers
 
             OrderViewModel ovm = new OrderViewModel()
             {
-                Orders = orders,
+                Orders = await orders.ToListAsync(),
                 FoodOrders = foodOrders
             };
 
