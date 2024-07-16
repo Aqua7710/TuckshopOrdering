@@ -25,6 +25,10 @@ namespace TuckshopOrdering.Controllers
             var orders = from o in _context.Order.Include(o => o.FoodOrders).ThenInclude(fo => fo.Menu)
                          select o;
 
+            var todayOrders = from o in _context.Order.Include(o => o.FoodOrders).Where(o => o.PickupDate == DateTime.Now) select o;
+
+            var todaysOrders = orders.Where(o => o.PickupDate == DateTime.Now);
+
             // filtering query
 
             if (!String.IsNullOrEmpty(searchString))
@@ -192,5 +196,23 @@ namespace TuckshopOrdering.Controllers
         {
           return (_context.Order?.Any(e => e.OrderID == id)).GetValueOrDefault();
         }
-    }
+
+		[HttpPost]
+		public async Task<IActionResult> OrderComplete(int orderID)
+		{
+			var order = await _context.Order.FindAsync(orderID);
+			if (order == null)
+			{
+				return NotFound();
+			}
+
+			order.orderComplete = "true";
+			_context.Update(order);
+			await _context.SaveChangesAsync();
+
+			return RedirectToAction("Index");
+		}
+
+
+	}
 }

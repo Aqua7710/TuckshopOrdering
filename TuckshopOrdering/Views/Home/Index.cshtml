@@ -1,52 +1,124 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+
+    <script>
+        window.addEventListener("load", () => {
+            const loader = document.querySelector(".loader");
+
+            loader.classList.add("loader-hidden");
+
+            loader.addEventListener("transitioned", () => {
+                document.body.removeChild("loader");
+            })
+        })
+    </script>
+
+    <script src="https://kit.fontawesome.com/74f7020afc.js" crossorigin="anonymous"></script>
 }
 
-<!-- Carousel -->
-<div id="homePage" class="carousel slide carousel-shadow" data-bs-ride="carousel" style="border-radius: 20px;">
+<body style="margin-bottom: 50px;">
+    <!-- Carousel -->
+    <div id="homePage" class="carousel slide carousel-shadow" data-bs-ride="carousel" style="border-radius: 20px;">
 
-    <!-- Indicators/dots -->
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#homePage" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#homePage" data-bs-slide-to="1"></button>
-    </div>
-
-    <!-- The slideshow/carousel -->
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="/Images/carouselHomePage1.jpg" alt="Carousel item 1" class="d-block imgStyle">
+        <!-- Indicators/dots -->
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#homePage" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#homePage" data-bs-slide-to="1"></button>
         </div>
-        <div class="carousel-item">
-            <img src="/Images/carouselHomePage2.jpg" alt="Carousel item 2" class="d-block imgStyle">
-        </div>
-    </div>
 
-    <!-- Left and right controls/icons -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#homePage" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#homePage" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-    </button>
-</div>
-
-<h1 style="padding: 20px; text-align: center;">Featured Items</h1>
-<div class="homePageMenu">
-
-    @for (int i = 0; i < 5; i++) // click on card to navigate to item on menu
-    {
-        <div class="card cardStyle">
-            <div class="card-body">
-                <div class="card-img">
-                    <img style="width:100%; border-radius: 10px;" src="~/images/Hambúrguer saboroso isolado no fundo branco fastfood de hambúrguer fresco com carne e queijo _ Foto Grátis.jpg" alt="burger" />
-                </div>
-                <h4 class="card-title">
-                    Burger
-                </h4>
-                <h6 class="card-subtitle">
-                    $3.99
-                </h6>
+        <!-- The slideshow/carousel -->
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="/Images/Desktop Carousel_1.png" alt="Carousel item 1" class="d-block imgStyle">
+            </div>
+            <div class="carousel-item">
+                <img src="/Images/Desktop Carousel_2.png" alt="Carousel item 2" class="d-block imgStyle">
             </div>
         </div>
-    }
-</div>
+
+        <!-- Left and right controls/icons -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#homePage" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#homePage" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+
+    <h1 style="padding-top: 100px; text-align: center; font-weight: bold;">Fillin your tum with the yums!</h1>
+    <div style="display: flex; justify-content: center; padding-top: 20px;">
+        <p style="text-align: center; width: 40%; font-size: 18px;">Healthy snacks, happy kids - fueling little minds at the Tuckshop! Where every bite is a delight and every smile is bright!</p>
+    </div>
+
+    <div class="homePageMenu">
+
+        <form asp-area="" asp-controller="Menus" asp-action="Index" method="post">
+            
+                <div class="card cardStyle" style="width: 210px;">
+                    <div class="card-body">
+                    <input type="hidden" value="1" name="categoryId" />
+                    <button type="submit" style="border: none; background: none">
+                        <div class="card-img" style="margin-bottom: 10px;">
+                            <i class="fa-solid fa-burger fa-4x"></i>
+                        </div>
+                        <h2 class="card-title">
+                            Hot Food
+                        </h2>
+                    </button>
+                    </div>
+                </div>                   
+        </form>
+
+        <form asp-area="" asp-controller="Menus" asp-action="Index" method="post">
+
+            <div class="card cardStyle" style="width: 210px;">
+                <div class="card-body">
+                    <input type="hidden" value="2" name="categoryId" />
+                    <button type="submit" style="border: none; background: none">
+                        <div class="card-img" style="margin-bottom: 10px;">
+                            <i class="fa-solid fa-cookie fa-4x"></i>
+                        </div>
+                        <h2 class="card-title">
+                            Snacks
+                        </h2>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <form asp-area="" asp-controller="Menus" asp-action="Index" method="post">
+
+            <div class="card cardStyle" style="width: 210px;">
+                <div class="card-body">
+                    <input type="hidden" value="3" name="categoryId" />
+                    <button type="submit" style="border: none; background: none">
+                        <div class="card-img" style="margin-bottom: 10px;">
+                            <i class="fa-solid fa-bread-slice fa-4x"></i>
+                        </div>
+                        <h2 class="card-title">
+                            Sandwiches
+                        </h2>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <form asp-area="" asp-controller="Menus" asp-action="Index" method="post">
+
+            <div class="card cardStyle" style="width: 210px;">
+                <div class="card-body">
+                    <input type="hidden" value="4" name="categoryId" />
+                    <button type="submit" style="border: none; background: none">
+                        <div class="card-img" style="margin-bottom: 10px;">
+                            <i class="fa-solid fa-glass-water fa-4x"></i>
+                        </div>
+                        <h2 class="card-title">
+                            Drinks
+                        </h2>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="loader"></div>
+</body>

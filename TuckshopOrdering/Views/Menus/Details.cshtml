@@ -4,45 +4,43 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="container">
+	<h1>Details</h1>
 
-<div>
-    <h4>Menu</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.foodName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.foodName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.imageName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.imageName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.homePageDisplay)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.homePageDisplay)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Category.CategoryID)
-        </dd>
-    </dl>
+	<div>
+		<h4>Menu</h4>
+		<hr />
+		<dl class="row">
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.foodName)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.foodName)
+			</dd>
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.price)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.price)
+			</dd>
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.imageName)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.imageName)
+			</dd>
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.Category)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.Category.CategoryID)
+			</dd>
+		</dl>
+	</div>
+	<div>
+		<a asp-action="Edit" asp-route-id="@Model?.MenuID">Edit</a> |
+		<a asp-action="Index">Back to List</a>
+	</div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.MenuID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+

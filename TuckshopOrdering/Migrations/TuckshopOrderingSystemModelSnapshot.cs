@@ -261,10 +261,6 @@ namespace TuckshopOrdering.Migrations
                     b.Property<int>("OrderID")
                         .HasColumnType("int");
 
-                    b.Property<string>("customise")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("quantity")
                         .HasColumnType("int");
 
@@ -292,9 +288,6 @@ namespace TuckshopOrdering.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<bool>("homePageDisplay")
-                        .HasColumnType("bit");
 
                     b.Property<string>("imageName")
                         .IsRequired()
@@ -329,6 +322,12 @@ namespace TuckshopOrdering.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("orderComplete")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

@@ -4,48 +4,46 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<div class="container">
+	<h1>Delete</h1>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Menu</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.foodName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.foodName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.imageName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.imageName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.homePageDisplay)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.homePageDisplay)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Category.CategoryID)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="MenuID" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+	<h3>Are you sure you want to delete this?</h3>
+	<div>
+		<h4>Menu</h4>
+		<hr />
+		<dl class="row">
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.foodName)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.foodName)
+			</dd>
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.price)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.price)
+			</dd>
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.imageName)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.imageName)
+			</dd>
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.Category)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.Category.CategoryID)
+			</dd>
+		</dl>
+
+		<form asp-action="Delete">
+			<input type="hidden" asp-for="MenuID" />
+			<input type="submit" value="Delete" class="btn btn-danger" /> |
+			<a asp-action="Index">Back to List</a>
+		</form>
+	</div>
 </div>
+
+

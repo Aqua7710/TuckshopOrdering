@@ -2,20 +2,20 @@
 @{
     ViewData["Title"] = "OrderPlaced";
 }
-
+<form asp-action="Index">
 <div style="display: flex; justify-content: center">
 <div class="successBox">
     <div class="success-animation">
         <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" /><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
     </div>
 
-    <h1 style="text-align: center; margin-top: 100px;">Your order has successfully been placed!</h1>
-    <p style="text-align: center;">Your child can pick up their order at morning tea or lunchtime on the specified collection date.</p>
-    <form asp-action="Index">
-        <div style="display: flex;">
-            <button type="submit" class="gridBtnsItem" style="justify-content: center;">Return to menu</button>
-        </div>
-    </form>
+    <h1 style="text-align: center; margin-top: 30px;">Order successful!</h1>
+    <p style="text-align: center; font-size:large;">Your child can pick up their order at morning tea or lunchtime on the specified collection date.</p>
+    <div style="display: flex; justify-content: center;">
+                <button type="submit" class="gridBtnsItem" style="width: 20%; flex-grow: inherit;">Return to menu</button>
+    </div>
+            
 </div>
 </div>
+</form>
 

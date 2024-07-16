@@ -33,6 +33,10 @@ body {
     margin: 0;
 }
 
+header, main{
+
+}
+
 .menuBtns {
     border-radius: 40px;
     background-color: #fff2f3;
@@ -74,7 +78,7 @@ body {
     flex-wrap: wrap;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     position: sticky;
-    top: 30px;
+    top: 120px;
 }
 
 .cont:after {
@@ -85,7 +89,7 @@ body {
 
 .sticky{
     position: sticky;
-    top: 30px;
+    top: 120px;
     z-index: 5;
 }
 
@@ -456,9 +460,8 @@ hr.solid {
     }
 
 .imgStyle{
-    height: 600px;
+    height: 100%;
     width: 100%;
-    border-radius: 20px;
 }
 
 .orderCards{
@@ -480,8 +483,11 @@ hr.solid {
 
 .homePageMenu {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     flex-wrap: wrap;
+    gap: 40px;
+    margin-top: 100px;
+    margin-bottom: 100px;
 }
 
 .profilePic{
@@ -625,6 +631,8 @@ hr.solid {
     margin-left: 80px;
     margin-right: 80px;
     padding-bottom: 40px;
+    margin: 0;
+    padding: 0;
 }
 
 .hover:hover {
@@ -647,7 +655,7 @@ hr.solid {
 }
 
 .success-animation {
-    margin: 50px auto;
+    margin: 25px auto;
 }
 
 .checkmark {
@@ -708,7 +716,6 @@ hr.solid {
 .successBox {
     width: 60%;
     height: 50%;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     border-radius: 10px;
     margin-top: 80px;
 }
@@ -717,9 +724,46 @@ hr.solid {
     border: none;
     background-color: black;
     color: white;
-    height: 30px;
+    height: 40px;
     border-radius: 5px;
     width: 80px;
+}
+
+.loader{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f7f9fb;
+    transition: opacity 0.75s, visibility 0.75s;
+}
+
+.loader-hidden{
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader::after {
+    content: "";
+    width: 75px;
+    height: 75px;
+    border: 15PX solid #dddddd;
+    border-top-color: black;
+    border-radius: 50%;
+    animation: loading 0.75s ease infinite;
+}
+
+@keyframes loading{
+    from{
+        transform: rotate(0turn);
+    }
+    to{
+        transform: rotate(1turn)
+    }
 }
 
 

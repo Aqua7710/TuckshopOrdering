@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MimeKit;
+using MimeKit.Text;
 using TuckshopOrdering.Areas.Identity.Data;
 using TuckshopOrdering.Migrations;
 using TuckshopOrdering.Models;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 
 namespace TuckshopOrdering.Controllers
 {
@@ -25,7 +31,7 @@ namespace TuckshopOrdering.Controllers
         }
 
         // GET: Menus
-        public async Task<IActionResult> Index(int categoryId, int? orderId = null)
+        public async Task<IActionResult> Index(int categoryId, string searchString, int? orderId = null)
         {
             TempData["CurrentCategoryID"] = categoryId;
 
@@ -46,6 +52,13 @@ namespace TuckshopOrdering.Controllers
                                           .ToListAsync();
             }
 
+             // filtering query
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                menu = await _context.Menu.Where(o => o.foodName.Contains(searchString)).ToListAsync();
+            }
+
             MenuViewModel mvm = new MenuViewModel()
             {
                 _Menu = menu,
@@ -54,6 +67,7 @@ namespace TuckshopOrdering.Controllers
             };
 
             ViewBag.OrderID = orderId;
+            ViewBag.SelectedCategoryID = categoryId;
 
             return View(mvm);
         }
@@ -99,7 +113,7 @@ namespace TuckshopOrdering.Controllers
                 string fileName = Path.GetFileNameWithoutExtension(menu.imageFile.FileName);
                 string extension = Path.GetExtension(menu.imageFile.FileName);
                 menu.imageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                string path = Path.Combine(wwwRootPath + "/Images", fileName);
+                string path = Path.Combine(wwwRootPath + "/menuImages", fileName);
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
                     await menu.imageFile.CopyToAsync(fileStream);
@@ -130,71 +144,72 @@ namespace TuckshopOrdering.Controllers
             return View(menu);
         }
 
-        // POST: Menus/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MenuID,foodName,price,imageName,CategoryID,homePageDisplay")] Menu menu)
-        {
-            if (id != menu.MenuID)
-            {
-                return NotFound();
-            }
+		// POST: Menus/Edit/5
+		// To protect from overposting attacks, enable the specific properties you want to bind to.
+		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(int id, [Bind("MenuID,foodName,price,imageName,CategoryID,homePageDisplay,imageFile")] Menu menu)
+		{
+			if (id != menu.MenuID)
+			{
+				return NotFound();
+			}
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    if (menu.imageFile != null)
-                    {
-                        // Save the new image
-                        string wwwRootPath = _hostEnviroment.WebRootPath;
-                        string fileName = Path.GetFileNameWithoutExtension(menu.imageFile.FileName);
-                        string extension = Path.GetExtension(menu.imageFile.FileName);
-                        fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                        string path = Path.Combine(wwwRootPath + "/Images", fileName);
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					if (menu.imageFile != null)
+					{
+						// Save the new image
+						string wwwRootPath = _hostEnviroment.WebRootPath;
+						string fileName = Path.GetFileNameWithoutExtension(menu.imageFile.FileName);
+						string extension = Path.GetExtension(menu.imageFile.FileName);
+						fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+						string path = Path.Combine(wwwRootPath + "/menuImages", fileName);
 
-                        // Delete the old image
-                        if (!string.IsNullOrEmpty(menu.imageName))
-                        {
-                            var oldImagePath = Path.Combine(wwwRootPath, "Images", menu.imageName);
-                            if (System.IO.File.Exists(oldImagePath))
-                            {
-                                System.IO.File.Delete(oldImagePath);
-                            }
-                        }
+						// Delete the old image
+						if (!string.IsNullOrEmpty(menu.imageName))
+						{
+							var oldImagePath = Path.Combine(wwwRootPath, "Images", menu.imageName);
+							if (System.IO.File.Exists(oldImagePath))
+							{
+								System.IO.File.Delete(oldImagePath);
+							}
+						}
 
-                        // Save the new image
-                        using (var fileStream = new FileStream(path, FileMode.Create))
-                        {
-                            await menu.imageFile.CopyToAsync(fileStream);
-                        }
-                        menu.imageName = fileName;
-                    }
+						// Save the new image
+						using (var fileStream = new FileStream(path, FileMode.Create))
+						{
+							await menu.imageFile.CopyToAsync(fileStream);
+						}
+						menu.imageName = fileName;
+					}
 
-                    _context.Update(menu);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MenuExists(menu.MenuID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryID", menu.CategoryID);
-            return View(menu);
-        }
+					_context.Update(menu);
+					await _context.SaveChangesAsync();
+				}
+				catch (DbUpdateConcurrencyException)
+				{
+					if (!MenuExists(menu.MenuID))
+					{
+						return NotFound();
+					}
+					else
+					{
+						throw;
+					}
+				}
+				return RedirectToAction(nameof(Index));
+			}
+			ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryID", menu.CategoryID);
+			return View(menu);
+		}
 
-        // GET: Menus/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+
+		// GET: Menus/Delete/5
+		public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Menu == null)
             {
@@ -270,6 +285,7 @@ namespace TuckshopOrdering.Controllers
                     OrderDate = DateTime.Now,
                     studentName = "Jonathan Santos",
                     roomNumber = 1,
+                    orderComplete = "false",
                     FoodOrders = new List<FoodOrder>()
                 };
                 _context.Order.Add(order);
@@ -291,7 +307,6 @@ namespace TuckshopOrdering.Controllers
                 {
                     MenuID = menuItemID,
                     quantity = 1,
-                    customise = "Tomato Sauce",
                     OrderID = order.OrderID
                 };
 
@@ -385,7 +400,7 @@ namespace TuckshopOrdering.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CompleteOrder(string studentName, int roomNumber, DateTime collectionDate, string email)
+        public async Task<IActionResult> CompleteOrder(string studentName, int roomNumber, DateTime collectionDate, string email, string note)
         {
             // Complete the order
             var orderId = HttpContext.Session.GetInt32("OrderId");
@@ -400,13 +415,20 @@ namespace TuckshopOrdering.Controllers
                 return NotFound();
             }
 
-            order.Status = "Completed";
-            order.studentName = studentName;
-            order.roomNumber = roomNumber;
-            order.PickupDate = collectionDate;
-            order.email = email;
-
-            // continue processes here
+            order.Status = "Completed"; // ordering has been done
+            order.studentName = studentName; // user input
+            order.roomNumber = roomNumber; // user input
+            if(collectionDate == DateTime.MinValue)
+            {
+                order.PickupDate = DateTime.Now;
+            }
+            else
+            {
+                order.PickupDate = collectionDate;
+            }
+            order.email = email; // user input
+            order.orderComplete = "false"; // order has not been made
+            order.note = note; // user input
 
             // save changes
             _context.Update(order);
@@ -415,7 +437,30 @@ namespace TuckshopOrdering.Controllers
             // Clear the session
             HttpContext.Session.Remove("OrderId");
 
-            return View("OrderPlaced");
+			return View("OrderPlaced");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteOrderOnExit()
+        {
+            var orderId = HttpContext.Session.GetInt32("OrderId");
+
+            if (orderId.HasValue)
+            {
+                var order = await _context.Order.Include(o => o.FoodOrders)
+                                                .FirstOrDefaultAsync(o => o.OrderID == orderId.Value);
+
+                if (order != null)
+                {
+                    _context.FoodOrder.RemoveRange(order.FoodOrders);
+                    _context.Order.Remove(order);
+                    await _context.SaveChangesAsync();
+                }
+
+                HttpContext.Session.Remove("OrderId");
+            }
+
+            return Ok();
         }
     }
 }
