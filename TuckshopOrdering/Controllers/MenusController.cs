@@ -440,27 +440,28 @@ namespace TuckshopOrdering.Controllers
 			return View("OrderPlaced");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteOrderOnExit()
-        {
-            var orderId = HttpContext.Session.GetInt32("OrderId");
+		[HttpPost]
+		public async Task<IActionResult> DeleteOrderOnExit()
+		{
+			var orderId = HttpContext.Session.GetInt32("OrderId");
 
-            if (orderId.HasValue)
-            {
-                var order = await _context.Order.Include(o => o.FoodOrders)
-                                                .FirstOrDefaultAsync(o => o.OrderID == orderId.Value);
+			if (orderId.HasValue)
+			{
+				var order = await _context.Order.Include(o => o.FoodOrders)
+												.FirstOrDefaultAsync(o => o.OrderID == orderId.Value);
 
-                if (order != null)
-                {
-                    _context.FoodOrder.RemoveRange(order.FoodOrders);
-                    _context.Order.Remove(order);
-                    await _context.SaveChangesAsync();
-                }
+				if (order != null)
+				{
+					_context.FoodOrder.RemoveRange(order.FoodOrders);
+					_context.Order.Remove(order);
+					await _context.SaveChangesAsync();
+				}
 
-                HttpContext.Session.Remove("OrderId");
-            }
+				HttpContext.Session.Remove("OrderId");
+			}
 
-            return Ok();
-        }
-    }
+			return Ok();
+		}
+
+	}
 }

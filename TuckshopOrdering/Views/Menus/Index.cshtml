@@ -34,8 +34,7 @@
     <div class="container" style="margin-top: 50px; margin-bottom: 50px;">
     <div class="row">
         <div class="col-8">
-            <div class="sticky">
-            <div class="container">
+            <div class="container sticky">
                 <form asp-controller="Menus" asp-action="Index" method="post">
                     <div class="categoriesRow">
                         @foreach (var category in Model._Category)
@@ -59,7 +58,6 @@
                 </form>
                 <form asp-action="Index"><button class="returnBtn">Return</button></form>
                 <button class="returnBtn"><a asp-action="Create" style="color: white; text-decoration: none;">Create</a></button>
-            </div>
             </div>
             <div class="menu">
                 
