@@ -22,6 +22,7 @@ using TuckshopOrdering.Areas.Identity.Data;
 
 namespace TuckshopOrdering.Areas.Identity.Pages.Account
 {
+    [Authorize]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<TuckshopOrderingUser> _signInManager;

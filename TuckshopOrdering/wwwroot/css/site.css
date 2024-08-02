@@ -101,6 +101,15 @@ header, main{
     gap: 15px;
 }
 
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    width: 40%;
+
+}
+
 .addBtn {
     background-color: #79b791;
     border: none;
@@ -125,6 +134,7 @@ header, main{
     .cardStyle:hover {
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
         transition: box-shadow 0.3s ease-in-out;
+        transform: scale(1.1);
     }
 
 .input {

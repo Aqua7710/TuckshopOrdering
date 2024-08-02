@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity;
+@using TuckshopOrdering.Areas.Identity.Data;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,8 +15,12 @@
     <link rel="icon" type="image/x-icon" href="/Images/Favicon_1.png" />
     <link rel="stylesheet" href="https://use.typekit.net/uyt3mwx.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @inject SignInManager<TuckshopOrderingUser> SignInManager
+    @inject UserManager<TuckshopOrderingUser> UserManager
+
 </head>
 <body>
+
     <header style="position: sticky; top: 0; z-index: 99;">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="height: 100px; border: none;">
             <div class="container-fluid" style="margin: 80px;">
@@ -28,9 +34,11 @@
                         <li class="nav-item">
                             <a class="nav-link hover text-dark" asp-area="" asp-controller="Menus" asp-action="Index" style="font-weight: bold;">Order Now</a>
                         </li>
+                    @if (SignInManager.IsSignedIn(User)){
                         <li class="nav-item">
                             <a class="nav-link hover text-dark" asp-area="" asp-controller="Orders" asp-action="Index">Orders</a>
                         </li>
+}
                         <li class="nav-item">
                             <a class="nav-link hover text-dark" asp-area="" asp-controller="Home" asp-action="FAQ">FAQs</a>
                         </li>
@@ -58,6 +66,11 @@
                 <a asp-area="" asp-controller="Categories" asp-action="Index" style="text-decoration: none; color: grey;">Categories</a>
                 <a asp-area="" asp-controller="Menus" asp-action="Index" style="text-decoration: none; color: grey;">Menu</a>
                 <a asp-area="" asp-controller="Orders" asp-action="Index" style="text-decoration: none; color: grey;">Orders</a>
+                <a asp-area="Identity" asp-page="/Account/Logout" style="text-decoration: none; color: grey;">Staff Login</a>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <a asp-area="Identity" asp-page="/Account/Register" style="text-decoration: none; color: grey;">Register Staff</a>
+                }
             </div>
             Copyright &copy2024 - The Tuckshop
         </div>

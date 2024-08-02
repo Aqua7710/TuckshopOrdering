@@ -14,8 +14,11 @@ using MimeKit.Text;
 using TuckshopOrdering.Areas.Identity.Data;
 using TuckshopOrdering.Migrations;
 using TuckshopOrdering.Models;
-using MailKit.Net.Smtp;
 using MailKit.Security;
+using System.Net.Mail;
+using System.Net;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TuckshopOrdering.Controllers
 {
@@ -33,7 +36,7 @@ namespace TuckshopOrdering.Controllers
         // GET: Menus
         public async Task<IActionResult> Index(int categoryId, string searchString, int? orderId = null)
         {
-            TempData["CurrentCategoryID"] = categoryId;
+            TempData["CurrentCategoryID"] = categoryId; 
 
             var categories = await _context.Category.ToListAsync();
             var foodOrders = await _context.FoodOrder
@@ -67,8 +70,21 @@ namespace TuckshopOrdering.Controllers
             };
 
             ViewBag.OrderID = orderId;
-            ViewBag.SelectedCategoryID = categoryId;
-
+            switch (categoryId)
+            {
+                case 1:
+                    ViewBag.SelectedCategoryID = "Hot Food";
+                    break;
+                case 2:
+                    ViewBag.SelectedCategoryID = "Snacks";
+                    break;
+                case 3:
+                    ViewBag.SelectedCategoryID = "Sandwiches";
+                    break;
+                case 4:
+                    ViewBag.SelectedCategoryID = "Drinks & Iceblocks";
+                    break;
+            }
             return View(mvm);
         }
 
@@ -92,6 +108,7 @@ namespace TuckshopOrdering.Controllers
         }
 
         // GET: Menus/Create
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryName");
@@ -400,7 +417,7 @@ namespace TuckshopOrdering.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CompleteOrder(string studentName, int roomNumber, DateTime collectionDate, string email, string note)
+        public async Task<IActionResult> CompleteOrder(string studentName, int roomNumber, DateTime collectionDate, string? email, string note, TuckshopOrdering.Models.EmailEntity model)
         {
             // Complete the order
             var orderId = HttpContext.Session.GetInt32("OrderId");
@@ -429,6 +446,44 @@ namespace TuckshopOrdering.Controllers
             order.email = email; // user input
             order.orderComplete = "false"; // order has not been made
             order.note = note; // user input
+
+            // email
+
+            //decimal totalPrice = order.FoodOrders.Sum(fo => fo.quantity * fo.Menu.price);
+
+
+            // Generate the email body
+          
+            string mailBody = "<h1 style='text-align: center;'>Thank you for your order!</h1>";
+            string mainTitle = "Thank you for you order!";
+            string mailSubject = "Tuckshop Order";
+            string fromMail = "purdonwill@gmail.com";
+            string mailPassword = "WaterBridge18";
+
+            if (!email.IsNullOrEmpty())
+            {
+                MailMessage message = new MailMessage(new MailAddress(fromMail, mainTitle), new MailAddress(email));
+
+                message.Subject = mailSubject;
+                message.Body = mailBody;
+                message.IsBodyHtml = true;
+
+                SmtpClient smtp = new SmtpClient(fromMail, 587);
+                smtp.Host = "smtp.office365.com";
+                smtp.Port = 587;
+                smtp.EnableSsl = true;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+                System.Net.NetworkCredential credential = new System.Net.NetworkCredential();
+                credential.UserName = fromMail;
+                credential.Password = mailPassword;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = credential;
+
+                smtp.Send(message);
+            }
+
+            
 
             // save changes
             _context.Update(order);

@@ -1,4 +1,8 @@
-﻿@model MenuViewModel
+﻿@using Microsoft.AspNetCore.Identity;
+@using TuckshopOrdering.Areas.Identity.Data;
+@model MenuViewModel
+@inject SignInManager<TuckshopOrderingUser> SignInManager
+@inject UserManager<TuckshopOrderingUser> UserManager
 
 @{
     ViewData["Title"] = "Menu";
@@ -6,18 +10,6 @@
     int? orderId = ViewBag.OrderID as int?;
 
     DateTime min = DateTime.Now;
-
-    //<script>
-    //    window.addEventListener("load", () => {
-    //        const loader = document.querySelector(".loader");
-
-    //        loader.classList.add("loader-hidden");
-
-    //        loader.addEventListener("transitioned", () => {
-    //            document.body.removeChild("loader");
-    //        })
-    //    })
-    //</script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function (event) {
@@ -30,7 +22,48 @@
         };
     </script>
 }
-<body>
+
+<!--Admin View-->
+@if (SignInManager.IsSignedIn(User)) @*checks if the user is signed in. If they are, the admin view will be displayed, else; the default menu view will be displayed*@
+{
+    <div style="display: flex; flex-direction: row; flex-wrap: wrap;">
+        @foreach (var menuItem in Model._Menu)
+        {
+            <div class="card cardStyle">
+                <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle editBtn" href="#" role="button" id="editDropDown" data-bs-toggle="dropdown" aria-expanded="false" style="z-index: 5;">
+        Modify
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="editDropDown">
+        <li><a asp-action="Edit" asp-route-id="@menuItem.MenuID" class="dropdown-item">Edit</a></li>
+        <li><a asp-action="Details" asp-route-id="@menuItem.MenuID" class="dropdown-item">Details</a></li>
+        <li><a asp-action="Delete" asp-route-id="@menuItem.MenuID" class="dropdown-item">Delete</a></li>
+        </ul>
+        </div>
+                <form asp-action="AddToOrder" method="post"> @*when the user submits the form, the 'AddToOrder' action method of the menu controller will be called *@
+                    <div class="card-body">
+                        <img class="card-img" src="@("~/menuImages/"+menuItem.imageName)" asp-append-version="true" style="width:100%; border-radius: 10px; height: 160px; object-fit: cover; margin-bottom: 0px;" alt="@menuItem.foodName">
+                        <h6 class="card-title title">
+                            @Html.DisplayFor(model => menuItem.foodName)
+                        </h6>
+                        <h8 class="card-subtitle subtitle">
+                            @Html.DisplayFor(model => menuItem.price)
+                        </h8>
+                        <div class="cardBtns">
+@*                            when the add button is pressed, the following three values (menu ID, category ID, and Order ID) for that specific menu item will be passed via the parameter under 'name'
+*@                            <input type="hidden" name="menuItemID" value="@menuItem.MenuID" /> 
+                            <input type="hidden" name="currentCategoryID" value="@menuItem.CategoryID" />
+                            <input type="hidden" name="orderId" value="@orderId" />
+                            <button type="submit" class="addBtn">Add</button> @*submits the form*@
+                        </div>
+                    </div>
+                </form>
+            </div>
+        }
+    </div>
+}
+else
+{
     <div class="container" style="margin-top: 50px; margin-bottom: 50px;">
     <div class="row">
         <div class="col-8">
@@ -48,7 +81,7 @@
             <div style="display: flex; gap: 10px; margin-bottom: 20px; margin-top: 20px;">
                 <form asp-action="Index" method="get">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Search..." name="searchString">
+                        <input type="text" class="form-control" id="search" placeholder="Search..." name="searchString">
                         <button class="btn btn-outline-secondary" type="submit">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
@@ -57,24 +90,14 @@
                     </div>
                 </form>
                 <form asp-action="Index"><button class="returnBtn">Return</button></form>
-                <button class="returnBtn"><a asp-action="Create" style="color: white; text-decoration: none;">Create</a></button>
             </div>
+                <h1>@ViewBag.SelectedCategoryID</h1>
             <div class="menu">
                 
 
                 @foreach (var menuItem in Model._Menu)
                 {
                     <div class="card cardStyle">
-                        <div class="dropdown">
-                            <a class="btn btn-secondary dropdown-toggle editBtn" href="#" role="button" id="editDropDown" data-bs-toggle="dropdown" aria-expanded="false" style="z-index: 5;">
-                                Modify
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="editDropDown">
-                                <li><a asp-action="Edit" asp-route-id="@menuItem.MenuID" class="dropdown-item">Edit</a></li>
-                                <li><a asp-action="Details" asp-route-id="@menuItem.MenuID" class="dropdown-item">Details</a></li>
-                                <li><a asp-action="Delete" asp-route-id="@menuItem.MenuID" class="dropdown-item">Delete</a></li>
-                            </ul>
-                        </div>
                         <form asp-action="AddToOrder" method="post">
                             <!--Calls the AddToOrder function in the menus controller-->
                             <div class="card-body">
@@ -86,8 +109,7 @@
                                     @Html.DisplayFor(model => menuItem.price)
                                 </h6>
                                 <div class="cardBtns">
-@*                                    <button type="button" class="customiseBtn" data-bs-toggle="modal" data-bs-target="#customiseModal">Customise</button>
-*@                                    <input type="hidden" name="menuItemID" value="@menuItem.MenuID" />
+                                    <input type="hidden" name="menuItemID" value="@menuItem.MenuID" />
                                     <input type="hidden" name="currentCategoryID" value="@menuItem.CategoryID" />
                                     <input type="hidden" name="orderId" value="@orderId" />
                                     <button type="submit" class="addBtn">Add</button>
@@ -167,8 +189,7 @@
 
                 <div class="gridBtns">
                     <button type="button" id="checkout" class="gridBtnsItem" data-bs-toggle="modal" data-bs-target="#checkoutModal">Checkout</button>
-@*                    <button type="button" class="gridBtnsItem" data-bs-toggle="modal" data-bs-target="#noteModal">Notes</button>
-*@                    <button type="button" class="gridBtnsItem" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+                    <button type="button" class="gridBtnsItem" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
                 </div>
             </div>
         </div>
@@ -178,34 +199,6 @@
         <a href="#" class="top">Back to top ^</a>
     </div>
 </div>
-
-<!--Customise-->
-
-@*<div class="modal fade" id="customiseModal" tabindex="-1" aria-labelledby="customiseModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Customise</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form asp-action="AddToOrder" method="post">
-            <div class="modal-body">               
-                <div class="mb-3">        
-                    <input type="text" name="customiseMessage" class="form-control" id="customise" rows="3" placeholder="e.g. No mayo, no lettuce, etc"></input>
-                    <div class="form-text">
-                        Include any dietary requriments we may need to take account for.
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-                <button type="submit" class="btn btn-primary">Save changes</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>*@
 
 <!--Checkout-->
 
@@ -289,7 +282,7 @@
             <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">
-                            Checkout and Print <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                            Checkout<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
                                 <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
                             </svg>
                         </button>
@@ -297,8 +290,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
 
 <!--Notes-->
@@ -368,4 +359,5 @@
     </div>
 </div>
 @*    <div class="loader"></div>*@
-</body>
+
+}
