@@ -457,8 +457,8 @@ namespace TuckshopOrdering.Controllers
             string mailBody = "<h1 style='text-align: center;'>Thank you for your order!</h1>";
             string mainTitle = "Thank you for you order!";
             string mailSubject = "Tuckshop Order";
-            string fromMail = "purdonwill@gmail.com";
-            string mailPassword = "WaterBridge18";
+            string fromMail = "test@gmail.com";
+            string mailPassword = "test";
 
             if (!email.IsNullOrEmpty())
             {
@@ -481,9 +481,7 @@ namespace TuckshopOrdering.Controllers
                 smtp.Credentials = credential;
 
                 smtp.Send(message);
-            }
-
-            
+            }            
 
             // save changes
             _context.Update(order);

@@ -26,12 +26,13 @@
 <!--Admin View-->
 @if (SignInManager.IsSignedIn(User)) @*checks if the user is signed in. If they are, the admin view will be displayed, else; the default menu view will be displayed*@
 {
-    <div style="display: flex; flex-direction: row; flex-wrap: wrap;">
+<div style="display: flex; margin-top: 60px; margin-bottom: 60px;">
+    <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 0px; width: 80%;">
         @foreach (var menuItem in Model._Menu)
         {
-            <div class="card cardStyle">
+            <div class="card cardStyle" style="width: 160px;"> 
                 <div class="dropdown">
-        <a class="btn btn-secondary dropdown-toggle editBtn" href="#" role="button" id="editDropDown" data-bs-toggle="dropdown" aria-expanded="false" style="z-index: 5;">
+        <a class="btn btn-secondary dropdown-toggle editBtn" href="#" role="button" id="editDropDown" data-bs-toggle="dropdown" aria-expanded="false" style="z-index: 15c;">
         Modify
         </a>
         <ul class="dropdown-menu" aria-labelledby="editDropDown">
@@ -61,7 +62,213 @@
             </div>
         }
     </div>
-}
+
+    <div style="width: 20%;">
+    <div class="ordersBox">
+        <h1 style="text-align: center; padding: 10px;">Order:</h1>
+        <div class="line">
+            <hr class="solid">
+        </div>
+
+        <!--Repeatable orders code-->
+
+        <div class="orderItems">
+            @if (Model._FoodOrder != null && Model._FoodOrder.Any())
+            {
+                <script>
+                    document.getElementById("checkout").removeAttribute("disabled");
+                </script>
+
+                @foreach (var foodOrder in Model._FoodOrder)
+                {
+                    <div class="orderItem">
+                        <p class="flexItem" style="margin-left: 20px;">@Html.DisplayFor(model => foodOrder.quantity)x @Html.DisplayFor(model => foodOrder.Menu.foodName)</p> <!--Item quantity and item name-->
+                        <div class="modifyBtns">
+                            <form asp-action="DecreaseQuantity" method="post">
+                                <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
+                                <input type="hidden" name="categoryID" value="@foodOrder.Menu.CategoryID" />
+                                <input type="hidden" name="orderId" value="@orderId" />
+                                <button type="submit" class="orderItemBtn">-</button>
+                            </form>
+                            <form asp-action="IncreaseQuantity" method="post">
+                                <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
+                                <input type="hidden" name="categoryID" value="@foodOrder.Menu.CategoryID" />
+                                <input type="hidden" name="orderId" value="@orderId" />
+                                <button type="submit" class="orderItemBtn">+</button>
+                            </form>
+
+                            @{
+                                decimal total = @foodOrder.Menu.price * foodOrder.quantity;
+                            }
+                            <p>$@total</p>                                  <!--Item price (dependant on quantity)-->
+                            <form asp-action="DeleteItem" method="post">
+                                <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
+                                <input type="hidden" name="categoryID" value="@foodOrder.Menu.CategoryID" />
+                                <input type="hidden" name="orderId" value="@orderId" />
+                                <button type="submit" class="orderItemBtn cancelBtn">X</button>
+                            </form>
+
+
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <h5 style="text-align: center; padding-top: 30px; padding-bottom: 30px;">Your order is currently empty :(</h5>
+
+                <script>
+                    document.getElementById("checkout").setAttribute("disabled");
+                </script>
+            }
+        </div>
+
+        @{
+            decimal grandTotal = Model._FoodOrder.Sum(foodOrder => foodOrder.Menu.price * foodOrder.quantity);
+        }
+
+        <p id="grandTotal" style="margin-left: 20px; font-weight: bold;">Total Price: $@grandTotal</p>
+
+        <div class="gridBtns">
+            <button type="button" class="gridBtnsItem" data-bs-toggle="modal" data-bs-target="#checkoutModal">Checkout</button>
+            <button type="button" class="gridBtnsItem" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    @*Modals*@
+
+    <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete All?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form asp-action="CompleteOrder" method="post">
+                    <div class="modal-body">
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    <!--Customer fills in details here-->
+
+                                    <h1>Details</h1>
+
+                                    <div class="mb-3">
+                                        <!--Note field-->
+                                        <label for="note" class="form-label">Notes (optional)</label>
+                                        <input type="text" name="note" class="form-control" id="note" placeholder="e.g. No tomato on chicken burger" />
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <!--Student name field-->
+                                        <label for="studentName" class="form-label">Student Name</label>
+                                        <input type="text" name="studentName" class="form-control" id="studentName" placeholder="e.g. Jonathan Santos" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <!--Room number field-->
+                                        <label for="roomNumber" class="form-label">Room Number</label>
+                                        <input type="number" max="36" min="1" name="roomNumber" class="form-control" id="roomNumber" required>
+                                        <div class="form-text">
+                                            Please note; this is the room number that the order will be delivered to if it is a Friday lunch order
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <!--Collection date field-->
+                                        <label for="collectionDate" class="form-label">Collection Date</label>
+                                        <input type="date" name="collectionDate" class="form-control" min="@min.ToString("yyyy-MM-dd")" id="collectionDate">
+                                        <div class="form-text">
+                                            The order can be collected at morning tea or lunchtime
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <!--email field-->
+                                        <label for="email" class="form-label">Email (optional)</label>
+                                        <input type="email" name="email" class="form-control" id="email" placeholder="sam123@gmail.com">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <!--Order details-->
+                                    <div class="orderItems">
+                                        <h1>Order</h1>
+                                        @foreach (var foodOrder in Model._FoodOrder)
+                                        {
+                                            <div class="orderItem">
+                                                <p class="flexItem" style="margin-left: 20px;">@Html.DisplayFor(model => foodOrder.quantity)x @Html.DisplayFor(model => foodOrder.Menu.foodName)</p> <!--Item quantity and item name-->
+                                                <div class="modifyBtns">
+
+                                                    @{
+                                                        decimal total = @foodOrder.Menu.price * foodOrder.quantity;
+                                                    }
+                                                    <p>$@total</p>
+
+
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <p style="margin-left: 20px; font-weight: bold;">Total Price: $@grandTotal</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">
+                            Checkout<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                            </svg>
+                        </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--Delete-->
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form asp-action="DeleteAllItems" method="post">
+                    <div class="modal-body">
+                        <div class="orderItems">
+                            @foreach (var foodOrder in Model._FoodOrder)
+                            {
+                                <div class="orderItem">
+                                    <p class="flexItem" style="margin-left: 20px;">@Html.DisplayFor(model => foodOrder.quantity)x @Html.DisplayFor(model => foodOrder.Menu.foodName)</p> <!--Item quantity and item name-->
+                                    <div class="modifyBtns">
+                                        @{
+                                            decimal total = @foodOrder.Menu.price * foodOrder.quantity;
+                                        }
+                                        <p>$@total</p>                                  <!--Item price (dependant on quantity)-->
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <p style="margin-left: 20px; font-weight: bold;">Total Price: $@grandTotal</p>
+
+                        <p style="font-weight: bold; margin-bottom: 0;">WARNING! This will permanently delete the order</p>
+                    </div>                     
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="hidden" name="orderId" value="@orderId" />
+                        <button type="submit" class="btn btn-primary deleteBtn">Delete</button>
+                    </form>
+                    </div>
+                </div>
+            </div>
+ }
+
+ @*Default user view*@
 else
 {
     <div class="container" style="margin-top: 50px; margin-bottom: 50px;">
@@ -291,73 +498,42 @@ else
             </div>
         </div>
 
+    <!--Delete-->
 
-<!--Notes-->
-
-@*<div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="noteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Notes</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form asp-action="AddNote" method="post">
-            <div class="modal-body">
-                <div style="display: flex; justify-content: center;">
-                    <input type="text" name="customerNote" placeholder="e.g. no tomato on burger" class="form-control" rows="3" style="width: 95%;">
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save note</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>*@
-
-
-<!--Delete-->
-
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Delete?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-
-                <div class="orderItems">
-                    @foreach (var foodOrder in Model._FoodOrder)
-                    {
-                        <div class="orderItem">
-                            <p class="flexItem" style="margin-left: 20px;">@Html.DisplayFor(model => foodOrder.quantity)x @Html.DisplayFor(model => foodOrder.Menu.foodName)</p> <!--Item quantity and item name-->
-                            <div class="modifyBtns">
-                                @{
-                                    decimal total = @foodOrder.Menu.price * foodOrder.quantity;
-                                }
-                                <p>$@total</p>                                  <!--Item price (dependant on quantity)-->
-                            </div>
-                        </div>
-                    }
-                </div>
-
-                <p style="margin-left: 20px; font-weight: bold;">Total Price: $@grandTotal</p>
-
-                <p style="font-weight: bold; margin-bottom: 0;">WARNING! This will permanently delete the order</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <form asp-action="DeleteAllItems" method="post">
-                    <input type="hidden" name="orderId" value="@orderId" />
-                    <button type="submit" class="btn btn-primary deleteBtn">Delete</button>
-                </form>
+                    <div class="modal-body">
+                        <div class="orderItems">
+                            @foreach (var foodOrder in Model._FoodOrder)
+                            {
+                                <div class="orderItem">
+                                    <p class="flexItem" style="margin-left: 20px;">@Html.DisplayFor(model => foodOrder.quantity)x @Html.DisplayFor(model => foodOrder.Menu.foodName)</p> <!--Item quantity and item name-->
+                                    <div class="modifyBtns">
+                                        @{
+                                            decimal total = @foodOrder.Menu.price * foodOrder.quantity;
+                                        }
+                                        <p>$@total</p>                                  <!--Item price (dependant on quantity)-->
+                                    </div>
+                                </div>
+                            }
+                        </div>
 
+                        <p style="margin-left: 20px; font-weight: bold;">Total Price: $@grandTotal</p>
+
+                        <p style="font-weight: bold; margin-bottom: 0;">WARNING! This will permanently delete the order</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="hidden" name="orderId" value="@orderId" />
+                        <button type="submit" class="btn btn-primary deleteBtn">Delete</button>
+                </form>
             </div>
         </div>
     </div>
-</div>
-@*    <div class="loader"></div>*@
-
 }

@@ -546,11 +546,16 @@ hr.solid {
     padding: 20px;
 }
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 430px){
+    h1{
+        color: red;
+    }
+    .logo{
+        display: none;
+    }
     .column2{
         visibility: hidden;
         width: 0;
-
     }
 
     .column1{
@@ -600,8 +605,12 @@ hr.solid {
     }
 
     .logo{
-        align-items: flex-end;
+        display: none;
     }
+    header{
+        height: 50px;
+    }
+
 }
 
 .indicate{
