@@ -23,8 +23,8 @@
 
     <header style="position: sticky; top: 0; z-index: 99;">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="height: 100px; border: none;">
-            <div class="container-fluid" style="margin: 80px;">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="/Images/The Tuckshop Logo_Landscape_Red.png" class="logo" /></a>
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="/Images/The Tuckshop Logo_Landscape_Red.png" alt="tuckshop" class="logo" /></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -63,9 +63,15 @@
                 <a asp-area="" asp-controller="Home" asp-action="Index" style="text-decoration: none; color: grey;">Home</a>
                 <a asp-area="" asp-controller="Home" asp-action="Privacy" style="text-decoration: none; color: grey;">Privacy</a>
                 <a asp-area="" asp-controller="Home" asp-action="FAQ" style="text-decoration: none; color: grey;">FAQ</a>
-                <a asp-area="" asp-controller="Categories" asp-action="Index" style="text-decoration: none; color: grey;">Categories</a>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <a asp-area="" asp-controller="Categories" asp-action="Index" style="text-decoration: none; color: grey;">Categories</a>
+                }
                 <a asp-area="" asp-controller="Menus" asp-action="Index" style="text-decoration: none; color: grey;">Menu</a>
-                <a asp-area="" asp-controller="Orders" asp-action="Index" style="text-decoration: none; color: grey;">Orders</a>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <a asp-area="" asp-controller="Orders" asp-action="Index" style="text-decoration: none; color: grey;">Orders</a>
+                }
                 <a asp-area="Identity" asp-page="/Account/Logout" style="text-decoration: none; color: grey;">Staff Login</a>
                 @if (SignInManager.IsSignedIn(User))
                 {

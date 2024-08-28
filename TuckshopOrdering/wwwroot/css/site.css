@@ -8,6 +8,87 @@ html {
     }
 }
 
+@media screen and (max-width: 430px) {
+    .logo{
+        width: 314.75px !important;
+        height: 32px !important;
+    }
+    .col-8{
+        width: auto;
+    }
+    .col-4{
+        display: none;
+    }
+    .menu{
+        gap: 0px !important;
+    }
+    .mobileCart {
+        border-radius: 100%;
+        width: 80px;
+        height: 80px;
+        border: none;
+    }
+    .mobileCartParent {
+        display: flex;
+        flex-direction: row-reverse;
+        position: sticky;
+        bottom: 5px;
+        padding-bottom: 20px;
+    }
+
+}
+
+@media screen and (min-width: 431px){
+    .mobileCart{
+        display: none;
+    }
+    .mobileCartParent{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 576px){
+    .navbar-nav {
+        gap: 15px;
+    }
+    .tagline{
+        width: 90% !important   ;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .logo{
+        width: 300px !important;
+        height: 30px !important;
+    }
+}
+
+@media screen and (max-width: 384px) {
+    .logo {
+        width: 280px !important;
+        height: 27px !important;
+    }
+}
+
+@media screen and (max-width: 364px) {
+    .logo {
+        width: 250px !important;
+        height: 23px !important;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .homePageMenu{
+        gap: 0px !important;
+    }
+}
+
+@media screen and (max-width: 840px) {
+    .homePageMenu {
+        gap: 0px !important;
+    }
+}
+
 @font-face {
     font-family: "Nunito-ExtraLight";
     src: url("../Font/Nunito-ExtraLight.ttf") format('truetype');
@@ -544,73 +625,6 @@ hr.solid {
 
 .heading {
     padding: 20px;
-}
-
-@media screen and (max-width: 430px){
-    h1{
-        color: red;
-    }
-    .logo{
-        display: none;
-    }
-    .column2{
-        visibility: hidden;
-        width: 0;
-    }
-
-    .column1{
-        width: 100%;
-    }
-
-    .menuBtns{
-        width: 100%;
-        font-size: 18px;
-    }
-
-    .addBtn{
-        height: 40px;
-        font-size: 15px;
-    }
-
-    .customiseBtn{
-        height: 40px;
-        font-size: 15px;
-    }
-
-    .title{
-        font-size: 30px;
-    }
-
-    .subtitle{
-        font-size: 20px;
-    }
-
-    .heading{
-        font-size: 35px;
-    }
-
-    .sticky{
-        position: static;
-    }
-
-    .orderRectangle {
-        width: 100%;
-        position: sticky;
-        bottom: 10px;
-        background-color: #ffefe0;
-        height: 50px;
-        text-align: center;
-        font-size: 20px;
-        border-radius: 25px;
-    }
-
-    .logo{
-        display: none;
-    }
-    header{
-        height: 50px;
-    }
-
 }
 
 .indicate{

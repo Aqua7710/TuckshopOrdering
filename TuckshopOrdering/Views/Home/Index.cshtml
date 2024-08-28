@@ -2,7 +2,7 @@
     ViewData["Title"] = "Home Page";
 
     <script>
-        window.addEventListener("loaxd", () => {
+        window.addEventListener("load", () => {
             const loader = document.querySelector(".loader");
 
             loader.classList.add("loader-hidden");
@@ -29,10 +29,16 @@
         <!-- The slideshow/carousel -->
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="/Images/Desktop Carousel_1.png" alt="Carousel item 1" class="d-block imgStyle" id="img1">
+                <!--Desktop image-->
+                <img src="/Images/Desktop Carousel_1.png" alt="Carousel item 1" class="d-none d-md-block w-100">
+                <!--Mobile image-->
+                <img src="/Images/Mobile Carousel_1.png" alt="Carousel item 1" class="d-block d-md-none w-100">
             </div>
             <div class="carousel-item">
-                <img src="/Images/Desktop Carousel_2.png" alt="Carousel item 2" class="d-block imgStyle" id="img2">
+                <!--Desktop image-->
+                <img src="/Images/Desktop Carousel_2.png" alt="Carousel item 2" class="d-none d-md-block w-100">
+                <!--Mobile image-->
+                <img src="/Images/Mobile Carousel_2.png" alt="Carousel item 2" class="d-block d-md-none w-100">
             </div>
         </div>
 
@@ -47,7 +53,7 @@
 
     <h1 style="padding-top: 100px; text-align: center; font-weight: bold;">Fillin your tum with the yums!</h1>
     <div style="display: flex; justify-content: center; padding-top: 20px;">
-        <p style="text-align: center; width: 40%; font-size: 18px;">Healthy snacks, happy kids - fueling little minds at the Tuckshop! Where every bite is a delight and every smile is bright!</p>
+        <p style="text-align: center; width: 40%; font-size: 18px;" class="tagline">Healthy snacks, happy kids - fueling little minds at the Tuckshop! Where every bite is a delight and every smile is bright!</p>
     </div>
 
     <div class="homePageMenu">

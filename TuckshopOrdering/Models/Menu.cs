@@ -15,8 +15,8 @@ namespace TuckshopOrdering.Models
 		[Range(0.1, 99)]  // only allows user to enter a price between 10 cents and 99 dollars 
         [DataType(DataType.Currency)] 
         public decimal price { get; set; } // price property 
-        public string imageName { get; set; }
-        [NotMapped]
+        public string imageName { get; set; } // image name property 
+        [NotMapped] // this means the image file property will not be mapped to the table
         [DisplayName("Upload Image:")]
         public IFormFile imageFile { get; set; }
         [DisplayName("Category")]

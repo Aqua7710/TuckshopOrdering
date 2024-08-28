@@ -21,12 +21,28 @@
             localStorage.setItem('scrollpos', window.scrollY);
         };
     </script>
+
+            decimal grandTotal = Model._FoodOrder.Sum(foodOrder => foodOrder.Menu.price * foodOrder.quantity);
 }
 
 <!--Admin View-->
 @if (SignInManager.IsSignedIn(User)) @*checks if the user is signed in. If they are, the admin view will be displayed, else; the default menu view will be displayed*@
 {
-<div style="display: flex; margin-top: 60px; margin-bottom: 60px;">
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <form asp-action="Index" method="get">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="search" placeholder="Search..." name="searchString">
+                <button class="btn btn-outline-secondary" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
+                </button>
+            </div>
+        </form>
+        <form asp-action="Index"><button class="returnBtn">Return</button></form>
+        <button class="returnBtn"><a asp-action="Create" style="color: white; text-decoration: none;">Create</a></button>
+    </div>
+<div style="display: flex; margin-bottom: 60px;">
     <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 0px; width: 80%;">
         @foreach (var menuItem in Model._Menu)
         {
@@ -123,9 +139,9 @@
             }
         </div>
 
-        @{
+@*        @{
             decimal grandTotal = Model._FoodOrder.Sum(foodOrder => foodOrder.Menu.price * foodOrder.quantity);
-        }
+        }*@
 
         <p id="grandTotal" style="margin-left: 20px; font-weight: bold;">Total Price: $@grandTotal</p>
 
@@ -139,14 +155,16 @@
 
     @*Modals*@
 
-    <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <!--Checkout-->
+
+    <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Delete All?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
                 <form asp-action="CompleteOrder" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Checkout</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
                     <div class="modal-body">
 
                         <div class="container">
@@ -223,6 +241,7 @@
                                 <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
                             </svg>
                         </button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -231,14 +250,16 @@
     <!--Delete-->
 
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Delete?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
                 <form asp-action="DeleteAllItems" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
                     <div class="modal-body">
+
                         <div class="orderItems">
                             @foreach (var foodOrder in Model._FoodOrder)
                             {
@@ -257,16 +278,27 @@
                         <p style="margin-left: 20px; font-weight: bold;">Total Price: $@grandTotal</p>
 
                         <p style="font-weight: bold; margin-bottom: 0;">WARNING! This will permanently delete the order</p>
-                    </div>                     
+                    </div>
+
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <input type="hidden" name="orderId" value="@orderId" />
-                        <button type="submit" class="btn btn-primary deleteBtn">Delete</button>
-                    </form>
+                        <button type="submit" class="btn btn-danger">
+                            Delete<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                            </svg>
+                        </button>
                     </div>
-                </div>
+                </form>
             </div>
+        </div>
+    </div>
  }
+
+
+
+
 
  @*Default user view*@
 else
@@ -326,6 +358,107 @@ else
                     </div>
                 }
             </div>
+            <!--Cart button for mobile view-->
+                <div class="mobileCartParent">
+                    <button class="mobileCart" data-bs-toggle="modal" data-bs-target="#cartModal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!--Cart modal for mobile view-->
+                <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form asp-action="DeleteAllItems" method="post">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Your Order</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <div class="modal-body">
+
+                                    <!--Repeatable orders code-->
+
+                                    <div class="orderItems">
+                                        @if (Model._FoodOrder != null && Model._FoodOrder.Any())
+                                        {
+                                            <script>
+                                                document.getElementById("checkout").removeAttribute("disabled");
+                                            </script>
+
+                                            @foreach (var foodOrder in Model._FoodOrder)
+                                            {
+                                                <div class="orderItem">
+                                                    <p class="flexItem" style="margin-left: 20px;">@Html.DisplayFor(model => foodOrder.quantity)x @Html.DisplayFor(model => foodOrder.Menu.foodName)</p> <!--Item quantity and item name-->
+                                                    <div class="modifyBtns">
+                                                        <form asp-action="DecreaseQuantity" method="post">
+                                                            <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
+                                                            <input type="hidden" name="categoryID" value="@foodOrder.Menu.CategoryID" />
+                                                            <input type="hidden" name="orderId" value="@orderId" />
+                                                            <button type="submit" class="orderItemBtn">-</button>
+                                                        </form>
+                                                        <form asp-action="IncreaseQuantity" method="post">
+                                                            <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
+                                                            <input type="hidden" name="categoryID" value="@foodOrder.Menu.CategoryID" />
+                                                            <input type="hidden" name="orderId" value="@orderId" />
+                                                            <button type="submit" class="orderItemBtn">+</button>
+                                                        </form>
+
+                                                        @{
+                                                            decimal total = @foodOrder.Menu.price * foodOrder.quantity;
+                                                        }
+                                                        <p>$@total</p>                                  <!--Item price (dependant on quantity)-->
+                                                        <form asp-action="DeleteItem" method="post">
+                                                            <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
+                                                            <input type="hidden" name="categoryID" value="@foodOrder.Menu.CategoryID" />
+                                                            <input type="hidden" name="orderId" value="@orderId" />
+                                                            <button type="submit" class="orderItemBtn cancelBtn">X</button>
+                                                        </form>
+
+
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <h5 style="text-align: center; padding-top: 30px; padding-bottom: 30px;">Your order is currently empty :(</h5>
+
+                                            <script>
+                                                document.getElementById("checkout").setAttribute("disabled");
+                                            </script>
+                                        }
+                                    </div>
+
+@*                                    @{
+                                        decimal grandTotal = Model._FoodOrder.Sum(foodOrder => foodOrder.Menu.price * foodOrder.quantity);
+                                    }*@
+
+                                    <p id="grandTotal" style="margin-left: 20px; font-weight: bold;">Total Price: $@grandTotal</p>
+                                </div>
+
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                        Delete<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                        </svg>
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checkoutModal">
+                                        Checkout<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            
         </div>
 
         <div class="col-4">
@@ -389,7 +522,7 @@ else
                 </div>
 
                 @{
-                    decimal grandTotal = Model._FoodOrder.Sum(foodOrder => foodOrder.Menu.price * foodOrder.quantity);
+                    grandTotal = Model._FoodOrder.Sum(foodOrder => foodOrder.Menu.price * foodOrder.quantity);
                 }
 
                 <p id="grandTotal" style="margin-left: 20px; font-weight: bold;">Total Price: $@grandTotal</p>
@@ -407,17 +540,17 @@ else
     </div>
 </div>
 
-<!--Checkout-->
+    <!--Checkout-->
 
-<div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Checkout</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form asp-action="CompleteOrder" method="post">
-            <div class="modal-body">
+    <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form asp-action="CompleteOrder" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">Checkout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                    <div class="modal-body">
 
                         <div class="container">
                             <div class="row">
@@ -484,31 +617,34 @@ else
                                 </div>
                             </div>
                         </div>
-            </div>
+                    </div>
 
-            <div class="modal-footer">
+                <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">
-                            Checkout<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
-                            </svg>
-                        </button>
-                </form>
+                    <button type="submit" class="btn btn-primary">
+                        Checkout<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                        </svg>
+                    </button>
                 </div>
+                </form>
             </div>
         </div>
+    </div>
 
     <!--Delete-->
 
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
+                <form asp-action="DeleteAllItems" method="post">
                 <div class="modal-header">
-                    <h5 class="modal-title">Delete?</h5>
+                    <h5 class="modal-title">Delete</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form asp-action="DeleteAllItems" method="post">
+                
                     <div class="modal-body">
+
                         <div class="orderItems">
                             @foreach (var foodOrder in Model._FoodOrder)
                             {
@@ -528,10 +664,17 @@ else
 
                         <p style="font-weight: bold; margin-bottom: 0;">WARNING! This will permanently delete the order</p>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <input type="hidden" name="orderId" value="@orderId" />
-                        <button type="submit" class="btn btn-primary deleteBtn">Delete</button>
+           
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger">
+                            Delete<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                            </svg>
+                </button>
+            </div>
                 </form>
             </div>
         </div>
