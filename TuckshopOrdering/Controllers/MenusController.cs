@@ -62,12 +62,21 @@ namespace TuckshopOrdering.Controllers
                                           .ToListAsync();
             }
 
-
             // if the passed search string value is not null or empty, then run the if statemnt code
             if (!String.IsNullOrEmpty(searchString))
             {
                 // retrieves all menu items from database where the food name contains the search string variable and stores the results in a list
                 menu = await _context.Menu.Where(o => o.foodName.Contains(searchString)).ToListAsync();
+                
+
+                if (menu.Count == 0)
+                {
+                    ViewBag.NoResults = $"'{searchString}' does not exist : /";
+                }
+                else
+                {
+                    ViewBag.SearchResults = $"Search results for '{searchString}'...";
+                }
             }
 
             // a viewmodel to pass the menu, categories, and food orders to the view 

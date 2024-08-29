@@ -9,6 +9,8 @@
 
     int? orderId = ViewBag.OrderID as int?;
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     DateTime min = DateTime.Now;
 
     <script>
@@ -331,14 +333,15 @@ else
                 <form asp-action="Index"><button class="returnBtn">Return</button></form>
             </div>
                 <h1>@ViewBag.SelectedCategoryID</h1>
+                <h1>@ViewBag.NoResults</h1>
+                <h1>@ViewBag.SearchResults</h1>
             <div class="menu">
                 
 
-                @foreach (var menuItem in Model._Menu)
-                {
-                    <div class="card cardStyle">
-                        <form asp-action="AddToOrder" method="post">
-                            <!--Calls the AddToOrder function in the menus controller-->
+                    @foreach (var menuItem in Model._Menu)
+                    {
+                        <div class="card cardStyle">
+                            <!-- The form submission will be handled via jQuery -->
                             <div class="card-body">
                                 <img class="card-img" src="@("~/menuImages/"+menuItem.imageName)" asp-append-version="true" style="width:100%; border-radius: 10px; height: 160px; object-fit: cover; margin-bottom: 10px;" alt="@menuItem.foodName">
                                 <h4 class="card-title title">
@@ -351,17 +354,16 @@ else
                                     <input type="hidden" name="menuItemID" value="@menuItem.MenuID" />
                                     <input type="hidden" name="currentCategoryID" value="@menuItem.CategoryID" />
                                     <input type="hidden" name="orderId" value="@orderId" />
-                                    <button type="submit" class="addBtn">Add</button>
+                                    <button type="button" class="addBtn" onclick="addToOrder('@menuItem.MenuID', '@menuItem.CategoryID', '@orderId')">Add</button>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                }
+                        </div>
+                    }
             </div>
             <!--Cart button for mobile view-->
                 <div class="mobileCartParent">
                     <button class="mobileCart" data-bs-toggle="modal" data-bs-target="#cartModal">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="bi bi-cart" viewBox="0 0 16 16">
                             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
                         </svg>
                     </button>

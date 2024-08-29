@@ -27,6 +27,7 @@ html {
         width: 80px;
         height: 80px;
         border: none;
+        background-color: #e92f3a;
     }
     .mobileCartParent {
         display: flex;
@@ -34,6 +35,10 @@ html {
         position: sticky;
         bottom: 5px;
         padding-bottom: 20px;
+    }
+
+    .successBox{
+        width: 90% !important;
     }
 
 }
@@ -44,6 +49,16 @@ html {
     }
     .mobileCartParent{
         display: none;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .cardStyle{
+        width: 169px !important;
+    }
+
+    .menu{
+        justify-content: center;
     }
 }
 
@@ -61,6 +76,10 @@ html {
         width: 300px !important;
         height: 30px !important;
     }
+
+    .menuBtns{
+        font-size: 12px !important;
+    }
 }
 
 @media screen and (max-width: 384px) {
@@ -75,6 +94,10 @@ html {
         width: 250px !important;
         height: 23px !important;
     }
+
+    .cardStyle{
+        width: 160px !important;
+    }
 }
 
 @media screen and (max-width: 960px) {
@@ -86,6 +109,13 @@ html {
 @media screen and (max-width: 840px) {
     .homePageMenu {
         gap: 0px !important;
+    }
+}
+
+
+@media screen and (max-width: 790px) {
+    .container-fluid{
+        margin: 0px !important;
     }
 }
 
@@ -147,6 +177,7 @@ header, main{
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 40px;
     padding: 10px;
+    background-color: white;
 }
 
 .ordersBox {
