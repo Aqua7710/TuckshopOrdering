@@ -17,10 +17,10 @@ namespace TuckshopOrdering.Models
         public decimal price { get; set; } // price property 
         public string imageName { get; set; } // image name property 
         [NotMapped] // this means the image file property will not be mapped to the table
-        [DisplayName("Upload Image:")]
-        public IFormFile imageFile { get; set; }
-        [DisplayName("Category")]
-        public int CategoryID { get; set; }
+        [DisplayName("Upload Image:")] // displays a custom name rather than the column name from the table
+        public IFormFile imageFile { get; set; } // image file property 
+        [DisplayName("Category")] // displays a custom name rather than the column name from the table
+        public int CategoryID { get; set; } // foreign key
         public Category Category { get; set; } = null!; // many menu items can belong only to 1 category
         public ICollection<FoodOrder> FoodOrders { get; set; } // 1 menu item can belong to many food orders 
     }

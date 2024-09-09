@@ -9,8 +9,6 @@
 
     int? orderId = ViewBag.OrderID as int?;
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     DateTime min = DateTime.Now;
 
     <script>
@@ -24,14 +22,16 @@
         };
     </script>
 
-            decimal grandTotal = Model._FoodOrder.Sum(foodOrder => foodOrder.Menu.price * foodOrder.quantity);
+    // calculates grand total price
+    decimal grandTotal = Model._FoodOrder.Sum(foodOrder => foodOrder.Menu.price * foodOrder.quantity);
 }
 
 <!--Admin View-->
 @if (SignInManager.IsSignedIn(User)) @*checks if the user is signed in. If they are, the admin view will be displayed, else; the default menu view will be displayed*@
 {
+    <!--Search, return, and create buttons-->
     <div style="display: flex; gap: 10px; margin-top: 20px;">
-        <form asp-action="Index" method="get">
+        <form asp-action="Index" method="get"> 
             <div class="input-group mb-3">
                 <input type="text" class="form-control" id="search" placeholder="Search..." name="searchString">
                 <button class="btn btn-outline-secondary" type="submit">
@@ -50,7 +50,7 @@
         {
             <div class="card cardStyle" style="width: 160px;"> 
                 <div class="dropdown">
-        <a class="btn btn-secondary dropdown-toggle editBtn" href="#" role="button" id="editDropDown" data-bs-toggle="dropdown" aria-expanded="false" style="z-index: 15c;">
+        <a class="btn btn-secondary dropdown-toggle editBtn" href="#" role="button" id="editDropDown" data-bs-toggle="dropdown" aria-expanded="false" style="z-index: 15;">
         Modify
         </a>
         <ul class="dropdown-menu" aria-labelledby="editDropDown">
@@ -73,7 +73,7 @@
 *@                            <input type="hidden" name="menuItemID" value="@menuItem.MenuID" /> 
                             <input type="hidden" name="currentCategoryID" value="@menuItem.CategoryID" />
                             <input type="hidden" name="orderId" value="@orderId" />
-                            <button type="submit" class="addBtn">Add</button> @*submits the form*@
+                            <button type="submit" id="addBtnID" class="addBtn">Add</button> @*submits the form*@
                         </div>
                     </div>
                 </form>
@@ -100,7 +100,7 @@
                 @foreach (var foodOrder in Model._FoodOrder)
                 {
                     <div class="orderItem">
-                        <p class="flexItem" style="margin-left: 20px;">@Html.DisplayFor(model => foodOrder.quantity)x @Html.DisplayFor(model => foodOrder.Menu.foodName)</p> <!--Item quantity and item name-->
+                        <p class="flexItem" style="margin-left: 20px;" id="foodItem">@Html.DisplayFor(model => foodOrder.quantity)x @Html.DisplayFor(model => foodOrder.Menu.foodName)</p> <!--Item quantity and item name-->
                         <div class="modifyBtns">
                             <form asp-action="DecreaseQuantity" method="post">
                                 <input type="hidden" name="foodOrderID" value="@foodOrder.FoodOrderID" />
@@ -185,7 +185,7 @@
                                     <div class="mb-3">
                                         <!--Student name field-->
                                         <label for="studentName" class="form-label">Student Name</label>
-                                        <input type="text" name="studentName" class="form-control" id="studentName" placeholder="e.g. Jonathan Santos" required>
+                                        <input type="text" name="studentName" class="form-control" id="studentName" placeholder="e.g. Jonathan Santos" maxlength="35" min="2" required>
                                     </div>
                                     <div class="mb-3">
                                         <!--Room number field-->
@@ -341,22 +341,24 @@ else
                     @foreach (var menuItem in Model._Menu)
                     {
                         <div class="card cardStyle">
-                            <!-- The form submission will be handled via jQuery -->
-                            <div class="card-body">
-                                <img class="card-img" src="@("~/menuImages/"+menuItem.imageName)" asp-append-version="true" style="width:100%; border-radius: 10px; height: 160px; object-fit: cover; margin-bottom: 10px;" alt="@menuItem.foodName">
-                                <h4 class="card-title title">
-                                    @Html.DisplayFor(model => menuItem.foodName)
-                                </h4>
-                                <h6 class="card-subtitle subtitle">
-                                    @Html.DisplayFor(model => menuItem.price)
-                                </h6>
-                                <div class="cardBtns">
-                                    <input type="hidden" name="menuItemID" value="@menuItem.MenuID" />
-                                    <input type="hidden" name="currentCategoryID" value="@menuItem.CategoryID" />
-                                    <input type="hidden" name="orderId" value="@orderId" />
-                                    <button type="button" class="addBtn" onclick="addToOrder('@menuItem.MenuID', '@menuItem.CategoryID', '@orderId')">Add</button>
+                            <form asp-action="AddToOrder" method="post">
+                                <!--Calls the AddToOrder function in the menus controller-->
+                                <div class="card-body">
+                                    <img class="card-img" src="@("~/menuImages/"+menuItem.imageName)" asp-append-version="true" style="width:100%; border-radius: 10px; height: 160px; object-fit: cover; margin-bottom: 10px;" alt="@menuItem.foodName">
+                                    <h4 class="card-title title">
+                                        @Html.DisplayFor(model => menuItem.foodName)
+                                    </h4>
+                                    <h6 class="card-subtitle subtitle">
+                                        @Html.DisplayFor(model => menuItem.price)
+                                    </h6>
+                                    <div class="cardBtns">
+                                        <input type="hidden" name="menuItemID" value="@menuItem.MenuID" />
+                                        <input type="hidden" name="currentCategoryID" value="@menuItem.CategoryID" />
+                                        <input type="hidden" name="orderId" value="@orderId" />
+                                        <button type="submit" class="addBtn">Add</button>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     }
             </div>
@@ -564,13 +566,13 @@ else
                                     <div class="mb-3">
                                         <!--Note field-->
                                         <label for="note" class="form-label">Notes (optional)</label>
-                                        <input type="text" name="note" class="form-control" id="note" placeholder="e.g. No tomato on chicken burger" />
+                                        <input type="text" name="note" class="form-control" rows="2" id="note" placeholder="e.g. No tomato on chicken burger" />
                                     </div>
 
                                     <div class="mb-3">
                                         <!--Student name field-->
                                         <label for="studentName" class="form-label">Student Name</label>
-                                        <input type="text" name="studentName" class="form-control" id="studentName" placeholder="e.g. Jonathan Santos" required>
+                                        <input type="text" name="studentName" maxlength="35" minlength="2" class="form-control" id="studentName" placeholder="e.g. Jonathan Santos" required>
                                     </div>
                                     <div class="mb-3">
                                         <!--Room number field-->

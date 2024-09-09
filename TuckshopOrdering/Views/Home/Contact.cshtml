@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Contact";
+
+    <title>Contact us</title>
+}
+
+<div class="container" style="margin-top: 50px; margin-bottom: 50px;">
+    <h1>Contact us!</h1>
+    <div class="contact">
+    <p>Get in touch with us for any questions or support related to your orders. Whether you need assistance with your current order or have suggestions to improve our service, we're here to help. Simply fill out the form below, and our team will get back to you promptly.</p>
+    
+    <form asp-action="Contact" method="post">
+        <!--Name field-->
+        <div class="mb-3">
+            <label for="nameField" class="form-label">Name</label>
+            <input type="text" class="form-control" id="nameField" name="name" required>
+        </div>
+        <!--email field-->
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" name="email" required>
+        </div>
+        <!--phone field-->
+        <div class="mb-3">
+            <label for="phoneField" class="form-label">Phone Number</label>
+            <input type="tel" class="form-control" id="phoneField" name="phone" required>
+        </div>
+        <!--message field-->
+        <div class="mb-3">
+            <label for="messageField" class="form-label">Message</label>
+            <textarea class="form-control" id="messageField" rows="5" name="message" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+    </form>
+    </div>
+    
+</div>
+
+
+

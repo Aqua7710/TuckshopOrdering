@@ -2,6 +2,10 @@ html {
     font-size: 14px;
 }
 
+.contact{ /*Default contact form width*/
+    width: 60%;
+}
+
 @media (min-width: 768px) {
     html {
         font-size: 16px;
@@ -110,6 +114,10 @@ html {
     .homePageMenu {
         gap: 0px !important;
     }
+
+    .contact{
+        width: 100%;
+    }
 }
 
 
@@ -122,6 +130,15 @@ html {
 @font-face {
     font-family: "Nunito-ExtraLight";
     src: url("../Font/Nunito-ExtraLight.ttf") format('truetype');
+}
+
+.logoFont{
+    font-family: SneakersProWide;
+}
+
+@font-face{
+    font-family: "SneakersProWide";
+    src: url("../Font/Sneakers Pro Wide.ttf") format('truetype');
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -248,6 +265,13 @@ header, main{
         transition: box-shadow 0.3s ease-in-out;
         transform: scale(1.1);
     }
+
+.adminCardStyle {
+    width: 160px;
+    text-align: center;
+    margin-bottom: 20px;
+    border: none;
+}
 
 .input {
     padding: 10px;

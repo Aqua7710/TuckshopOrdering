@@ -2,7 +2,7 @@
 
 namespace TuckshopOrdering.Models
 {
-    public class MenuViewModel
+    public class MenuViewModel // display three models on one view
     {
         public List<Menu> _Menu { get; set; }
         public List<Category> _Category { get; set; }

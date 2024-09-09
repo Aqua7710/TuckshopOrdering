@@ -43,6 +43,9 @@
                             <a class="nav-link hover text-dark" asp-area="" asp-controller="Home" asp-action="FAQ">FAQs</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link hover text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Contact us</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link hover text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>                                           
                     </ul>
@@ -62,6 +65,7 @@
             <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
                 <a asp-area="" asp-controller="Home" asp-action="Index" style="text-decoration: none; color: grey;">Home</a>
                 <a asp-area="" asp-controller="Home" asp-action="Privacy" style="text-decoration: none; color: grey;">Privacy</a>
+                <a asp-area="" asp-controller="Home" asp-action="Contact" style="text-decoration: none; color: grey;">Contact us</a>
                 <a asp-area="" asp-controller="Home" asp-action="FAQ" style="text-decoration: none; color: grey;">FAQ</a>
                 @if (SignInManager.IsSignedIn(User))
                 {

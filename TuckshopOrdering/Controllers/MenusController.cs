@@ -426,69 +426,91 @@ namespace TuckshopOrdering.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteItem(int foodOrderID, int? orderId)
         {
+            // finds the food order in the database based on the passed parameter value
             var foodOrder = await _context.FoodOrder.FindAsync(foodOrderID);
-
+            
+            // if the food order exists 
             if (foodOrder != null)
             {
+                // deletes the corresponding food order from the database and saves the change
                 _context.FoodOrder.Remove(foodOrder);
                 await _context.SaveChangesAsync();
             }
 
+            // retrieves the current category ID from the temp data, if it exists, or defaults to 0
             int categoryID = TempData.ContainsKey("CurrentCategoryID") ? (int)TempData["CurrentCategoryID"] : 0;
 
+            // redirects to the index action passing the category ID as a parameter (in order to return to the filtered page when the page refreshes instead of defaulting to the non-filtered view)
             return RedirectToAction("Index", new { categoryId = categoryID, orderId });
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteAllItems()
         {
+            // retrieves stored order ID from session (if exists)
             var orderId = HttpContext.Session.GetInt32("OrderId");
+
+            // if there is no order ID in the session...
             if (!orderId.HasValue)
             {
+                // returns user to the index view 
                 return RedirectToAction("Index");
             }
 
+            // retrieves order including related food orders from the database using the stored order ID
             var order = await _context.Order.Include(o => o.FoodOrders).FirstOrDefaultAsync(o => o.OrderID == orderId.Value);
+
+            // return error message if no order is found
             if (order == null)
             {
                 return NotFound("Order not found.");
             }
 
-            _context.FoodOrder.RemoveRange(order.FoodOrders); // Remove all associated food orders
-            _context.Order.Remove(order); // Remove the current order
+            // Remove all associated food orders
+            _context.FoodOrder.RemoveRange(order.FoodOrders);
 
+            // Remove the current order
+            _context.Order.Remove(order); 
+
+            // save changes to database
             await _context.SaveChangesAsync();
 
             // Clear the session
             HttpContext.Session.Remove("OrderId");
 
+            // redirect user to the index view with a default category ID of 0 (representing no category so that all menu items are displayed; a default state)
             return RedirectToAction("Index", new { categoryId = 0 });
         }
 
         [HttpPost]
-        public async Task<IActionResult> CompleteOrder(string studentName, int roomNumber, DateTime collectionDate, string email, string note, TuckshopOrdering.Models.EmailEntity model)
+        public async Task<IActionResult> CompleteOrder(string studentName, int roomNumber, DateTime collectionDate, string email, string note)
         {
-            // Complete the order
+            // retrieve stored Order ID from session (if exists)
             var orderId = HttpContext.Session.GetInt32("OrderId");
+
+            // If no order ID is found, redirect user to index view 
             if (!orderId.HasValue)
             {
                 return RedirectToAction("Index");
             }
 
+            // retrieve the order from the database including its related food orders and menu items 
             var order = await _context.Order
                 .Include(o => o.FoodOrders)
                 .ThenInclude(fo => fo.Menu)
                 .FirstOrDefaultAsync(o => o.OrderID == orderId.Value);
 
+            // if no order is found, return error message 
             if (order == null)
             {
                 return NotFound();
             }
 
+            // these property values are passed by parameters from the view via user input 
             order.Status = "Completed"; // Mark the order as completed
             order.studentName = studentName; // User input
             order.roomNumber = roomNumber; // User input
-            order.PickupDate = collectionDate == DateTime.MinValue ? DateTime.Now : collectionDate; // Set collection date
+            order.PickupDate = collectionDate == DateTime.MinValue ? DateTime.Now : collectionDate; // Set collection date or default to current date if empty 
             order.email = email; // User input
             order.orderComplete = "false"; // Order has not been made
             order.note = note; // User input
@@ -496,13 +518,14 @@ namespace TuckshopOrdering.Controllers
             // Calculate total price
             decimal totalPrice = order.FoodOrders.Sum(fo => fo.quantity * fo.Menu.price);
 
-            // Generate the email body
+            // Generate the email body with order details
             string mailBody = "<h1 style='text-align: center;'>Thank you for your order!</h1>";
             mailBody += $"<p><strong>Student Name:</strong> {studentName}</p>";
             mailBody += $"<p><strong>Room Number:</strong> {roomNumber}</p>";
             mailBody += "<table style='width: 100%; border-collapse: collapse;'>";
             mailBody += "<tr><th style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>Item</th><th style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>Quantity</th><th style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>Price</th></tr>";
 
+            // loops through each food order item and adds it to the email body in a table
             foreach (var item in order.FoodOrders)
             {
                 mailBody += $"<tr><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>{item.Menu.foodName}</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>{item.quantity}</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>${item.quantity * item.Menu.price:F2}</td></tr>";
@@ -511,7 +534,7 @@ namespace TuckshopOrdering.Controllers
             mailBody += "</table>";
             mailBody += $"<p><strong>Total Price:</strong> ${totalPrice:F2}</p>";
 
-            // Optional: Add note if available
+            // Add note if available
             if (!string.IsNullOrEmpty(note))
             {
                 mailBody += $"<p><strong>Note:</strong> {note}</p>";
@@ -520,37 +543,41 @@ namespace TuckshopOrdering.Controllers
             // Email configuration
             string mainTitle = "Thank you for your order!";
             string mailSubject = "Tuckshop Order Confirmation";
-            string fromMail = "email";
-            string mailPassword = "Password";
+            string fromMail = "purdonwill@gmail.com"; // senders email address
+            string mailPassword = "WaterBridge18"; // senders email password
 
+            // if email is provided, configure and send the email
             if(!email.IsNullOrEmpty()) 
             {
-                MailMessage message = new MailMessage(new MailAddress(fromMail, mainTitle), new MailAddress(email))
+                MailMessage message = new MailMessage(new MailAddress(fromMail, mainTitle), new MailAddress(fromMail))
                 {
-                    Subject = mailSubject,
-                    Body = mailBody,
-                    IsBodyHtml = true
+                    Subject = mailSubject, // set email subject
+                    Body = mailBody, // set email body
+                    IsBodyHtml = true // specifiy that the email body is in an hmtl format
                 };
 
+                // configures the SMTP client for sending email 
                 SmtpClient smtp = new SmtpClient("smtp.office365.com", 587)
                 {
-                    EnableSsl = true,
+                    EnableSsl = true, // enables ssl encryption
                     DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential(fromMail, mailPassword)
+                    Credentials = new NetworkCredential(fromMail, mailPassword) // sets senders email credentials
                 };
 
+                // sends the email
                 smtp.Send(message);
             }
 
 
-            // Save changes
+            // updates and save changes
             _context.Update(order);
             await _context.SaveChangesAsync();
 
             // Clear the session
             HttpContext.Session.Remove("OrderId");
 
+            // redirect to the order placed view 
             return View("OrderPlaced");
         }
 

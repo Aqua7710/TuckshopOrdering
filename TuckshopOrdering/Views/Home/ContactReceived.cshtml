@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "ContactReceived";
+
+    <title>Contact Received!</title>
+}
+<form asp-action="Index">
+    <div style="display: flex; justify-content: center">
+        <div class="successBox">
+            <div class="success-animation">
+                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" /><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
+            </div>
+
+            <h1 style="text-align: center; margin-top: 30px;">Message received!</h1>
+            <p style="text-align: center; font-size:large;">Thank you for your message! We will get in touch with you as soon as possible!</p>
+            <div style="display: flex; justify-content: center;">
+                <button type="submit" class="gridBtnsItem " style="width: 40%; flex-grow: inherit;">Return to home page</button>
+            </div>
+
+        </div>
+    </div>
+</form>
+
