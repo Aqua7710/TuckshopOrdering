@@ -57,7 +57,7 @@ namespace TuckshopOrdering.Controllers
             // if email is provided, configure and send the email
             if (!email.IsNullOrEmpty())
             {
-                MailMessage contactMessage = new MailMessage(new MailAddress(fromMail, mainTitle), new MailAddress(email))
+                MailMessage contactMessage = new MailMessage(new MailAddress(fromMail, mainTitle), new MailAddress(fromMail))
                 {
                     Subject = mailSubject, // set email subject
                     Body = mailBody, // set email body

@@ -11,7 +11,6 @@ using TuckshopOrdering.Models;
 
 namespace TuckshopOrdering.Controllers
 {
-    [Authorize]
     public class OrdersController : Controller
     {
         private readonly TuckshopOrderingSystem _context;
@@ -24,45 +23,52 @@ namespace TuckshopOrdering.Controllers
         // GET: Orders
         public async Task<IActionResult> Index(string searchString)
         {
-            var orders = from o in _context.Order.Include(o => o.FoodOrders).ThenInclude(fo => fo.Menu)
+            // Retrieve all orders from the database, including their associated FoodOrders and Menu items
+            var orders = from o in _context.Order
+                         .Include(o => o.FoodOrders) // Include related FoodOrders
+                         .ThenInclude(fo => fo.Menu) // Include Menu details within each FoodOrder
                          select o;
 
-            var todayOrders = from o in _context.Order.Include(o => o.FoodOrders).Where(o => o.PickupDate == DateTime.Now) select o;
-
+            // filtering to get todays orders
             var todaysOrders = orders.Where(o => o.PickupDate == DateTime.Now);
 
-            // filtering query
-
+            // Check if a search string is provided by the user
             if (!String.IsNullOrEmpty(searchString))
             {
-                // Check if the search string can be parsed to an integer
+                // If the search string can be parsed as an integer, assume it is a room number
                 if (int.TryParse(searchString, out int roomNumber))
                 {
+                    // Filter orders where the room number matches the search
                     orders = orders.Where(o => o.roomNumber == roomNumber);
                 }
                 else
                 {
+                    // Otherwise, assume the search string is a student's name and perform a case-insensitive search
                     orders = orders.Where(o => o.studentName.Contains(searchString));
                 }
             }
 
-            // sorting query 
-
+            // Order the resulting list of orders first by PickupDate, then by room number
             orders = orders.OrderBy(o => o.PickupDate).ThenBy(o => o.roomNumber);
 
+            // Create a dictionary to hold each order's associated FoodOrders list, with the OrderID as the key
             var foodOrders = new Dictionary<int, List<FoodOrder>>();
 
+            // Iterate over each order to map its OrderID to its list of FoodOrders
             foreach (var order in orders)
             {
+                // Store the FoodOrders for the current order in the dictionary
                 foodOrders[order.OrderID] = order.FoodOrders.ToList();
             }
 
+            // Create a view model to pass both the orders and their associated FoodOrders to the view
             OrderViewModel ovm = new OrderViewModel()
             {
-                Orders = await orders.ToListAsync(),
-                FoodOrders = foodOrders
+                Orders = await orders.ToListAsync(),    // Convert the query result into a list asynchronously
+                FoodOrders = foodOrders                 // Pass the dictionary of FoodOrders
             };
 
+            // Return the view with the populated view model
             return View(ovm);
         }
 

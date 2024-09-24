@@ -854,4 +854,27 @@ hr.solid {
     }
 }
 
+.counter {
+    border-radius: 50%;
+    background-color: black;
+    z-index: 5;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    color: white;
+    text-align: center;
+    line-height: 30px;
+}
+
+.footerBtn {
+    text-decoration: none;
+    color: grey;
+}
+
+.footerBtn:hover{
+    color: white;
+}
+
 

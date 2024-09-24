@@ -10,6 +10,7 @@
     int? orderId = ViewBag.OrderID as int?;
 
     DateTime min = DateTime.Now;
+    DateTime max = DateTime.Now.AddYears(1);
 
     <script>
         document.addEventListener("DOMContentLoaded", function (event) {
@@ -29,7 +30,7 @@
 <!--Admin View-->
 @if (SignInManager.IsSignedIn(User)) @*checks if the user is signed in. If they are, the admin view will be displayed, else; the default menu view will be displayed*@
 {
-    <!--Search, return, and create buttons-->
+    <!--Search, return, and create buttons in a flex box-->
     <div style="display: flex; gap: 10px; margin-top: 20px;">
         <form asp-action="Index" method="get"> 
             <div class="input-group mb-3">
@@ -44,8 +45,11 @@
         <form asp-action="Index"><button class="returnBtn">Return</button></form>
         <button class="returnBtn"><a asp-action="Create" style="color: white; text-decoration: none;">Create</a></button>
     </div>
+
+<!--Menu flex box-->
 <div style="display: flex; margin-bottom: 60px;">
     <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 0px; width: 80%;">
+        <!--Loops through every menu record from the database in order to display it-->
         @foreach (var menuItem in Model._Menu)
         {
             <div class="card cardStyle" style="width: 160px;"> 
@@ -179,7 +183,7 @@
                                     <div class="mb-3">
                                         <!--Note field-->
                                         <label for="note" class="form-label">Notes (optional)</label>
-                                        <input type="text" name="note" class="form-control" id="note" placeholder="e.g. No tomato on chicken burger" />
+                                        <input type="text" name="note" class="form-control" id="note" placeholder="e.g. No tomato on chicken burger" maxlength="100" minlength="2" />
                                     </div>
 
                                     <div class="mb-3">
@@ -198,7 +202,7 @@
                                     <div class="mb-3">
                                         <!--Collection date field-->
                                         <label for="collectionDate" class="form-label">Collection Date</label>
-                                        <input type="date" name="collectionDate" class="form-control" min="@min.ToString("yyyy-MM-dd")" id="collectionDate">
+                                        <input type="date" name="collectionDate" class="form-control" min="@min.ToString("yyyy-MM-dd")" max="@max.ToString("yyyy-MM-dd")" id="collectionDate">
                                         <div class="form-text">
                                             The order can be collected at morning tea or lunchtime
                                         </div>
@@ -206,7 +210,7 @@
                                     <div class="mb-3">
                                         <!--email field-->
                                         <label for="email" class="form-label">Email (optional)</label>
-                                        <input type="email" name="email" class="form-control" id="email" placeholder="sam123@gmail.com">
+                                        <input type="email" name="email" class="form-control" id="email" placeholder="sam123@gmail.com" maxlength="320" minlength="3">
                                     </div>
                                 </div>
                                 <div class="col">
@@ -364,6 +368,9 @@ else
             </div>
             <!--Cart button for mobile view-->
                 <div class="mobileCartParent">
+@*                    <div class="counter" id="itemCounter">
+
+                    </div>*@
                     <button class="mobileCart" data-bs-toggle="modal" data-bs-target="#cartModal">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="bi bi-cart" viewBox="0 0 16 16">
                             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
@@ -566,7 +573,7 @@ else
                                     <div class="mb-3">
                                         <!--Note field-->
                                         <label for="note" class="form-label">Notes (optional)</label>
-                                        <input type="text" name="note" class="form-control" rows="2" id="note" placeholder="e.g. No tomato on chicken burger" />
+                                        <input type="text" name="note" class="form-control" rows="2" id="note" placeholder="e.g. No tomato on chicken burger" maxlength="100" minlength="2" />
                                     </div>
 
                                     <div class="mb-3">
@@ -585,7 +592,7 @@ else
                                     <div class="mb-3">
                                         <!--Collection date field-->
                                         <label for="collectionDate" class="form-label">Collection Date</label>
-                                        <input type="date" name="collectionDate" class="form-control" min="@min.ToString("yyyy-MM-dd")" id="collectionDate">
+                                        <input type="date" name="collectionDate" class="form-control" min="@min.ToString("yyyy-MM-dd")" max="@max.ToString("yyyy-MM-dd")" id="collectionDate">
                                         <div class="form-text">
                                             The order can be collected at morning tea or lunchtime
                                         </div>
@@ -593,7 +600,7 @@ else
                                     <div class="mb-3">
                                         <!--email field-->
                                         <label for="email" class="form-label">Email (optional)</label>
-                                        <input type="email" name="email" class="form-control" id="email" placeholder="sam123@gmail.com">
+                                        <input type="email" name="email" class="form-control" id="email" placeholder="sam123@gmail.com" maxlength="320" minlength="3">
                                     </div>
                                 </div>
                                 <div class="col">

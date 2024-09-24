@@ -19,6 +19,7 @@ using System.Net.Mail;
 using System.Net;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics.Metrics;
 
 namespace TuckshopOrdering.Controllers
 {
@@ -31,6 +32,7 @@ namespace TuckshopOrdering.Controllers
         {
             _context = context;
             this._hostEnviroment = hostEnvironment;
+            int counter;
         }
 
         // GET: Menus
@@ -300,6 +302,7 @@ namespace TuckshopOrdering.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToOrder(int menuItemID, string studentName, string customiseMessage)
         {
+
             // fimds the menu item in the database based on the passed parameter value 
             var menuItem = await _context.Menu.FindAsync(menuItemID);
 
@@ -352,7 +355,7 @@ namespace TuckshopOrdering.Controllers
             if (existingOrder != null)
             {
                 // Item already exists, so increase quantity
-                existingOrder.quantity += 1; 
+                existingOrder.quantity += 1;
             }
             else // if the item does not exist within the order 
             {
@@ -364,6 +367,8 @@ namespace TuckshopOrdering.Controllers
                     OrderID = order.OrderID // associates the food order with the current order 
                 };
 
+
+
                 // adds the new food order to the database AND to the food orders list which was initialized earlier 
                 _context.FoodOrder.Add(foodOrder);
                 order.FoodOrders.Add(foodOrder);
@@ -371,6 +376,8 @@ namespace TuckshopOrdering.Controllers
 
             // saves changes to the database 
             await _context.SaveChangesAsync();
+
+
 
             // retrieves the current category ID from the temp data, if it exists, or defaults to 0
             int categoryID = TempData.ContainsKey("CurrentCategoryID") ? (int)TempData["CurrentCategoryID"] : 0;
@@ -549,7 +556,7 @@ namespace TuckshopOrdering.Controllers
             // if email is provided, configure and send the email
             if(!email.IsNullOrEmpty()) 
             {
-                MailMessage message = new MailMessage(new MailAddress(fromMail, mainTitle), new MailAddress(fromMail))
+                MailMessage message = new MailMessage(new MailAddress(fromMail, mainTitle), new MailAddress(email))
                 {
                     Subject = mailSubject, // set email subject
                     Body = mailBody, // set email body
@@ -580,30 +587,6 @@ namespace TuckshopOrdering.Controllers
             // redirect to the order placed view 
             return View("OrderPlaced");
         }
-
-
-        [HttpPost]
-		public async Task<IActionResult> DeleteOrderOnExit()
-		{
-			var orderId = HttpContext.Session.GetInt32("OrderId");
-
-			if (orderId.HasValue)
-			{
-				var order = await _context.Order.Include(o => o.FoodOrders)
-												.FirstOrDefaultAsync(o => o.OrderID == orderId.Value);
-
-				if (order != null)
-				{
-					_context.FoodOrder.RemoveRange(order.FoodOrders);
-					_context.Order.Remove(order);
-					await _context.SaveChangesAsync();
-				}
-
-				HttpContext.Session.Remove("OrderId");
-			}
-
-			return Ok();
-		}
 
 	}
 }

@@ -63,23 +63,23 @@
     <footer class="border-top footer text-muted" style="background-color: #1E1C1C;">
         <div class="container" style="text-align: center">
             <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-                <a asp-area="" asp-controller="Home" asp-action="Index" style="text-decoration: none; color: grey;">Home</a>
-                <a asp-area="" asp-controller="Home" asp-action="Privacy" style="text-decoration: none; color: grey;">Privacy</a>
-                <a asp-area="" asp-controller="Home" asp-action="Contact" style="text-decoration: none; color: grey;">Contact us</a>
-                <a asp-area="" asp-controller="Home" asp-action="FAQ" style="text-decoration: none; color: grey;">FAQ</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="footerBtn">Home</a>
+                <a asp-area="" asp-controller="Home" asp-action="Privacy" class="footerBtn">Privacy</a>
+                <a asp-area="" asp-controller="Home" asp-action="Contact" class="footerBtn">Contact us</a>
+                <a asp-area="" asp-controller="Home" asp-action="FAQ" class="footerBtn">FAQ</a>
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <a asp-area="" asp-controller="Categories" asp-action="Index" style="text-decoration: none; color: grey;">Categories</a>
+                    <a asp-area="" asp-controller="Categories" asp-action="Index" class="footerBtn">Categories</a>
                 }
-                <a asp-area="" asp-controller="Menus" asp-action="Index" style="text-decoration: none; color: grey;">Menu</a>
+                <a asp-area="" asp-controller="Menus" asp-action="Index" class="footerBtn">Menu</a>
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <a asp-area="" asp-controller="Orders" asp-action="Index" style="text-decoration: none; color: grey;">Orders</a>
+                    <a asp-area="" asp-controller="Orders" asp-action="Index" class="footerBtn">Orders</a>
                 }
-                <a asp-area="Identity" asp-page="/Account/Logout" style="text-decoration: none; color: grey;">Staff Login</a>
+                <a asp-area="Identity" asp-page="/Account/Logout" class="footerBtn">Staff Login</a>
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <a asp-area="Identity" asp-page="/Account/Register" style="text-decoration: none; color: grey;">Register Staff</a>
+                    <a asp-area="Identity" asp-page="/Account/Register" class="footerBtn">Register Staff</a>
                 }
             </div>
             Copyright &copy2024 - The Tuckshop
