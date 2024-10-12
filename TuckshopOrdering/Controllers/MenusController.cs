@@ -39,10 +39,10 @@ namespace TuckshopOrdering.Controllers
         public async Task<IActionResult> Index(int categoryId, string searchString, int? orderId = null)
         {
             // stores the passed category id in a tempdata dictionary which is used to pass the value across action methods
-            TempData["CurrentCategoryID"] = categoryId; 
+            TempData["CurrentCategoryID"] = categoryId;
 
             // retrieves all categories from database and stores them in a list
-            var categories = await _context.Category.ToListAsync(); 
+            var categories = await _context.Category.ToListAsync();
 
             // retrieves all food orders that are NOT completed and also retrieves their associated order and stores them in a list
             var foodOrders = await _context.FoodOrder
@@ -56,7 +56,7 @@ namespace TuckshopOrdering.Controllers
                                           .ToListAsync();
 
             // if the passed category id is NOT null and not zero, them run the if statment code 
-            if (categoryId != 0) 
+            if (categoryId != 0)
             {
                 // retrieves all menu items from database where the category ID property matches the passed category ID and stores it in a list
                 menu = await _context.Menu.Include(m => m.Category).Where(o => o.CategoryID == categoryId)
@@ -69,7 +69,7 @@ namespace TuckshopOrdering.Controllers
             {
                 // retrieves all menu items from database where the food name contains the search string variable and stores the results in a list
                 menu = await _context.Menu.Where(o => o.foodName.Contains(searchString)).ToListAsync();
-                
+
 
                 if (menu.Count == 0)
                 {
@@ -186,72 +186,72 @@ namespace TuckshopOrdering.Controllers
             return View(menu);
         }
 
-		// POST: Menus/Edit/5
-		// To protect from overposting attacks, enable the specific properties you want to bind to.
-		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, [Bind("MenuID,foodName,price,imageName,CategoryID,homePageDisplay,imageFile")] Menu menu)
-		{
-			if (id != menu.MenuID)
-			{
-				return NotFound();
-			}
+        // POST: Menus/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("MenuID,foodName,price,imageName,CategoryID,homePageDisplay,imageFile")] Menu menu)
+        {
+            if (id != menu.MenuID)
+            {
+                return NotFound();
+            }
 
-			if (ModelState.IsValid)
-			{
-				try
-				{
-					if (menu.imageFile != null)
-					{
-						// Save the new image
-						string wwwRootPath = _hostEnviroment.WebRootPath;
-						string fileName = Path.GetFileNameWithoutExtension(menu.imageFile.FileName);
-						string extension = Path.GetExtension(menu.imageFile.FileName);
-						fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-						string path = Path.Combine(wwwRootPath + "/menuImages", fileName);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (menu.imageFile != null)
+                    {
+                        // Save the new image
+                        string wwwRootPath = _hostEnviroment.WebRootPath;
+                        string fileName = Path.GetFileNameWithoutExtension(menu.imageFile.FileName);
+                        string extension = Path.GetExtension(menu.imageFile.FileName);
+                        fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                        string path = Path.Combine(wwwRootPath + "/menuImages", fileName);
 
-						// Delete the old image
-						if (!string.IsNullOrEmpty(menu.imageName))
-						{
-							var oldImagePath = Path.Combine(wwwRootPath, "Images", menu.imageName);
-							if (System.IO.File.Exists(oldImagePath))
-							{
-								System.IO.File.Delete(oldImagePath);
-							}
-						}
+                        // Delete the old image
+                        if (!string.IsNullOrEmpty(menu.imageName))
+                        {
+                            var oldImagePath = Path.Combine(wwwRootPath, "Images", menu.imageName);
+                            if (System.IO.File.Exists(oldImagePath))
+                            {
+                                System.IO.File.Delete(oldImagePath);
+                            }
+                        }
 
-						// Save the new image
-						using (var fileStream = new FileStream(path, FileMode.Create))
-						{
-							await menu.imageFile.CopyToAsync(fileStream);
-						}
-						menu.imageName = fileName;
-					}
+                        // Save the new image
+                        using (var fileStream = new FileStream(path, FileMode.Create))
+                        {
+                            await menu.imageFile.CopyToAsync(fileStream);
+                        }
+                        menu.imageName = fileName;
+                    }
 
-					_context.Update(menu);
-					await _context.SaveChangesAsync();
-				}
-				catch (DbUpdateConcurrencyException)
-				{
-					if (!MenuExists(menu.MenuID))
-					{
-						return NotFound();
-					}
-					else
-					{
-						throw;
-					}
-				}
-				return RedirectToAction(nameof(Index));
-			}
-			ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryID", menu.CategoryID);
-			return View(menu);
-		}
+                    _context.Update(menu);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!MenuExists(menu.MenuID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["CategoryID"] = new SelectList(_context.Category, "CategoryID", "CategoryID", menu.CategoryID);
+            return View(menu);
+        }
 
 
-		// GET: Menus/Delete/5
-		public async Task<IActionResult> Delete(int? id)
+        // GET: Menus/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Menu == null)
             {
@@ -317,7 +317,7 @@ namespace TuckshopOrdering.Controllers
             Order order;
 
             // checks if an order already exists 
-            if (orderId.HasValue) 
+            if (orderId.HasValue)
             {
                 // if it does exist, find the order in the database using the order id that's been stored in the session
                 order = await _context.Order.FindAsync(orderId.Value);
@@ -329,9 +329,9 @@ namespace TuckshopOrdering.Controllers
                 }
             }
             else // in this case, an order does not exist and we are creating a new order
-            { 
+            {
                 // create new order with initial details (these details will change)
-                order = new Order 
+                order = new Order
                 {
                     OrderDate = DateTime.Now, // order date set to current date
                     studentName = "Jonathan Santos", // initial student name (will change)
@@ -435,7 +435,7 @@ namespace TuckshopOrdering.Controllers
         {
             // finds the food order in the database based on the passed parameter value
             var foodOrder = await _context.FoodOrder.FindAsync(foodOrderID);
-            
+
             // if the food order exists 
             if (foodOrder != null)
             {
@@ -477,7 +477,7 @@ namespace TuckshopOrdering.Controllers
             _context.FoodOrder.RemoveRange(order.FoodOrders);
 
             // Remove the current order
-            _context.Order.Remove(order); 
+            _context.Order.Remove(order);
 
             // save changes to database
             await _context.SaveChangesAsync();
@@ -550,11 +550,11 @@ namespace TuckshopOrdering.Controllers
             // Email configuration
             string mainTitle = "Thank you for your order!";
             string mailSubject = "Tuckshop Order Confirmation";
-            string fromMail = "purdonwill@gmail.com"; // senders email address
-            string mailPassword = "WaterBridge18"; // senders email password
+            string fromMail = "example@outlook.com"; // senders email address
+            string mailPassword = "Password123!"; // senders email password
 
             // if email is provided, configure and send the email
-            if(!email.IsNullOrEmpty()) 
+            if (!email.IsNullOrEmpty())
             {
                 MailMessage message = new MailMessage(new MailAddress(fromMail, mainTitle), new MailAddress(email))
                 {
@@ -588,5 +588,40 @@ namespace TuckshopOrdering.Controllers
             return View("OrderPlaced");
         }
 
-	}
+        [HttpPost]
+        public async Task<IActionResult> DeleteOrderOnExit()
+        {
+            // Retrieve the OrderId stored in the session (if it exists)
+            var orderId = HttpContext.Session.GetInt32("OrderId");
+
+            // Check if the orderId has a value (i.e., an order exists in the session)
+            if (orderId.HasValue)
+            {
+                // Retrieve the order from the database with its associated food orders
+                var order = await _context.Order.Include(o => o.FoodOrders)
+                                                .FirstOrDefaultAsync(o => o.OrderID == orderId.Value);
+
+                // If the order is found
+                if (order != null)
+                {
+                    // Remove all associated food orders from the database
+                    _context.FoodOrder.RemoveRange(order.FoodOrders);
+
+                    // Remove the main order from the database
+                    _context.Order.Remove(order);
+
+                    // Save the changes to the database
+                    await _context.SaveChangesAsync();
+                }
+
+                // Remove the OrderId from the session
+                HttpContext.Session.Remove("OrderId");
+            }
+
+            // Return an OK response to the client
+            return Ok();
+        }
+
+
+    }
 }

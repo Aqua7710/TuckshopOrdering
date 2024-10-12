@@ -266,6 +266,25 @@ header, main{
         transform: scale(1.1);
     }
 
+.imgStyleAbout{
+    width: 100%;
+    object-fit: cover;
+}
+
+.aboutUsImg{
+    width: 50%;
+    height: 200px;
+}
+
+.aboutUsText {
+    width: 50%;
+    background-color: #F8F0E3
+}
+
+.aboutUs{
+    margin-bottom: 100px;
+}
+
 .adminCardStyle {
     width: 160px;
     text-align: center;

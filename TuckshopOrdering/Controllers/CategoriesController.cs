@@ -11,7 +11,7 @@ using TuckshopOrdering.Models;
 
 namespace TuckshopOrdering.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         private readonly TuckshopOrderingSystem _context;

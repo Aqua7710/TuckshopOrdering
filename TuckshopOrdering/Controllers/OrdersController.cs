@@ -11,6 +11,7 @@ using TuckshopOrdering.Models;
 
 namespace TuckshopOrdering.Controllers
 {
+    [Authorize] // only staff members and admin can access orders
     public class OrdersController : Controller
     {
         private readonly TuckshopOrderingSystem _context;

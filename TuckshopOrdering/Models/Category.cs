@@ -7,7 +7,7 @@ namespace TuckshopOrdering.Models
     {
         public int CategoryID { get; set; } // primary key
         [DisplayName("Category Name")] 
-        [StringLength(50)]
+        [StringLength(maximumLength: 15, MinimumLength = 1)]
         public string CategoryName { get; set; } // category name property 
         public ICollection<Menu> Menus { get; set; } = new List<Menu>(); // 1 category can belong to many menu items
     }

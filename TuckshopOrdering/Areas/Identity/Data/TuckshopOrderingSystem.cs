@@ -38,6 +38,7 @@ public class ApplicationUserEntityConfiguration: IEntityTypeConfiguration<Tucksh
 {
     public void Configure(EntityTypeBuilder<TuckshopOrderingUser> builder)
     {
-        builder.Property(u => u.FullName).HasMaxLength(50);
-    } 
+        builder.Property(u => u.firstName).HasMaxLength(50);
+		builder.Property(u => u.lastName).HasMaxLength(50);
+	} 
 }

@@ -11,6 +11,8 @@ namespace TuckshopOrdering.Areas.Identity.Data;
 // Add profile data for application users by adding properties to the TuckshopOrderingUser class
 public class TuckshopOrderingUser : IdentityUser
 {
-    public string FullName { get; set; }
+    public string firstName { get; set; }
+	public string lastName { get; set; }
+
 }
 

@@ -10,15 +10,15 @@
         <li class="nav-item" style="display: flex; align-items: center;">
             <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@if (DateTime.Now.Hour < 12)
                 {
-                    <a>Good Morning @UserManager.GetUserAsync(User).Result.FullName!</a>
+                    <a>Good Morning @UserManager.GetUserAsync(User).Result.firstName!</a>
                 }
                 else if(DateTime.Now.Hour >= 12 && DateTime.Now.Hour < 18)
                 {
-                    <a>Good Afternoon @UserManager.GetUserAsync(User).Result.FullName!</a>
+                    <a>Good Afternoon @UserManager.GetUserAsync(User).Result.firstName!</a>
                 }
                 else
                 {
-                    <a>Good Evening @UserManager.GetUserAsync(User).Result.FullName!</a>
+                    <a>Good Evening @UserManager.GetUserAsync(User).Result.firstName!</a>
                 }
             </a>
         </li>

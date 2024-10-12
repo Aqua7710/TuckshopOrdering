@@ -51,8 +51,8 @@ namespace TuckshopOrdering.Controllers
             // Email configuration
             string mainTitle = "Tuckshop Message";
             string mailSubject = "Contact form";
-            string fromMail = "purdonwill@gmail.com"; // senders email address
-            string mailPassword = "WaterBridge18"; // senders email password
+            string fromMail = "example@outlook.com"; // senders email address
+            string mailPassword = "Password@123"; // senders email password
 
             // if email is provided, configure and send the email
             if (!email.IsNullOrEmpty())
@@ -65,7 +65,7 @@ namespace TuckshopOrdering.Controllers
                 };
 
                 // configures the SMTP client for sending email 
-                SmtpClient smtp = new SmtpClient("smtp.office365.com", 587)
+                SmtpClient smtp = new SmtpClient("smtp-mail.outlook.com", 587)
                 {
                     EnableSsl = true, // enables ssl encryption
                     DeliveryMethod = SmtpDeliveryMethod.Network,

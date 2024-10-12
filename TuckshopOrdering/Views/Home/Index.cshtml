@@ -1,6 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 
+    // Select the loader element from the DOM
+    // Add a class to hide the loader (this should trigger a transition)
+    // Wait for the transition to complete, then remove the loader element from the DOM
     <script>
         window.addEventListener("load", () => {
             const loader = document.querySelector(".loader");
@@ -51,17 +54,21 @@
         </button>
     </div>
 
+    <!--Tagline-->
     <h1 style="padding-top: 100px; text-align: center; font-weight: bold; font-size: 60px;">Fillin your tum with the yums!</h1>
     <div style="display: flex; justify-content: center; padding-top: 20px;">
         <p style="text-align: center; width: 40%; font-size: 22px;" class="tagline">Healthy snacks, happy kids - fueling little minds at the Tuckshop! Where every bite is a delight and every smile is bright!</p>
     </div>
 
+    <!--Flexbox div to display 4 category buttons-->
     <div class="homePageMenu">
 
+        <!--Cards with icon and card title that takes user to menu page with filtered results-->
         <form asp-area="" asp-controller="Menus" asp-action="Index" method="post">
             
                 <div class="card cardStyle" style="width: 210px;">
                     <div class="card-body">
+                    <!--Value in input tag represents the category-->
                     <input type="hidden" value="1" name="categoryId" />
                     <button type="submit" style="border: none; background: none">
                         <div class="card-img" style="margin-bottom: 10px;">
@@ -126,5 +133,7 @@
             </div>
         </form>
     </div>
+
+<!--Loading wheel-->
     <div class="loader"></div>
 </body>
